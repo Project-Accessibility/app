@@ -43,7 +43,7 @@ jobs:
           yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
 
       # Build Android app
-      - name: Build android
+      - name: Build Android
         env:
           KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
           KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
