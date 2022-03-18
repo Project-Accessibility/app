@@ -1,6 +1,7 @@
 # Project Accessibility App
 
 [![DeepScan grade](https://deepscan.io/api/teams/17161/projects/20523/branches/560669/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=17161&pid=20523&bid=560669)
+[![](https://github.com/Project-Accessibility/app/workflows/Smoketest/badge.svg)](https://github.com/Project-Accessibility/app/actions/)
 
 - [Project Accessibility App](#project-accessibility-app)
   - [Requirements](#requirements)
