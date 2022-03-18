@@ -10,7 +10,7 @@ on:
 jobs:
   build-android-adhoc:
     runs-on: ubuntu-latest
-    name: "Build Android APP"
+    name: "Build Android app"
 
     strategy:
       matrix:
@@ -19,19 +19,30 @@ jobs:
     steps:
       - name: Getting the repo
         uses: actions/checkout@v2
+
+      # Install node
       - name: Installing node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      # Install React Native CLI, used to bundle the app
       - name: Install React Native CLI
         run: |
           yarn global add react-native-cli
-      - name: Install yarn dependencies
+
+      # Install Yarn dependencies
+      - name: Install Yarn dependencies
         run: |
           yarn install
+
+      # Create react-native app Bundle
       - name: Building bundle
         run: |
+          mkdir -p ./android/app/src/main/assets/
           yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+
+      # Build Android app
       - name: Build android
         env:
           KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
@@ -42,6 +53,8 @@ jobs:
           export VERSION_NAME=1.0.${{ github.run_number }}
           echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
           cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleStaging
+
+      # Upload app as Artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
