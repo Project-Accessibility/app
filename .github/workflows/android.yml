@@ -10,11 +10,19 @@ on:
 jobs:
   build-android-adhoc:
     runs-on: ubuntu-latest
+    name: "Build Android APP"
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
       - name: Getting the repo
         uses: actions/checkout@v2
       - name: Installing node
         uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Install React Native CLI
         run: |
           yarn global add react-native-cli
