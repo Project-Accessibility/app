@@ -1,0 +1,63 @@
+name: Build Android
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
+
+jobs:
+  build-android-adhoc:
+    runs-on: ubuntu-latest
+    name: "Build Android app"
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Getting the repo
+        uses: actions/checkout@v2
+
+      # Install node
+      - name: Installing node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install React Native CLI, used to bundle the app
+      - name: Install React Native CLI
+        run: |
+          yarn global add react-native-cli
+
+      # Install Yarn dependencies
+      - name: Install Yarn dependencies
+        run: |
+          yarn install
+
+      # Create react-native app Bundle
+      - name: Building bundle
+        run: |
+          mkdir -p ./android/app/src/main/assets/
+          yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+
+      # Build Android app
+      - name: Build Android
+        env:
+          KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
+          KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
+          KEYSTORE_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
+        run: |
+          export VERSION_CODE=${{ github.run_number }}
+          export VERSION_NAME=1.0.${{ github.run_number }}
+          echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
+          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
+
+      # Upload app as Artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 2
+          name: android-app-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
