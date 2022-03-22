@@ -19,6 +19,7 @@
 ## Development
 
 - Run `npm i -g yarn` to install yarn.
+- Run `yarn prepare` to install GitHooks
 - Run `yarn start` to run the React-Native app.
 - Run `yarn test` to run the tests.
 - Run `yarn lint` to run the linter.

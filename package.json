@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"**/*.{js,json,less,css,md,ts,tsx,jsx}\"",
-    "format:check": "prettier --loglevel debug --check \"**/*.{js,json,less,css,md,ts,tsx,jsx}\""
+    "format:check": "prettier --loglevel debug --check \"**/*.{js,json,less,css,md,ts,tsx,jsx}\"",
+    "prepare": "husky install"
   },
   "dependencies": {
     "react": "17.0.2",
@@ -28,6 +29,7 @@
     "babel-jest": "^26.6.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.5.0",
+    "husky": "^7.0.4",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
     "prettier": "^2.5.1",
