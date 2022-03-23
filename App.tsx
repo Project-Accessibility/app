@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -26,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import SplashScreen from './src/screens/SplashScreen';
 
 const Section: React.FC<{
   title: string;
@@ -59,11 +60,20 @@ const Section: React.FC<{
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  useEffect(() => {
+    // Quick way of showing splashscreen for 3 seconds.
+    setTimeout(() => setIsLoading(false), 3000);
+  }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
