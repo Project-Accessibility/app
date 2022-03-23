@@ -21,7 +21,7 @@ const SplashScreen = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: COLORS.tertiary,
+    backgroundColor: COLORS.lightBlue,
     height: '100%',
   },
   container: {
