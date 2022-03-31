@@ -1,15 +1,15 @@
-import { Section } from './Section';
+import { QuestionOption } from './QuestionOption';
 
 export class Question {
   id: number;
-  section: Section;
   title: string;
   question: string;
+  questionOptions?: [QuestionOption];
 
-  constructor(id: number, section: Section, title: string, question: string) {
+  constructor(id: number, title: string, question: string, questionOptions?: [QuestionOption]) {
     this.id = id;
-    this.section = section;
     this.title = title;
     this.question = question;
+    this.questionOptions = questionOptions;
   }
 }

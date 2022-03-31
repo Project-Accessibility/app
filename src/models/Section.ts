@@ -1,9 +1,6 @@
 import { Geofence } from './Geofence';
-import { Questionnaire } from './Questionnaire';
-
 export class Section {
   id: number;
-  questionnaire: Questionnaire;
   title: string;
   geofence?: Geofence;
   description?: string;
@@ -12,7 +9,6 @@ export class Section {
 
   constructor(
     id: number,
-    questionnaire: Questionnaire,
     title: string,
     geofence?: Geofence,
     description?: string,
@@ -20,7 +16,6 @@ export class Section {
     teachableMachineClass?: string
   ) {
     this.id = id;
-    this.questionnaire = questionnaire;
     this.title = title;
     this.geofence = geofence;
     this.description = description;

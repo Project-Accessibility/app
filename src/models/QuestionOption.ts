@@ -1,16 +1,16 @@
 import { QuestionOptionType } from '../enums/QuestionOptionType';
-import { Question } from './Question';
+import { Answer } from './Answer';
 
 export class QuestionOption {
   id: number;
-  question: Question;
   type: QuestionOptionType;
   extraData?: JSON;
+  answers?: [Answer];
 
-  constructor(id: number, question: Question, type: QuestionOptionType, extraData?: JSON) {
+  constructor(id: number, type: QuestionOptionType, extraData?: JSON, answers?: [Answer]) {
     this.id = id;
-    this.question = question;
     this.type = type;
     this.extraData = extraData;
+    this.answers = answers;
   }
 }

@@ -1,29 +1,29 @@
-import { Research } from './Research';
+import { Section } from './Section';
 
 export class Questionnaire {
   id: number;
-  research: Research;
   title: string;
   open: boolean;
   description?: string;
   instructions?: string;
   teachableMachineLink?: string;
+  sections?: [Section];
 
   constructor(
     id: number,
-    research: Research,
     title: string,
     open: boolean,
     description?: string,
     instructions?: string,
-    teachableMachineLink?: string
+    teachableMachineLink?: string,
+    sections?: [Section]
   ) {
     this.id = id;
-    this.research = research;
     this.title = title;
     this.open = open;
     this.description = description;
     this.instructions = instructions;
     this.teachableMachineLink = teachableMachineLink;
+    this.sections = sections;
   }
 }
