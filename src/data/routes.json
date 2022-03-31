@@ -1,0 +1,13 @@
+{
+  "apiEndpoints": {
+    "survey": {
+      "base_endpoint": "/survey",
+      "getSurveyById": "/{{id}}"
+    }
+  },
+  "hosts": {
+    "devApi": "https://questionnaire-dev.jaap.ru/api",
+    "accApi": "https://questionnaire-acc.jaap.ru/api",
+    "localApi": "http://localhost:8080/api"
+  }
+}
