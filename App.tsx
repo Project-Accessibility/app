@@ -13,13 +13,7 @@ import SectionScreen from './src/screens/SectionScreen';
 import SplashScreen from './src/screens/SplashScreen';
 
 const App = () => {
-  // const isDarkMode = useColorScheme() === 'dark';
-  //const isDarkMode = false;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  //const backgroundStyle = {
-  //  backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  //};
 
   useEffect(() => {
     // Quick way of showing splashscreen for 3 seconds.
