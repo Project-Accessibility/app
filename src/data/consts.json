@@ -1,0 +1,10 @@
+{
+  "api": {
+    "headers": {
+      "authKey": {
+        "value": "2e832d5929f0db1fa78ed9795f0b1d53",
+        "key": "Authorization"
+      }
+    }
+  }
+}
