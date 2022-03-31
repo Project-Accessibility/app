@@ -6,12 +6,13 @@ const SectionScreen = () => {
   return (
     <SafeAreaView style={styles.background}>
       <View style={styles.container}>
+        {/*TODO: if statement checking database data for existing section title*/}
         <Text style={styles.bottomText}>Onderdeel</Text>
       </View>
       <View style={styles.containerDescription}>
         <Text style={styles.descriptionTitle}>Beschrijving</Text>
         <View style={styles.descriptionLine} />
-        {/*TODO: of statement met database gegevens als er beschrijving bestaat */}
+        {/*TODO: if statement checking database data for existing section description*/}
         <Text style={styles.descriptionText}>Er is voor dit onderdeel geen beschrijving </Text>
         <View style={styles.descriptionLineQuestions} />
       </View>
