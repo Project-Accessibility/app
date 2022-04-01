@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const COLORS = {
   black: '#000000',
   white: '#ffffff',

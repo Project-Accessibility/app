@@ -2,6 +2,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import COLORS from '../../assets/colors';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface headerProps {
   title: string;
@@ -22,7 +23,7 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
             accessibilityHint="Als je naar het hoofdscherm wilt navigeren, druk dan op deze knop."
             onPress={() => handleHomeButton(navigation)}
           >
-            <Text style={styles.headerTitle}>🏠</Text>
+            <Icon name="home" size={40} color={COLORS.white} />
           </TouchableOpacity>
         ) : (
           hasBackButton && (
@@ -31,7 +32,12 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
               accessibilityHint="Als je naar het vorige scherm wilt navigeren, druk dan op deze knop."
               onPress={() => handleBackButton(navigation)}
             >
-              <Text style={styles.headerTitle}>◀️</Text>
+              <Icon
+                name="arrow-circle-down"
+                size={40}
+                color={COLORS.white}
+                style={{ transform: [{ rotate: '90deg' }] }}
+              />
             </TouchableOpacity>
           )
         )}
@@ -42,7 +48,7 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
             accessibilityHint="Als je hulp nodig hebt, druk dan op deze knop."
             onPress={() => handleHelpButton(navigation)}
           >
-            <Text style={styles.helpIcon}>❔</Text>
+            <Icon name="help-outline" size={40} color={COLORS.white} />
           </TouchableOpacity>
         )}
       </View>
