@@ -1,8 +1,13 @@
 import React from 'react';
 import { Text } from 'react-native';
+import MasterContainer from '../components/generic/MasterContainer';
 
 const HomeScreen = () => {
-  return <Text>HomeScreen</Text>;
+  return (
+    <MasterContainer>
+      <Text>HomeScreen</Text>
+    </MasterContainer>
+  );
 };
 
 export default HomeScreen;
