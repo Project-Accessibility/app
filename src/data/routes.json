@@ -1,8 +1,8 @@
 {
   "apiEndpoints": {
-    "survey": {
-      "base_endpoint": "survey",
-      "getSurveyById": "{{id}}"
+    "questionnaire": {
+      "base_endpoint": "questionnaire",
+      "getQuestionnaireById": "{{id}}"
     }
   },
   "hosts": {

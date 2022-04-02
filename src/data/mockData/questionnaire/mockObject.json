@@ -1,0 +1,45 @@
+{
+  "id": 1,
+  "title": "Questionnaire Mock Title",
+  "open": true,
+  "description": "Questionnaire mock object Description",
+  "instructions": "No instructions",
+  "teachableMachineLink": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
+  "sections": [
+    {
+      "id": 1,
+      "title": "Ingang",
+      "geofence": {
+        "id": 1,
+        "longtitude": "4.914",
+        "latitude": "52.37",
+        "radius": "100"
+      },
+      "description": "Ingang van het gebouw",
+      "locationDescription": "De ingang bevindt zich op de linkerzijde van het gebouw",
+      "teachableMachineClass": "entrance",
+      "questions": [
+        {
+          "id": 1,
+          "title": "Mooiheid ingang",
+          "question": "Wat vind je van de mooiheid van de ingang?",
+          "questionOptions": [
+            {
+              "id": 1,
+              "type": "OPEN",
+              "extraData": null,
+              "answers": [
+                {
+                  "id": 1,
+                  "answer": { "value": "Wat een mooi ding, word er helemaal zen van!" },
+                  "createdAt": "2022-04-02T09:11:00.043Z",
+                  "updatedAt": "2022-04-02T09:11:00.043Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
