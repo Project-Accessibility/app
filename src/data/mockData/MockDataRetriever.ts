@@ -1,8 +1,8 @@
 import { Questionnaire } from '../../models/Questionnaire';
-import QuestionnareMock from './questionnaire/mockObject.json';
+import QuestionnaireMock from './questionnaire/mockObject.json';
 
 function getQuestionnaireMock(): Questionnaire {
-  return <Questionnaire>(<unknown>QuestionnareMock);
+  return <Questionnaire>(<unknown>QuestionnaireMock);
 }
 
 export { getQuestionnaireMock };
