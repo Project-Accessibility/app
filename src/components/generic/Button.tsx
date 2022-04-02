@@ -70,13 +70,6 @@ const styles = StyleSheet.create({
     width: '20%',
     textAlign: 'right',
   },
-  checkIconOverlap: {
-    position: 'relative',
-    width: 40,
-    height: 40,
-    marginRight: 10,
-    // borderWidth: 2,
-  },
 });
 
 export default MasterContainer;
