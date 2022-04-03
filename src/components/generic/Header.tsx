@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import COLORS from '../../assets/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FONTS from '../../assets/fonts';
@@ -32,47 +32,49 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
   };
 
   return (
-    <View style={styles.headerBar}>
-      <View style={styles.headerTop}>
-        {hasHomeButton ? (
-          <TouchableOpacity
-            accessibilityLabel={ACCESSIBILITY_STRINGS.homeButton}
-            accessibilityHint={ACCESSIBILITY_STRINGS.homeButtonHint}
-            onPress={() => handleHomeButton(navigation)}
-          >
-            <Icon name="home" size={40} color={COLORS.white} />
-          </TouchableOpacity>
-        ) : (
-          hasBackButton && (
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.headerBar}>
+        <View style={styles.headerTop}>
+          {hasHomeButton ? (
             <TouchableOpacity
-              accessibilityLabel={ACCESSIBILITY_STRINGS.backButton}
-              accessibilityHint={ACCESSIBILITY_STRINGS.backButtonHint + getBackRouteName()}
-              onPress={() => handleBackButton(navigation)}
+              accessibilityLabel={ACCESSIBILITY_STRINGS.homeButton}
+              accessibilityHint={ACCESSIBILITY_STRINGS.homeButtonHint}
+              onPress={() => handleHomeButton(navigation)}
             >
-              <Icon
-                name="arrow-circle-down"
-                size={40}
-                color={COLORS.white}
-                style={{ transform: [{ rotate: '90deg' }] }}
-              />
+              <Icon name="home" size={40} color={COLORS.white} />
             </TouchableOpacity>
-          )
-        )}
-        {hasHelpButton && (
-          <TouchableOpacity
-            style={styles.helpButton}
-            accessibilityLabel={ACCESSIBILITY_STRINGS.helpButton}
-            accessibilityHint={ACCESSIBILITY_STRINGS.helpButtonHint}
-            onPress={() => handleHelpButton(navigation)}
-          >
-            <Icon name="help-outline" size={40} color={COLORS.white} />
-          </TouchableOpacity>
-        )}
+          ) : (
+            hasBackButton && (
+              <TouchableOpacity
+                accessibilityLabel={ACCESSIBILITY_STRINGS.backButton}
+                accessibilityHint={ACCESSIBILITY_STRINGS.backButtonHint + getBackRouteName()}
+                onPress={() => handleBackButton(navigation)}
+              >
+                <Icon
+                  name="arrow-circle-down"
+                  size={40}
+                  color={COLORS.white}
+                  style={{ transform: [{ rotate: '90deg' }] }}
+                />
+              </TouchableOpacity>
+            )
+          )}
+          {hasHelpButton && (
+            <TouchableOpacity
+              style={styles.helpButton}
+              accessibilityLabel={ACCESSIBILITY_STRINGS.helpButton}
+              accessibilityHint={ACCESSIBILITY_STRINGS.helpButtonHint}
+              onPress={() => handleHelpButton(navigation)}
+            >
+              <Icon name="help-outline" size={40} color={COLORS.white} />
+            </TouchableOpacity>
+          )}
+        </View>
+        <View style={styles.headerBottom}>
+          <Text style={styles.headerTitle}>{title}</Text>
+        </View>
       </View>
-      <View style={styles.headerBottom}>
-        <Text style={styles.headerTitle}>{title}</Text>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 const handleHomeButton = (navigation: NavigationProp<any, any>) => {
@@ -88,11 +90,13 @@ const handleHelpButton = (navigation: NavigationProp<any, any>) => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: COLORS.darkBlue,
+  },
   headerBar: {
-    top: 0,
     width: '100%',
     padding: 20,
-    backgroundColor: COLORS.darkBlue,
+    headerTop: Platform.OS === 'ios' ? 0 : 20,
   },
   headerTop: {
     display: 'flex',
