@@ -8,12 +8,6 @@ on:
   pull_request:
 
 jobs:
-
-  setup-dev-env-variables:
-    runs-on: ubuntu-latest
-    name: "Setup development environment variables"
-
-
   build-android-adhoc:
     runs-on: ubuntu-latest
     name: "Build Android app"
