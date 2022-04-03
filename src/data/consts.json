@@ -1,0 +1,9 @@
+{
+  "api": {
+    "headers": {
+      "authKey": {
+        "key": "X-API-KEY"
+      }
+    }
+  }
+}

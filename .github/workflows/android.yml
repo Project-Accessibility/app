@@ -36,6 +36,20 @@ jobs:
         run: |
           yarn install
 
+      - name: Make envfile Acceptation
+        if: github.ref == 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.ACC_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.ACC_API_KEY }}
+
+      - name: Make envfile Development
+        if: github.ref != 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.DEV_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
+
       # Create react-native app Bundle
       - name: Building bundle
         run: |
