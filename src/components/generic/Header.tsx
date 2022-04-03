@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   headerBar: {
     width: '100%',
     padding: 20,
-    paddigTop: Platform.OS === 'ios' ? 0 : 20,
+    paddingTop: Platform.OS === 'ios' ? 0 : 20,
   },
   headerTop: {
     display: 'flex',
