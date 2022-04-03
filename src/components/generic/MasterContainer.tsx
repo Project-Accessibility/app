@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import COLORS from '../../assets/colors';
 
 interface masterProps {
@@ -7,14 +7,20 @@ interface masterProps {
 }
 
 const MasterContainer = ({ children }: masterProps) => {
-  return <SafeAreaView style={styles.masterContainer}>{children}</SafeAreaView>;
+  return (
+    <SafeAreaView style={styles.masterContainer}>
+      <View style={styles.innerMasterContainer}>{children}</View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
   masterContainer: {
-    padding: 20,
     height: '100%',
     backgroundColor: COLORS.white,
+  },
+  innerMasterContainer: {
+    padding: 20,
   },
 });
 
