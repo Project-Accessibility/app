@@ -1,0 +1,14 @@
+{
+  "apiEndpoints": {
+    "questionnaire": {
+      "base_endpoint": "questionnaire",
+      "getQuestionnaireById": "{{id}}"
+    }
+  },
+  "hosts": {
+    "devApi": "https://questionnaire-dev.jaap.ru/api",
+    "accApi": "https://questionnaire-acc.jaap.ru/api",
+    "localApi": "http://localhost:8000/api",
+    "localDockerApi": "http://localhost:80/api"
+  }
+}
