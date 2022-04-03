@@ -12,7 +12,7 @@ jobs:
   setup-dev-env-variables:
     runs-on: ubuntu-latest
     name: "Setup development environment variables"
-    if: github.ref != 'refs/heads/master'
+    if: github.ref != 'refs/heads/main'
     environment: dev
 
     steps:
@@ -25,7 +25,7 @@ jobs:
   setup-acc-env-variables:
     runs-on: ubuntu-latest
     name: "Setup acceptation environment variables"
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     environment: acc
 
     steps:
