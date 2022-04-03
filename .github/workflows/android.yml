@@ -8,6 +8,31 @@ on:
   pull_request:
 
 jobs:
+
+  setup-dev-env-variables:
+    runs-on: ubuntu-latest
+    name: "Setup development environment variables"
+    environment: dev
+
+    steps:
+      - name: Make envfile Development
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: "devApi"
+          envkey_API_KEY: ${{ secrets.API_KEY }}
+
+  setup-acc-env-variables:
+    runs-on: ubuntu-latest
+    name: "Setup acceptation environment variables"
+    environment: acc
+
+    steps:
+      - name: Make envfile Development
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: "accApi"
+          envkey_API_KEY: ${{ secrets.API_KEY }}
+
   build-android-adhoc:
     runs-on: ubuntu-latest
     name: "Build Android app"
@@ -35,20 +60,6 @@ jobs:
       - name: Install Yarn dependencies
         run: |
           yarn install
-
-      - name: Make envfile Development
-        environment: dev
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_ENDPOINT_TO_ENFORCE: "devApi"
-          envkey_API_KEY: ${{ secrets.API_KEY }}
-
-      - name: Make envfile Acceptation
-        environment: acc
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_ENDPOINT_TO_ENFORCE: "accApi"
-          envkey_API_KEY: ${{ secrets.API_KEY }}
 
       # Create react-native app Bundle
       - name: Building bundle
