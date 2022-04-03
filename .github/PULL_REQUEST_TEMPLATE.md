@@ -1,9 +1,3 @@
----
-title: 'SOF-XXX Description'
-labels: enhancement
-assignees: ''
----
-
 **Closes #XX**
 
 ## Description

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
 import COLORS from '../assets/colors';
+import FONTS from '../assets/fonts';
 
 const SplashScreen = () => {
   return (
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
   bottomText: {
     color: COLORS.white,
     fontSize: 40,
-    fontFamily: 'Muli-ExtraBold',
+    fontFamily: FONTS.extraBold,
   },
 });
 

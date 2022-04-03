@@ -1,16 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import SectionScreen from './src/screens/SectionScreen';
+import Header from './src/components/generic/Header';
+import HomeScreen from './src/screens/HomeScreen';
 import SplashScreen from './src/screens/SplashScreen';
+import HelpScreen from './src/screens/HelpScreen';
+import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,7 +20,32 @@ const App = () => {
   if (isLoading) {
     return <SplashScreen />;
   }
-  return <SectionScreen />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{
+            backRouteName: ACCESSIBILITY_STRINGS.homeTitle,
+          }}
+          options={{
+            header: () => <Header title="HomeScreen" hasHelpButton />,
+          }}
+        />
+        <Stack.Screen
+          name="Help"
+          component={HelpScreen}
+          initialParams={{
+            backRouteName: ACCESSIBILITY_STRINGS.helpTitle,
+          }}
+          options={{
+            header: () => <Header title="HelpScreen" hasBackButton />,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default App;
