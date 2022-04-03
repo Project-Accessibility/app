@@ -36,6 +36,20 @@ jobs:
         run: |
           yarn install
 
+      - name: Make envfile Development
+        environment: dev
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: "devApi"
+          envkey_API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Make envfile Acceptation
+        environment: acc
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: "accApi"
+          envkey_API_KEY: ${{ secrets.API_KEY }}
+
       # Create react-native app Bundle
       - name: Building bundle
         run: |
