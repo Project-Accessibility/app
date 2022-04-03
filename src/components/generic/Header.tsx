@@ -3,6 +3,8 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import COLORS from '../../assets/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FONTS from '../../assets/fonts';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 
 interface headerProps {
   title: string;
@@ -14,13 +16,28 @@ interface headerProps {
 const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerProps) => {
   const navigation = useNavigation();
 
+  const getBackRouteName = () => {
+    const basicBackRouteName = 'Vorige pagina';
+
+    const routes = navigation.getState().routes;
+    if (!routes) return basicBackRouteName;
+
+    const backRoute = routes[routes.length - 2];
+    if (!backRoute) return basicBackRouteName;
+
+    const backRouteParams = backRoute.params as { backRouteName: string };
+    if (!backRouteParams) return basicBackRouteName;
+
+    return backRouteParams.backRouteName;
+  };
+
   return (
     <View style={styles.headerBar}>
       <View style={styles.headerTop}>
         {hasHomeButton ? (
           <TouchableOpacity
-            accessibilityLabel="Home knop"
-            accessibilityHint="Als je naar het hoofdscherm wilt navigeren, druk dan op deze knop."
+            accessibilityLabel={ACCESSIBILITY_STRINGS.homeButton}
+            accessibilityHint={ACCESSIBILITY_STRINGS.homeButtonHint}
             onPress={() => handleHomeButton(navigation)}
           >
             <Icon name="home" size={40} color={COLORS.white} />
@@ -28,8 +45,8 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
         ) : (
           hasBackButton && (
             <TouchableOpacity
-              accessibilityLabel="Terug knop"
-              accessibilityHint="Als je naar het vorige scherm wilt navigeren, druk dan op deze knop."
+              accessibilityLabel={ACCESSIBILITY_STRINGS.backButton}
+              accessibilityHint={ACCESSIBILITY_STRINGS.backButtonHint + getBackRouteName()}
               onPress={() => handleBackButton(navigation)}
             >
               <Icon
@@ -44,8 +61,8 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
         {hasHelpButton && (
           <TouchableOpacity
             style={styles.helpButton}
-            accessibilityLabel="Hulp knop"
-            accessibilityHint="Als je hulp nodig hebt, druk dan op deze knop."
+            accessibilityLabel={ACCESSIBILITY_STRINGS.helpButton}
+            accessibilityHint={ACCESSIBILITY_STRINGS.helpButtonHint}
             onPress={() => handleHelpButton(navigation)}
           >
             <Icon name="help-outline" size={40} color={COLORS.white} />
@@ -89,7 +106,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: COLORS.white,
-    fontFamily: 'Muli-SemiBold',
+    fontFamily: FONTS.semiBold,
     fontSize: 25,
   },
   helpButton: {
@@ -97,7 +114,7 @@ const styles = StyleSheet.create({
   },
   helpIcon: {
     color: COLORS.white,
-    fontFamily: 'Muli-ExtraBold',
+    fontFamily: FONTS.extraBold,
     fontSize: 25,
   },
 });

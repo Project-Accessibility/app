@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import COLORS from '../../assets/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FONTS from '../../assets/fonts';
 
 interface buttonProps {
   title: string;
@@ -58,13 +59,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   buttonText: {
-    fontFamily: 'Muli-SemiBold',
+    fontFamily: FONTS.semiBold,
     fontSize: 25,
     color: COLORS.black,
     width: '75%',
   },
   buttonNumbers: {
-    fontFamily: 'Muli-SemiBold',
+    fontFamily: FONTS.semiBold,
     fontSize: 25,
     color: COLORS.black,
     width: '20%',
