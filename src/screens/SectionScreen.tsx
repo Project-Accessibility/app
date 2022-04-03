@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     top: '10%',
     left: '10%',
-    color: 'black',
+    color: COLORS.black,
     fontSize: 25,
     fontFamily: 'Muli-ExtraBold',
   },
