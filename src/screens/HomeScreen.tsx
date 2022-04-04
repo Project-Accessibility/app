@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/generic/Button';
 import MasterContainer from '../components/generic/MasterContainer';
+import * as RootNavigation from '../helpers/rootNavigation';
 
 const HomeScreen = () => {
   return (
@@ -10,7 +11,7 @@ const HomeScreen = () => {
       <View style={styles.testButtonPannel}>
         <Button
           title="Onderdeel A"
-          onButtonPress={() => console.log('Button press!')}
+          onButtonPress={() => RootNavigation.navigate('Section')}
           maxAnswers={3}
           answered={0}
         />

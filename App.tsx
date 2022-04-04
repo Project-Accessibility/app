@@ -6,6 +6,8 @@ import HomeScreen from './src/screens/HomeScreen';
 import SplashScreen from './src/screens/SplashScreen';
 import HelpScreen from './src/screens/HelpScreen';
 import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
+import { navigationRef } from './src/helpers/rootNavigation';
+import SectionScreen from './src/screens/SectionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +23,7 @@ const App = () => {
     return <SplashScreen />;
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
@@ -41,6 +43,16 @@ const App = () => {
           }}
           options={{
             header: () => <Header title="HelpScreen" hasBackButton />,
+          }}
+        />
+        <Stack.Screen
+          name="Section"
+          component={SectionScreen}
+          initialParams={{
+            backRouteName: ACCESSIBILITY_STRINGS.helpTitle,
+          }}
+          options={{
+            header: () => <Header title="SectionScreen" hasBackButton />,
           }}
         />
       </Stack.Navigator>
