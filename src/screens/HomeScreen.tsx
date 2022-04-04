@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/generic/Button';
 import MasterContainer from '../components/generic/MasterContainer';
 import * as RootNavigation from '../helpers/rootNavigation';
+import * as MockDataRetriever from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
   return (
@@ -11,7 +12,11 @@ const HomeScreen = () => {
       <View style={styles.testButtonPannel}>
         <Button
           title="Onderdeel A"
-          onButtonPress={() => RootNavigation.navigate('Section')}
+          onButtonPress={() =>
+            RootNavigation.navigate('Questionnaire', {
+              questionnaire: MockDataRetriever.getQuestionnaireMock(),
+            })
+          }
           maxAnswers={3}
           answered={0}
         />
