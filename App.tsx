@@ -6,9 +6,8 @@ import HomeScreen from './src/screens/HomeScreen';
 import SplashScreen from './src/screens/SplashScreen';
 import HelpScreen from './src/screens/HelpScreen';
 import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
-import { navigationRef } from './src/helpers/rootNavigation';
-import SectionScreen from './src/screens/SectionScreen';
 import QuestionnaireScreen from './src/screens/QuestionnaireScreen';
+import { navigationRef } from './src/helpers/rootNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +32,7 @@ const App = () => {
             backRouteName: ACCESSIBILITY_STRINGS.homeTitle,
           }}
           options={{
-            header: () => <Header title="HomeScreen" hasHelpButton />,
+            header: () => <Header title={ACCESSIBILITY_STRINGS.homeTitle} hasHelpButton />,
           }}
         />
         <Stack.Screen
@@ -43,17 +42,23 @@ const App = () => {
             backRouteName: ACCESSIBILITY_STRINGS.helpTitle,
           }}
           options={{
-            header: () => <Header title="HelpScreen" hasBackButton />,
+            header: () => <Header title={ACCESSIBILITY_STRINGS.helpTitle} hasBackButton />,
           }}
         />
         <Stack.Screen
           name="Questionnaire"
           component={QuestionnaireScreen}
           initialParams={{
-            backRouteName: ACCESSIBILITY_STRINGS.helpTitle,
+            backRouteName: ACCESSIBILITY_STRINGS.questionnaireTitle,
           }}
           options={{
-            header: () => <Header title="Questionnaire" hasBackButton />,
+            header: () => (
+              <Header
+                title={ACCESSIBILITY_STRINGS.questionnaireTitle}
+                hasHomeButton
+                hasHelpButton
+              />
+            ),
           }}
         />
       </Stack.Navigator>

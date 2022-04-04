@@ -9,6 +9,8 @@ const ACCESSIBILITY_STRINGS = {
 
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar vorige pagina',
+
+  questionnaireTitle: 'Vragenlijst pagina',
 };
 
 export default ACCESSIBILITY_STRINGS;
