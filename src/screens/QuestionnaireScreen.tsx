@@ -48,7 +48,7 @@ const QuestionnaireScreen = () => {
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
-            <SectionList sections={getSectionsThatAreClose(questionnaire.sections, [1], [])} />
+            <SectionList sections={getSectionsThatAreNearby(questionnaire.sections, [1], [])} />
           </View>
           <Divider width="100%" height={3} margin={20} />
           <View>
@@ -63,7 +63,7 @@ const QuestionnaireScreen = () => {
   );
 };
 
-function getSectionsThatAreClose(
+function getSectionsThatAreNearby(
   sections: Section[],
   closeGeofenceIds: number[] = [],
   closeTeachableMachineIds: string[] = []
