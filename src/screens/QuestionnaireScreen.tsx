@@ -6,6 +6,7 @@ import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
+import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -37,6 +38,16 @@ const QuestionnaireScreen = () => {
             <Text style={styles.sectionTitle}>Beschrijving</Text>
             <Divider width="33%" height={2} margin={0} />
             <Text style={styles.sectionText}>{questionnaire?.description}</Text>
+          </View>
+          <Divider width="100%" height={3} margin={20} />
+        </>
+      )}
+      {questionnaire?.sections && (
+        <>
+          <View>
+            <Text style={styles.sectionTitle}>Alle onderdelen</Text>
+            <Divider width="33%" height={2} margin={0} />
+            <QuestionnaireList questionnaire={questionnaire} />
           </View>
           <Divider width="100%" height={3} margin={20} />
         </>

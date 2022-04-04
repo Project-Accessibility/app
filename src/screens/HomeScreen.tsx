@@ -14,11 +14,7 @@ const HomeScreen = () => {
       <View style={styles.testButtonPannel}>
         <Button
           title="Onderdeel A"
-          onButtonPress={() =>
-            RootNavigation.navigate('Questionnaire', {
-              questionnaire: MockDataRetriever.getQuestionnaireMock(),
-            })
-          }
+          onButtonPress={() => console.log('Button press!')}
           maxAnswers={3}
           answered={0}
         />
