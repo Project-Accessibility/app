@@ -1,9 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../components/generic/Button';
 import MasterContainer from '../components/generic/MasterContainer';
+import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <MasterContainer>
       <Text>HomeScreen</Text>
@@ -26,7 +30,16 @@ const HomeScreen = () => {
           maxAnswers={4}
           answered={4}
         />
-        <Button title="Vragenlijst A" onButtonPress={() => console.log('Button press!')} />
+        <Button
+          title={getQuestionnaireMock().title}
+          onButtonPress={() =>
+            // @ts-ignore next-line
+            navigation.navigate('Questionnaire', {
+              title: getQuestionnaireMock().title,
+              questionnaire: getQuestionnaireMock(),
+            })
+          }
+        />
       </View>
     </MasterContainer>
   );

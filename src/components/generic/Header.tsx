@@ -1,4 +1,4 @@
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import COLORS from '../../assets/colors';
@@ -15,6 +15,7 @@ interface headerProps {
 
 const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerProps) => {
   const navigation = useNavigation();
+  const route = useRoute();
 
   const getBackRouteName = () => {
     const basicBackRouteName = 'Vorige pagina';
@@ -26,9 +27,15 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
     if (!backRoute) return basicBackRouteName;
 
     const backRouteParams = backRoute.params as { backRouteName: string };
-    if (!backRouteParams) return basicBackRouteName;
+    if (!backRouteParams.backRouteName) return basicBackRouteName;
 
     return backRouteParams.backRouteName;
+  };
+
+  const getHeaderTitle = () => {
+    const params = route.params as { title: string };
+    if (!params.title) return title;
+    return params.title;
   };
 
   return (
@@ -71,7 +78,7 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
           )}
         </View>
         <View style={styles.headerBottom}>
-          <Text style={styles.headerTitle}>{title}</Text>
+          <Text style={styles.headerTitle}>{getHeaderTitle()}</Text>
         </View>
       </View>
     </SafeAreaView>
