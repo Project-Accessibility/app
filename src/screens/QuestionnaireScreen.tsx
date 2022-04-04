@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
+import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import { Questionnaire } from '../models/Questionnaire';
 
 const QuestionnaireScreen = (props: { route: { params: { questionnaire: Questionnaire } } }) => {
@@ -23,6 +24,12 @@ const QuestionnaireScreen = (props: { route: { params: { questionnaire: Question
         <View style={styles.descriptionLine} />
         {/*TODO: if statement checking database data for existing section description*/}
         <Text style={styles.descriptionText}>Er is voor dit onderdeel geen beschrijving </Text>
+        <View style={styles.descriptionLineQuestions} />
+      </View>
+      <View style={styles.containerDescription}>
+        <Text style={styles.descriptionTitle}>Dichtsbijzijnde onderdelen</Text>
+        <View style={styles.descriptionLine} />
+        <QuestionnaireList questionnaire={questionnaire}></QuestionnaireList>
         <View style={styles.descriptionLineQuestions} />
       </View>
     </SafeAreaView>
