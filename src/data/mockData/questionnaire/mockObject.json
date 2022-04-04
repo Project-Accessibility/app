@@ -2,8 +2,8 @@
   "id": 1,
   "research_id": 1,
   "title": "Rijksmuseum",
-  "description": "Hoe goed is het rijksmueseum te bezoeken?",
-  "instructions": null,
+  "description": "Hoe goed is het rijksmuseum te bezoeken?",
+  "instructions": "Ga naar het Rijksmuseum en vul de vragenlijst in!",
   "open": true,
   "teachable_machine_link": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
   "created_at": "2022-04-03T19:17:30.000000Z",
@@ -12,7 +12,12 @@
     {
       "id": 1,
       "questionnaire_id": 1,
-      "geofence_id": 1,
+      "geofence": {
+        "id": 1,
+        "longtitude": 4.8951679,
+        "latitude": 52.3702157,
+        "radius": 100
+      },
       "title": "Ingang",
       "description": "Hoe duidelijk is de ingang van het rijksmuseum?",
       "location_description": "Direct bij binnenkomst",
@@ -94,7 +99,12 @@
     {
       "id": 2,
       "questionnaire_id": 1,
-      "geofence_id": 2,
+      "geofence": {
+        "id": 2,
+        "longtitude": 4.1991679,
+        "latitude": 51.3102157,
+        "radius": 100
+      },
       "title": "Toilet Verdieping 1",
       "description": "Toilleten op verdieping 1",
       "location_description": "Links van de bali",

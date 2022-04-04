@@ -6,7 +6,8 @@ import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
-import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
+import { Section } from '../models/Section';
+import SectionList from '../components/section/SectionList';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -45,9 +46,15 @@ const QuestionnaireScreen = () => {
       {questionnaire?.sections && (
         <>
           <View>
+            <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
+            <Divider width="33%" height={2} margin={0} />
+            <SectionList sections={getSectionsThatAreClose(questionnaire.sections, [1], [])} />
+          </View>
+          <Divider width="100%" height={3} margin={20} />
+          <View>
             <Text style={styles.sectionTitle}>Alle onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
-            <QuestionnaireList questionnaire={questionnaire} />
+            <SectionList sections={questionnaire.sections} />
           </View>
           <Divider width="100%" height={3} margin={20} />
         </>
@@ -55,6 +62,23 @@ const QuestionnaireScreen = () => {
     </MasterContainer>
   );
 };
+
+function getSectionsThatAreClose(
+  sections: Section[],
+  closeGeofenceIds: number[] = [],
+  closeTeachableMachineIds: string[] = []
+) {
+  let closeSections: Section[] = [];
+  sections?.forEach((section) => {
+    if (
+      closeGeofenceIds.includes(section.geofence?.id ?? -1) ||
+      closeTeachableMachineIds.includes(section.teachableMachineClass ?? '')
+    ) {
+      closeSections.push(section);
+    }
+  });
+  return closeSections;
+}
 
 const styles = StyleSheet.create({
   sectionTitle: {

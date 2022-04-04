@@ -1,15 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import COLORS from '../../assets/colors';
-import { Questionnaire } from '../../models/Questionnaire';
 import { Section } from '../../models/Section';
 import Button from '../generic/Button';
 
-const QuestionnaireList = (props: { questionnaire: Questionnaire }) => {
-  const questionnaire: Questionnaire = props.questionnaire;
+const SectionList = (props: { sections: Section[] }) => {
+  const sections: Section[] = props.sections;
   return (
     <>
-      {questionnaire?.sections?.map((section, index) => {
+      {sections?.map((section, index) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
@@ -51,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuestionnaireList;
+export default SectionList;
