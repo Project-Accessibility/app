@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
   },
   innerMasterContainer: {
     padding: 20,
+    paddingBottom: 0,
+    paddingTop: 0,
   },
 });
 
