@@ -7,6 +7,7 @@ import SplashScreen from './src/screens/SplashScreen';
 import HelpScreen from './src/screens/HelpScreen';
 import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
 import QuestionnaireScreen from './src/screens/QuestionnaireScreen';
+import { navigationRef } from './src/helpers/rootNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ const App = () => {
     return <SplashScreen />;
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"

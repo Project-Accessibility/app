@@ -1,41 +1,191 @@
 {
   "id": 1,
-  "title": "Questionnaire Mock Title",
+  "research_id": 1,
+  "title": "Rijksmuseum",
+  "description": "Hoe goed is het rijksmuseum te bezoeken?",
+  "instructions": "Ga naar het Rijksmuseum en vul de vragenlijst in!",
   "open": true,
-  "description": "Questionnaire mock object Description",
-  "instructions": "No instructions",
-  "teachableMachineLink": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
+  "teachable_machine_link": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
+  "created_at": "2022-04-03T19:17:30.000000Z",
+  "updated_at": "2022-04-03T19:17:30.000000Z",
   "sections": [
     {
       "id": 1,
-      "title": "Ingang",
+      "questionnaire_id": 1,
       "geofence": {
         "id": 1,
-        "longtitude": "4.914",
-        "latitude": "52.37",
-        "radius": "100"
+        "longtitude": 4.8951679,
+        "latitude": 52.3702157,
+        "radius": 100
       },
-      "description": "Ingang van het gebouw",
-      "locationDescription": "De ingang bevindt zich op de linkerzijde van het gebouw",
-      "teachableMachineClass": "entrance",
+      "title": "Ingang",
+      "description": "Hoe duidelijk is de ingang van het rijksmuseum?",
+      "location_description": "Direct bij binnenkomst",
+      "teachable_machine_class": "entrance",
+      "created_at": "2022-04-03T19:17:30.000000Z",
+      "updated_at": "2022-04-03T19:17:30.000000Z",
       "questions": [
         {
           "id": 1,
-          "title": "Mooiheid ingang",
-          "question": "Wat vind je van de mooiheid van de ingang?",
+          "section_id": 1,
+          "title": "Bali",
+          "question": "Wat vindt u van de hoogte van de bali?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
           "questionOptions": [
             {
               "id": 1,
+              "question_id": 1,
               "type": "OPEN",
-              "extraData": null,
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": [
                 {
                   "id": 1,
-                  "answer": { "value": "Wat een mooi ding, word er helemaal zen van!" },
-                  "createdAt": "2022-04-02T09:11:00.043Z",
-                  "updatedAt": "2022-04-02T09:11:00.043Z"
+                  "answer": { "value": "Prachtig, precies de juiste hoogte" },
+                  "createdAt": "2022-04-03T19:17:30.000000Z",
+                  "updatedAt": "2022-04-03T19:17:30.000000Z"
                 }
               ]
+            },
+            {
+              "id": 2,
+              "question_id": 1,
+              "type": "IMAGE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": []
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "section_id": 1,
+          "title": "Belichting",
+          "question": "Wat vindt u van de belichting?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 3,
+              "question_id": 2,
+              "type": "OPEN",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": [
+                {
+                  "id": 2,
+                  "answer": { "value": "Veel te fel.😁" },
+                  "createdAt": "2022-04-03T19:17:30.000000Z",
+                  "updatedAt": "2022-04-03T19:17:30.000000Z"
+                }
+              ]
+            },
+            {
+              "id": 4,
+              "question_id": 2,
+              "type": "VOICE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "questionnaire_id": 1,
+      "geofence": {
+        "id": 2,
+        "longtitude": 4.1991679,
+        "latitude": 51.3102157,
+        "radius": 100
+      },
+      "title": "Toilet Verdieping 1",
+      "description": "Toilleten op verdieping 1",
+      "location_description": "Links van de bali",
+      "teachable_machine_class": "toiler_floor_1",
+      "created_at": "2022-04-03T19:17:30.000000Z",
+      "updated_at": "2022-04-03T19:17:30.000000Z",
+      "questions": [
+        {
+          "id": 3,
+          "section_id": 2,
+          "title": "WC Grootte",
+          "question": "Wat vindt u van de grootte van het toilet?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 5,
+              "question_id": 2,
+              "type": "OPEN",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": [
+                {
+                  "id": 3,
+                  "answer": { "value": "Niet goed, ik kan er niet in plassen" },
+                  "createdAt": "2022-04-03T19:17:30.000000Z",
+                  "updatedAt": "2022-04-03T19:17:30.000000Z"
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "question_id": 2,
+              "type": "IMAGE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": []
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "section_id": 2,
+          "title": "Belichting",
+          "question": "Wat vindt u van de belichting?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 7,
+              "question_id": 4,
+              "type": "OPEN",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": [
+                {
+                  "id": 4,
+                  "answer": { "value": "Precies goed" },
+                  "createdAt": "2022-04-03T19:17:30.000000Z",
+                  "updatedAt": "2022-04-03T19:17:30.000000Z"
+                }
+              ]
+            },
+            {
+              "id": 8,
+              "question_id": 4,
+              "type": "VOICE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            },
+            {
+              "id": 9,
+              "question_id": 4,
+              "type": "IMAGE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
             }
           ]
         }
