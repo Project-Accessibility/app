@@ -1,6 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
@@ -11,6 +12,8 @@ import SectionList from '../components/section/SectionList';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
+  const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
+  const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
 
   const route = useRoute();
 
@@ -52,9 +55,17 @@ const QuestionnaireScreen = () => {
           </View>
           <Divider width="100%" height={3} margin={20} />
           <View>
-            <Text style={styles.sectionTitle}>Alle onderdelen</Text>
+            <Text
+              style={styles.sectionTitle}
+              onPress={() => {
+                setSectionsVisible(!sectionsVisible);
+                setSectionsIcon(sectionsVisible ? 'angle-up' : 'angle-down');
+              }}
+            >
+              Alle onderdelen <Icon name={sectionsIcon} size={30} />
+            </Text>
             <Divider width="33%" height={2} margin={0} />
-            <SectionList sections={questionnaire.sections} />
+            {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>
           <Divider width="100%" height={3} margin={20} />
         </>
