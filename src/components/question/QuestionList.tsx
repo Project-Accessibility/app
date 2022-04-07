@@ -11,7 +11,7 @@ const QuestionList = (props: { questions: Question[] }) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
-              questionFinished={getAnsweredQuestion(question)}
+              finished={getAnsweredQuestion(question)}
               title={question.title}
               onButtonPress={() => console.log(`Clicked, ${question.title}`)}
             />
@@ -26,7 +26,7 @@ function getAnsweredQuestion(question: Question): boolean {
   let answeredQuestion = false;
   question.questionOptions?.forEach((questionOption) => {
     questionOption.answers?.forEach((answer) => {
-      answer.answer ? true : answeredQuestion;
+      answer.answer ? (answeredQuestion = true) : (answeredQuestion = false);
     });
   });
   return answeredQuestion;
