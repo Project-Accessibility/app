@@ -10,6 +10,7 @@ interface buttonProps {
   maxAnswers?: number;
   answered?: number;
   finished?: boolean;
+  questionFinished?: boolean;
 }
 
 const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished }: buttonProps) => {
