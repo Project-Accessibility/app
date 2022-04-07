@@ -10,16 +10,17 @@ interface RadioButtonData {
   label: string;
 }
 
-const MasterContainer = (props: { questionOption: QuestionOption }) => {
-  const [selectedOption, setSelectedOption] = useState<string>();
+const MasterContainer = (props: {
+  questionOption: QuestionOption;
+  onClicked: (label: string) => void;
+}) => {
   const multipleChoiceQuestions = props.questionOption.extraData as unknown as string[];
 
   return (
     <RadioButtonRN
       data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
       selectedBtn={(selected: RadioButtonData) => {
-        console.log(selected.label);
-        setSelectedOption(selected.label);
+        props.onClicked(selected.label);
       }}
       animationTypes={['zoomIn', 'rotate']}
       textStyle={styles.text}
