@@ -41,8 +41,8 @@ function stringArrayToRadioButtonData(stringArray: string[]): RadioButtonData[] 
 }
 
 const styles = StyleSheet.create({
-  box:{
-    backgroundColor: COLORS.darkBlue
+  box: {
+    backgroundColor: COLORS.darkBlue,
   },
   radioButton: {
     width: '100%',
