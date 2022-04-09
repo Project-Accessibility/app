@@ -25,6 +25,7 @@ const MasterContainer = (props: {
       animationTypes={['zoomIn', 'rotate']}
       textStyle={styles.text}
       style={styles.radioButton}
+      boxStyle={styles.box}
       activeColor={COLORS.green}
       icon={<Icon name="check-circle" size={25} color={COLORS.green} />}
     />
@@ -40,13 +41,16 @@ function stringArrayToRadioButtonData(stringArray: string[]): RadioButtonData[] 
 }
 
 const styles = StyleSheet.create({
+  box:{
+    backgroundColor: COLORS.darkBlue
+  },
   radioButton: {
     width: '100%',
   },
   text: {
     fontFamily: FONTS.semiBold,
     fontSize: 25,
-    color: COLORS.black,
+    color: COLORS.white,
   },
 });
 
