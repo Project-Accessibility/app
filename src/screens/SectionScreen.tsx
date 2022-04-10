@@ -46,7 +46,7 @@ const SectionScreen = () => {
         {section?.questions && (
           <>
             <View>
-              <Text style={styles.questionsTitle}> Vragen </Text>
+              <Text style={styles.questionsTitle}>Vragen</Text>
               <QuestionList questions={section.questions} />
             </View>
           </>

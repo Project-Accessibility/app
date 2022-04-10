@@ -23,13 +23,16 @@ const QuestionList = (props: { questions: Question[] }) => {
 };
 
 function getAnsweredQuestion(question: Question): boolean {
-  let answeredQuestion = false;
+  let answeredQuestions = 0;
   question.questionOptions?.forEach((questionOption) => {
     questionOption.answers?.forEach((answer) => {
-      answer.answer ? (answeredQuestion = true) : (answeredQuestion = false);
+      answer.answer ? answeredQuestions++ : null;
     });
   });
-  return answeredQuestion;
+
+  let totalQuestions = question.questionOptions?.length as number;
+
+  return totalQuestions <= answeredQuestions ? true : false;
 }
 
 const styles = StyleSheet.create({
