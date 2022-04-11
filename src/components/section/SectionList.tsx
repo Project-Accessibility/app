@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Section } from '../../models/Section';
@@ -5,6 +6,8 @@ import Button from '../generic/Button';
 
 const SectionList = (props: { sections: Section[] }) => {
   const sections: Section[] = props.sections;
+  const navigation = useNavigation();
+
   return (
     <>
       {sections?.map((section, index) => {
@@ -12,7 +15,13 @@ const SectionList = (props: { sections: Section[] }) => {
           <View key={index} style={styles.buttonView}>
             <Button
               title={section.title}
-              onButtonPress={() => console.log(`Clicked, ${section.title}`)}
+              onButtonPress={() =>
+                // @ts-ignore next-line
+                navigation.navigate('Section', {
+                  title: section.title,
+                  section: section,
+                })
+              }
               maxAnswers={getTotalQuestions(section)}
               answered={getAnsweredQuestions(section)}
             />

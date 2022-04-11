@@ -11,6 +11,8 @@ const ACCESSIBILITY_STRINGS = {
   backButtonHint: 'Terug naar vorige pagina',
 
   questionnaireTitle: 'Vragenlijst pagina',
+
+  sectionTitle: 'Onderdeel pagina',
 };
 
 export default ACCESSIBILITY_STRINGS;
