@@ -20,8 +20,8 @@
       },
       "title": "Ingang",
       "description": "Hoe duidelijk is de ingang van het rijksmuseum?",
-      "location_description": "Direct bij binnenkomst",
-      "teachable_machine_class": "entrance",
+      "locationDescription": "Direct bij binnenkomst",
+      "teachableMachineClass": "entrance",
       "created_at": "2022-04-03T19:17:30.000000Z",
       "updated_at": "2022-04-03T19:17:30.000000Z",
       "questions": [
@@ -115,8 +115,8 @@
       },
       "title": "Toilet Verdieping 1",
       "description": "Toilleten op verdieping 1",
-      "location_description": "Links van de bali",
-      "teachable_machine_class": "toiler_floor_1",
+      "locationDescription": "Links van de bali",
+      "teachableMachineClass": "toiler_floor_1",
       "created_at": "2022-04-03T19:17:30.000000Z",
       "updated_at": "2022-04-03T19:17:30.000000Z",
       "questions": [
