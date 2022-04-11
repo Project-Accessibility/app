@@ -13,6 +13,8 @@ const ACCESSIBILITY_STRINGS = {
   questionnaireTitle: 'Vragenlijst pagina',
 
   sectionTitle: 'Onderdeel pagina',
+
+  questionTitle: 'Vraag pagina',
 };
 
 export default ACCESSIBILITY_STRINGS;

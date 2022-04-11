@@ -9,6 +9,7 @@ import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
 import QuestionnaireScreen from './src/screens/QuestionnaireScreen';
 import { navigationRef } from './src/helpers/rootNavigation';
 import SectionScreen from './src/screens/SectionScreen';
+import QuestionScreen from './src/screens/QuestionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +76,18 @@ const App = () => {
                 hasBackButton
                 hasHelpButton
               />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Question"
+          component={QuestionScreen}
+          initialParams={{
+            backRouteName: ACCESSIBILITY_STRINGS.sectionTitle,
+          }}
+          options={{
+            header: () => (
+              <Header title={ACCESSIBILITY_STRINGS.questionTitle} hasBackButton hasHelpButton />
             ),
           }}
         />
