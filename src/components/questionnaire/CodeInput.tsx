@@ -11,7 +11,7 @@ const CodeInput = () => {
     <View style={styles.codeForm}>
       <TextInput
         style={styles.codeInput}
-        placeholder="code invoeren..."
+        placeholder="Code invoeren..."
         placeholderTextColor={COLORS.black}
         onChangeText={(value: String) => setCode(value)}
       />
