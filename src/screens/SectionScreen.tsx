@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
@@ -21,37 +21,35 @@ const SectionScreen = () => {
 
   return (
     <MasterContainer>
-      <ScrollView>
-        {!section && <Text>Geen Onderdeel gevonden.</Text>}
-        {section?.description && (
-          <>
-            <View>
-              <Text style={styles.questionTitle}>Beschrijving</Text>
-              <Divider width="33%" height={2} margin={0} />
-              <Text style={styles.questionText}>{section?.description}</Text>
-            </View>
-            <Divider width="100%" height={3} margin={20} />
-          </>
-        )}
-        {section?.locationDescription && (
-          <>
-            <View>
-              <Text style={styles.questionTitle}>Locatie beschrijving</Text>
-              <Divider width="33%" height={2} margin={0} />
-              <Text style={styles.questionText}>{section?.locationDescription}</Text>
-            </View>
-            <Divider width="100%" height={3} margin={20} />
-          </>
-        )}
-        {section?.questions && (
-          <>
-            <View>
-              <Text style={styles.questionsTitle}>Vragen</Text>
-              <QuestionList questions={section.questions} />
-            </View>
-          </>
-        )}
-      </ScrollView>
+      {!section && <Text>Geen Onderdeel gevonden.</Text>}
+      {section?.description && (
+        <>
+          <View>
+            <Text style={styles.questionTitle}>Beschrijving</Text>
+            <Divider width="33%" height={2} margin={0} />
+            <Text style={styles.questionText}>{section?.description}</Text>
+          </View>
+          <Divider width="100%" height={3} margin={20} />
+        </>
+      )}
+      {section?.locationDescription && (
+        <>
+          <View>
+            <Text style={styles.questionTitle}>Locatie beschrijving</Text>
+            <Divider width="33%" height={2} margin={0} />
+            <Text style={styles.questionText}>{section?.locationDescription}</Text>
+          </View>
+          <Divider width="100%" height={3} margin={20} />
+        </>
+      )}
+      {section?.questions && (
+        <>
+          <View>
+            <Text style={styles.questionsTitle}>Vragen</Text>
+            <QuestionList questions={section.questions} />
+          </View>
+        </>
+      )}
     </MasterContainer>
   );
 };
