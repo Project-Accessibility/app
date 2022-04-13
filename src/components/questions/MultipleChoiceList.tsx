@@ -27,6 +27,7 @@ const MasterContainer = (props: {
       style={styles.radioButton}
       boxStyle={styles.box}
       activeColor={COLORS.green}
+      deactiveColor={COLORS.darkBlue}
       icon={<Icon name="check-circle" size={25} color={COLORS.green} />}
     />
   );
@@ -42,7 +43,7 @@ function stringArrayToRadioButtonData(stringArray: string[]): RadioButtonData[] 
 
 const styles = StyleSheet.create({
   box: {
-    backgroundColor: COLORS.darkBlue,
+    backgroundColor: COLORS.white,
   },
   radioButton: {
     width: '100%',
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: FONTS.semiBold,
     fontSize: 25,
-    color: COLORS.white,
+    color: COLORS.black,
   },
 });
 
