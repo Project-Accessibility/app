@@ -21,8 +21,7 @@ const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished 
   };
 
   const getButtonTextWidth = () => {
-    if (finished) return { width: '65%' };
-    return { width: '75%' };
+    return finished ? { width: '65%' } : { width: '75%' };
   };
 
   return (
