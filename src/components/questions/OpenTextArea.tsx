@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontFamily: FONTS.regular,
     fontSize: 20,
+    maxHeight: 8 * 20
   },
 });
 
