@@ -9,8 +9,44 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
+import Radar from 'react-native-radar';
+
+// Radar.on('clientLocation', (result: any) => {
+//   console.log('clientLocation:' + JSON.stringify(result));
+// });
+//
+Radar.on('location', (result: any) => {
+  console.log('location:' + JSON.stringify(result));
+});
+
+// Radar.on('events', (result: any) => {
+//   console.log('events:' + JSON.stringify(result));
+// });
+
+// Radar.on('error', (err: Error) => {
+//   console.log(err.message);
+// });
 
 const QuestionnaireScreen = () => {
+  Radar.setUserId('cd66931c-a623-11ec-b909-0242ac120002');
+  Radar.getPermissionsStatus().then((status: string) => {
+    console.log('status:' + status);
+    if (status !== 'GRANTED_BACKGROUND') {
+      console.log('Location is not granted!');
+      Radar.requestPermissions(true)
+        .then(() => {
+          if (status === 'GRANTED_BACKGROUND') {
+            Radar.startTrackingContinuous();
+          }
+        })
+        .catch((err: Error) => {
+          console.log('requestPermissions:', err);
+        });
+    } else {
+      console.log('Location is granted!');
+      Radar.startTrackingResponsive();
+    }
+  });
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
   const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
