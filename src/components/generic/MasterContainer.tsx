@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import COLORS from '../../assets/colors';
 
 interface masterProps {
@@ -9,7 +9,9 @@ interface masterProps {
 const MasterContainer = ({ children }: masterProps) => {
   return (
     <SafeAreaView style={styles.masterContainer}>
-      <View style={styles.innerMasterContainer}>{children}</View>
+      <ScrollView>
+        <View style={styles.innerMasterContainer}>{children}</View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -20,9 +22,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   innerMasterContainer: {
-    padding: 20,
-    paddingBottom: 0,
-    paddingTop: 0,
+    paddingHorizontal: 20,
+    top: 10,
   },
 });
 
