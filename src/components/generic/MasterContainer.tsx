@@ -9,7 +9,7 @@ interface masterProps {
 const MasterContainer = ({ children }: masterProps) => {
   return (
     <SafeAreaView style={styles.masterContainer}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollViewFill}>
         <View style={styles.innerMasterContainer}>{children}</View>
       </ScrollView>
     </SafeAreaView>
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     top: 10,
   },
+  scrollViewFill: { flexGrow: 1 },
 });
 
 export default MasterContainer;

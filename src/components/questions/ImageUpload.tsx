@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import {
   StyleSheet,
@@ -13,9 +12,6 @@ import {
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
-
-// Import Image Picker
-// import ImagePicker from 'react-native-image-picker';
 
 const ImageUpload = () => {
   const [image, SetImage] = React.useState('');
@@ -43,7 +39,7 @@ const ImageUpload = () => {
     });
   };
 
-  const useCamera = () => {
+  const UseCamera = () => {
     launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
       if (response.didCancel) {
         setToastMsg('foto niet gemaakt');
@@ -71,7 +67,7 @@ const ImageUpload = () => {
         buttonPositive: 'OK',
       });
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        useCamera();
+        UseCamera();
       } else {
         console.log('Camera permission denied');
       }
