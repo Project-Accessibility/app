@@ -10,26 +10,15 @@ const HomeScreen = () => {
 
   return (
     <MasterContainer>
+      <Button
+        title="components"
+        onButtonPress={() =>
+          // @ts-ignore next-line
+          navigation.navigate('Components')
+        }
+      />
       <Text>HomeScreen</Text>
       <View style={styles.testButtonPannel}>
-        <Button
-          title="Onderdeel A"
-          onButtonPress={() => console.log('Button press!')}
-          maxAnswers={3}
-          answered={0}
-        />
-        <Button
-          title="Onderdeel B"
-          onButtonPress={() => console.log('Button press!')}
-          maxAnswers={5}
-          answered={2}
-        />
-        <Button
-          title="Onderdeel c"
-          onButtonPress={() => console.log('Button press!')}
-          maxAnswers={4}
-          answered={4}
-        />
         <Button
           title={getQuestionnaireMock().title}
           onButtonPress={() =>
