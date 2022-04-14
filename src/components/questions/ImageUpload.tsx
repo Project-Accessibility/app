@@ -47,10 +47,6 @@ const ImageUpload = () => {
         setToastMsg('permissie afgewezen');
       } else if (response.errorCode == 'others') {
         setToastMsg(response.errorMessage);
-      } else if (response.assets[0].fileSize > 2097152) {
-        Alert.alert('Maximum grootte verstreken', 'Selecteer een foto onder 2M B', [
-          { text: 'OK' },
-        ]);
       } else {
         SetImage(response.assets[0].base64);
       }
