@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import io.radar.sdk.Radar;
+import com.facebook.react.BuildConfig;
 
 public class MainApplication extends Application implements ReactApplication {
 
