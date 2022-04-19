@@ -12,10 +12,8 @@ target 'ProjectAccessibility' do
     :hermes_enabled => false
   )
 
-
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
-  pod 'Permission-LocationAlways', :path => "../node_modules/react-native-permissions/LocationAlways"
-  pod 'RadarSDK', '~> 3.4.0'
+  pod 'Permission-LocationAlways', :path => "../node_modules/react-native-permissions/ios/LocationAlways/Permission-LocationAlways.podspec"
+  pod 'RadarSDK', '~> 3.2.3'
 
   target 'ProjectAccessibilityTests' do
     inherit! :complete
