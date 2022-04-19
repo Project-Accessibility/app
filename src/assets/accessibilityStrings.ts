@@ -19,7 +19,8 @@ const ACCESSIBILITY_STRINGS = {
   contactPhone: '+31 30 239 82 70',
   contactEmail: 'info@accessibility.nl',
   contactSendEmail: 'Stuur een e-mail',
-  contactSendEmailHint: 'Stuur een e-mail naar Stichting Accessibility',
+  contactSendEmailHint:
+    'Stuur een e-mail naar Stichting Accessibility via een beschikbare mail app',
 
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar vorige pagina',

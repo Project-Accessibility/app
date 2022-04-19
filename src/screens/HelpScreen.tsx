@@ -7,7 +7,6 @@ import AS from '../assets/accessibilityStrings';
 
 const createText = () => {
   return data.map((element, index) => {
-    console.log(data);
     return (
       <Text key={index} accessible={true} style={element.style}>
         {element.text}
@@ -32,7 +31,7 @@ const HelpScreen = () => {
         <TouchableOpacity
           style={styles.emailBtn}
           onPress={() => {
-            Linking.openURL('mailto: ' + AS.contactEmail);
+            Linking.openURL(`mailto: ${AS.contactEmail}`);
           }}
         >
           <Text
