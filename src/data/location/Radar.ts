@@ -41,10 +41,11 @@ class RadarLocation {
    */
   private async handleLocationPermission() {
     if (Platform.OS === 'ios') {
-      const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+      const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
 
-      if (permissionCheck === RESULTS.DENIED) {
-        const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+      console.log(permissionCheck)
+      if (permissionCheck === RESULTS.DENIED || permissionCheck === RESULTS.UNAVAILABLE) {
+        const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
         permissionRequest === RESULTS.GRANTED
           ? console.warn('Location permission granted.')
           : console.warn('Location perrmission denied.');
