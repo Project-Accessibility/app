@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   innerMasterContainer: {
     paddingHorizontal: 20,
-    top: 10,
+    marginTop: 10,
   },
   scrollViewFill: { flexGrow: 1 },
 });
