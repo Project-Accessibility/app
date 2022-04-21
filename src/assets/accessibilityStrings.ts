@@ -21,6 +21,8 @@ const ACCESSIBILITY_STRINGS = {
   contactSendEmail: 'Stuur een e-mail',
   contactSendEmailHint:
     'Stuur een e-mail naar Stichting Accessibility via een beschikbare mail app',
+  contactCallPhone: 'Bellen',
+  contactCallPhoneHint: 'Bel naar het bedrijf',
 
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar vorige pagina',

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MasterContainer from '../components/generic/MasterContainer';
 import FONTS from '../assets/fonts';
 import COLORS from '../assets/colors';
-import AS from '../assets/accessibilityStrings';
+import ACC_STRS from '../assets/accessibilityStrings';
 
 const createText = () => {
   return data.map((element, index) => {
@@ -15,6 +15,18 @@ const createText = () => {
   });
 };
 
+const phoneCall = () => {
+  let phoneNumber = '';
+
+  if (Platform.OS === 'android') {
+    phoneNumber = 'tel:${1234567890}';
+  } else {
+    phoneNumber = 'telprompt:${1234567890}';
+  }
+
+  Linking.openURL(phoneNumber);
+};
+
 const HelpScreen = () => {
   return (
     <MasterContainer>
@@ -24,32 +36,45 @@ const HelpScreen = () => {
       />
       <View style={styles.contactInfo}>
         <Text accessible={true} style={styles.h1}>
-          {AS.contactTitle}
+          {ACC_STRS.contactTitle}
         </Text>
         {/*Creating text elements based on data*/}
         {createText()}
         <TouchableOpacity
           style={styles.emailBtn}
           onPress={() => {
-            Linking.openURL(`mailto: ${AS.contactEmail}`);
+            Linking.openURL(`mailto: ${ACC_STRS.contactEmail}`);
           }}
         >
           <Text
             accessible={true}
-            accessibilityHint={AS.contactSendEmailHint}
+            accessibilityHint={ACC_STRS.contactSendEmailHint}
             style={styles.emailBtnText}
           >
-            {AS.contactSendEmail}
+            {ACC_STRS.contactSendEmail}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.emailBtn}
+          onPress={phoneCall}
+        >
+          <Text
+            accessible={true}
+            accessibilityHint={ACC_STRS.contactCallPhoneHint}
+            style={styles.emailBtnText}
+          >
+            {ACC_STRS.contactCallPhone}
           </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.contactInfo}>
         <Text
           accessible={true}
-          accessibilityLabel={AS.contactExtraInfoLabel}
+          accessibilityLabel={ACC_STRS.contactExtraInfoLabel}
           style={styles.contactText}
         >
-          {AS.contactExtraInfo}
+          {ACC_STRS.contactExtraInfo}
         </Text>
       </View>
     </MasterContainer>
@@ -99,6 +124,7 @@ const styles = StyleSheet.create({
   },
   contactText: {
     paddingLeft: 20,
+    paddingBottom: 5,
     fontFamily: FONTS.semiBold,
     fontSize: 18,
     color: COLORS.black,
@@ -108,7 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     marginTop: 10,
     marginBottom: 5,
-    backgroundColor: COLORS.lightBlue,
+    backgroundColor: COLORS.darkBlue,
     alignItems: 'center',
   },
   emailBtnText: {
@@ -119,34 +145,34 @@ const styles = StyleSheet.create({
 });
 
 const data = [
+  // {
+  //   text: ACC_STRS.contactSubtitle,
+  //   style: styles.contactTitle,
+  // },
   {
-    text: AS.contactSubtitle,
-    style: styles.contactTitle,
-  },
-  {
-    text: AS.contactStreet,
+    text: ACC_STRS.contactStreet,
     style: styles.contactText,
   },
   {
-    text: `${AS.contactPostalCode} ${AS.contactCity}`,
+    text: `${ACC_STRS.contactPostalCode} ${ACC_STRS.contactCity}`,
     style: styles.contactText,
   },
-  {
-    text: AS.phone,
-    style: styles.contactTitle,
-  },
-  {
-    text: AS.contactPhone,
-    style: styles.contactText,
-  },
-  {
-    text: AS.email,
-    style: styles.contactTitle,
-  },
-  {
-    text: AS.contactEmail,
-    style: styles.contactText,
-  },
+  // {
+  //   text: ACC_STRS.phone,
+  //   style: styles.contactTitle,
+  // },
+  // {
+  //   text: ACC_STRS.contactPhone,
+  //   style: styles.contactText,
+  // },
+  // {
+  //   text: ACC_STRS.email,
+  //   style: styles.contactTitle,
+  // },
+  // {
+  //   text: ACC_STRS.contactEmail,
+  //   style: styles.contactText,
+  // },
 ];
 
 export default HelpScreen;
