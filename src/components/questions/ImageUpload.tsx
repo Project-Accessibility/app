@@ -8,8 +8,10 @@ import {
   ToastAndroid,
   Alert,
   PermissionsAndroid,
+  Platform,
 } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {request, PERMISSIONS, check, RESULTS} from 'react-native-permissions';
+import * as ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 
@@ -21,18 +23,14 @@ const ImageUpload = () => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
   };
 
-  const uploadImage = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+  const PickImageFromGallery = () => {
+    ImagePicker.launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
       if (response.didCancel) {
-        setToastMsg('geen foto gekozen');
+        setToastMsg('Geen foto gekozen');
       } else if (response.errorCode == 'permission') {
-        setToastMsg('permissie afgewezen');
+        setToastMsg('Permissie afgewezen');
       } else if (response.errorCode == 'others') {
         setToastMsg(response.errorMessage);
-      } else if (response.assets[0].fileSize > 2097152) {
-        Alert.alert('Maximum grootte verstreken', 'Selecteer een foto onder 2M B', [
-          { text: 'OK' },
-        ]);
       } else {
         SetImage(response.assets[0].base64);
       }
@@ -40,11 +38,11 @@ const ImageUpload = () => {
   };
 
   const UseCamera = () => {
-    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    ImagePicker.launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
       if (response.didCancel) {
-        setToastMsg('foto niet gemaakt');
+        setToastMsg('Geen foto gemaakt');
       } else if (response.errorCode == 'permission') {
-        setToastMsg('permissie afgewezen');
+        setToastMsg('Permissie afgewezen');
       } else if (response.errorCode == 'others') {
         setToastMsg(response.errorMessage);
       } else {
@@ -53,22 +51,25 @@ const ImageUpload = () => {
     });
   };
 
-  const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
-        title: 'App Camera Permission',
-        message: 'App needs access to your camera ',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      });
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  const RequestCameraPermission = async () => {
+    //check ios camera 
+    let result = await check(PERMISSIONS.IOS.CAMERA);
+    {
+    if(result === RESULTS.GRANTED) {
         UseCamera();
-      } else {
-        console.log('Camera permission denied');
+      } else if(result === RESULTS.DENIED) {
+        result = await request(PERMISSIONS.IOS.CAMERA);
       }
-    } catch (err) {
-      console.warn(err);
+    }
+    //check android camera
+    check(PERMISSIONS.ANDROID.CAMERA);
+    {
+      const granted = await request(PERMISSIONS.ANDROID.CAMERA);
+      if (granted) {
+        UseCamera();
+      } else if(result === RESULTS.DENIED) {
+        result = await request(PERMISSIONS.ANDROID.CAMERA);
+      }
     }
   };
 
@@ -86,10 +87,10 @@ const ImageUpload = () => {
           <Text>''</Text>
         )}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => requestCameraPermission()}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => uploadImage()}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
@@ -113,7 +114,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
   },
-  imagePadding: { paddingEnd: 15 },
+  imagePadding: { 
+    paddingEnd: 15 
+  },
 });
 
 export default ImageUpload;
