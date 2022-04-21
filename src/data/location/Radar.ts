@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { check, checkMultiple, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Radar from 'react-native-radar';
 
 class RadarLocation {
@@ -15,6 +15,15 @@ class RadarLocation {
         console.log('Location is not granted!');
       }
     });
+  }
+
+  /**
+   * Set callback
+   *
+   * @param callback
+   */
+  on(callback: Function): void {
+    this.callback = callback;
   }
 
   /**
@@ -48,7 +57,7 @@ class RadarLocation {
     if (Platform.OS === 'ios') {
       const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
 
-      if (permissionCheck === RESULTS.DENIED) {
+      if (permissionCheck !== RESULTS.GRANTED) {
         const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
         if (permissionRequest !== RESULTS.GRANTED) {
           return false;
@@ -57,13 +66,10 @@ class RadarLocation {
     }
 
     if (Platform.OS === 'android') {
-      const statuses = await checkMultiple([
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-      ]);
+      const permissionCheck = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
 
-      if (statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.DENIED) {
+      if (permissionCheck !== RESULTS.GRANTED) {
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-        console.log(permissionRequest);
         if (permissionRequest !== RESULTS.GRANTED) {
           return false;
         }
@@ -86,15 +92,6 @@ class RadarLocation {
     }
     console.log('Location is granted!');
     await Radar.startTrackingContinuous();
-  }
-
-  /**
-   * Set callback
-   *
-   * @param callback
-   */
-  on(callback: Function): void {
-    this.callback = callback;
   }
 
   /**
