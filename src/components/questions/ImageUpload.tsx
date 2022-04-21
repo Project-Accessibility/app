@@ -10,7 +10,7 @@ import {
   PermissionsAndroid,
   Platform,
 } from 'react-native';
-import {request, PERMISSIONS, check, RESULTS} from 'react-native-permissions';
+import { request, PERMISSIONS, check, RESULTS } from 'react-native-permissions';
 import * as ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
@@ -24,40 +24,46 @@ const ImageUpload = () => {
   };
 
   const PickImageFromGallery = () => {
-    ImagePicker.launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
-      if (response.didCancel) {
-        setToastMsg('Geen foto gekozen');
-      } else if (response.errorCode == 'permission') {
-        setToastMsg('Permissie afgewezen');
-      } else if (response.errorCode == 'others') {
-        setToastMsg(response.errorMessage);
-      } else {
-        SetImage(response.assets[0].base64);
+    ImagePicker.launchImageLibrary(
+      { mediaType: 'photo', quality: 1, includeBase64: true },
+      (response) => {
+        if (response.didCancel) {
+          setToastMsg('Geen foto gekozen');
+        } else if (response.errorCode == 'permission') {
+          setToastMsg('Permissie afgewezen');
+        } else if (response.errorCode == 'others') {
+          setToastMsg(response.errorMessage);
+        } else {
+          SetImage(response.assets[0].base64);
+        }
       }
-    });
+    );
   };
 
   const UseCamera = () => {
-    ImagePicker.launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
-      if (response.didCancel) {
-        setToastMsg('Geen foto gemaakt');
-      } else if (response.errorCode == 'permission') {
-        setToastMsg('Permissie afgewezen');
-      } else if (response.errorCode == 'others') {
-        setToastMsg(response.errorMessage);
-      } else {
-        SetImage(response.assets[0].base64);
+    ImagePicker.launchCamera(
+      { mediaType: 'photo', quality: 1, includeBase64: true },
+      (response) => {
+        if (response.didCancel) {
+          setToastMsg('Geen foto gemaakt');
+        } else if (response.errorCode == 'permission') {
+          setToastMsg('Permissie afgewezen');
+        } else if (response.errorCode == 'others') {
+          setToastMsg(response.errorMessage);
+        } else {
+          SetImage(response.assets[0].base64);
+        }
       }
-    });
+    );
   };
 
   const RequestCameraPermission = async () => {
-    //check ios camera 
+    //check ios camera
     let result = await check(PERMISSIONS.IOS.CAMERA);
     {
-    if(result === RESULTS.GRANTED) {
+      if (result === RESULTS.GRANTED) {
         UseCamera();
-      } else if(result === RESULTS.DENIED) {
+      } else if (result === RESULTS.DENIED) {
         result = await request(PERMISSIONS.IOS.CAMERA);
       }
     }
@@ -67,7 +73,7 @@ const ImageUpload = () => {
       const granted = await request(PERMISSIONS.ANDROID.CAMERA);
       if (granted) {
         UseCamera();
-      } else if(result === RESULTS.DENIED) {
+      } else if (result === RESULTS.DENIED) {
         result = await request(PERMISSIONS.ANDROID.CAMERA);
       }
     }
@@ -114,8 +120,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
   },
-  imagePadding: { 
-    paddingEnd: 15 
+  imagePadding: {
+    paddingEnd: 15,
   },
 });
 
