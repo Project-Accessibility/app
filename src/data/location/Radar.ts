@@ -7,9 +7,12 @@ class RadarLocation {
 
   start(uniqueUserId: string) {
     this.configureRadar(uniqueUserId);
-    this.handleLocationPermission().then((granted) => {
+    this.handleLocationPermission().then(async (granted) => {
       if (granted) {
-        this.runRadarTracking();
+        console.log('Location is granted!');
+        await this.runRadarTracking();
+      } else {
+        console.log('Location is not granted!');
       }
     });
   }
@@ -56,19 +59,11 @@ class RadarLocation {
     if (Platform.OS === 'android') {
       const statuses = await checkMultiple([
         PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-        PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION,
-        PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION,
       ]);
 
       if (statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.DENIED) {
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
         console.log(permissionRequest);
-        if (permissionRequest !== RESULTS.GRANTED) {
-          return false;
-        }
-      }
-      if (statuses[PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION] === RESULTS.DENIED) {
-        const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION);
         if (permissionRequest !== RESULTS.GRANTED) {
           return false;
         }
@@ -82,21 +77,15 @@ class RadarLocation {
    *
    * @private
    */
-  private runRadarTracking() {
-    Radar.getPermissionsStatus().then(async (status: string) => {
-      if (status !== 'GRANTED_BACKGROUND') {
-        console.log('Location is not granted!');
-      } else {
-        const result = await Radar.searchGeofences({
-          radius: 20,
-        });
-        if (this.callback) {
-          this.callback(this.getResult(false, result));
-        }
-        console.log('Location is granted!');
-        await Radar.startTrackingContinuous();
-      }
+  private async runRadarTracking() {
+    const result = await Radar.searchGeofences({
+      radius: 20,
     });
+    if (this.callback) {
+      this.callback(this.getResult(false, result));
+    }
+    console.log('Location is granted!');
+    await Radar.startTrackingContinuous();
   }
 
   /**
