@@ -7,8 +7,10 @@ class RadarLocation {
 
   start(uniqueUserId: string) {
     this.configureRadar(uniqueUserId);
-    this.handleLocationPermission().then(() => {
-      this.runRadarTracking();
+    this.handleLocationPermission().then((granted) => {
+      if (granted) {
+        this.runRadarTracking();
+      }
     });
   }
 
@@ -45,9 +47,9 @@ class RadarLocation {
 
       if (permissionCheck === RESULTS.DENIED) {
         const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
-        permissionRequest === RESULTS.GRANTED
-          ? console.warn('Location permission granted.')
-          : console.warn('Location perrmission denied.');
+        if (permissionRequest !== RESULTS.GRANTED) {
+          return false;
+        }
       }
     }
 
@@ -60,23 +62,19 @@ class RadarLocation {
 
       if (statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION] === RESULTS.DENIED) {
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-        permissionRequest === RESULTS.GRANTED
-          ? console.warn('FINE_LOCATION permission granted.')
-          : console.warn('FINE_LOCATION perrmission denied.');
+        console.log(permissionRequest);
+        if (permissionRequest !== RESULTS.GRANTED) {
+          return false;
+        }
       }
       if (statuses[PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION] === RESULTS.DENIED) {
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION);
-        permissionRequest === RESULTS.GRANTED
-          ? console.warn('BACKGROUND_LOCATION permission granted.')
-          : console.warn('BACKGROUND_LOCATION perrmission denied.');
-      }
-      if (statuses[PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION] === RESULTS.DENIED) {
-        const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION);
-        permissionRequest === RESULTS.GRANTED
-          ? console.warn('COARSE_LOCATION permission granted.')
-          : console.warn('COARSE_LOCATION perrmission denied.');
+        if (permissionRequest !== RESULTS.GRANTED) {
+          return false;
+        }
       }
     }
+    return true;
   }
 
   /**
