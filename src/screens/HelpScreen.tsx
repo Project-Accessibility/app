@@ -55,10 +55,7 @@ const HelpScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.emailBtn}
-          onPress={phoneCall}
-        >
+        <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
           <Text
             accessible={true}
             accessibilityHint={ACC_STRS.contactCallPhoneHint}
