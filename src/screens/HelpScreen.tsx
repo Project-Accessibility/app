@@ -15,13 +15,14 @@ const createText = () => {
   });
 };
 
+// TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
-  let phoneNumber = '';
+  let phoneNumber = ACC_STRS.contactPhone;
 
   if (Platform.OS === 'android') {
-    phoneNumber = 'tel:${1234567890}';
+    phoneNumber = `tel:${phoneNumber}`;
   } else {
-    phoneNumber = 'telprompt:${1234567890}';
+    phoneNumber = `telprompt:${phoneNumber}`;
   }
 
   Linking.openURL(phoneNumber);
