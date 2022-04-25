@@ -79,7 +79,7 @@ const ImageUpload = () => {
             console.log('This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            await request(PERMISSIONS.ANDROID.CAMERA)
+            await request(PERMISSIONS.ANDROID.CAMERA);
             console.log('The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
@@ -98,7 +98,7 @@ const ImageUpload = () => {
         console.log(error);
       });
   };
-  
+
   return (
     <>
       <View style={styles.container}>
