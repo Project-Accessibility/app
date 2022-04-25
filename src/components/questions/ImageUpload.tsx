@@ -46,13 +46,13 @@ const ImageUpload = () => {
     //check ios camera
     check(PERMISSIONS.IOS.CAMERA)
       .then(async (result) => {
-        await request(PERMISSIONS.IOS.CAMERA) == result;
+        (await request(PERMISSIONS.IOS.CAMERA)) == result;
         switch (result) {
           case RESULTS.UNAVAILABLE:
             console.log('This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            await request(PERMISSIONS.IOS.CAMERA) == result;
+            (await request(PERMISSIONS.IOS.CAMERA)) == result;
             console.log('The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
@@ -73,13 +73,13 @@ const ImageUpload = () => {
     //check android camera
     check(PERMISSIONS.ANDROID.CAMERA)
       .then(async (result) => {
-        await request(PERMISSIONS.ANDROID.CAMERA) == result;
+        (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
         switch (result) {
           case RESULTS.UNAVAILABLE:
             console.log('This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            await request(PERMISSIONS.ANDROID.CAMERA) == result;
+            (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
             console.log('The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
@@ -98,27 +98,29 @@ const ImageUpload = () => {
         console.log(error);
       });
   };
-  const changeSize = () => {
-
-
-  }
+  const changeSize = () => {};
   return (
     <>
       <View style={styles.container}>
         {image ? (
-          <><Image
-          style={styles.imageStyle}
-          source={{
-            uri: 'data:image/jpeg;base64,' + image,
-          }} />
-          <Icon onPress={() => SetImage('')}
-          name="remove"
-          style={{
-            position: 'absolute',
-            end: 0,
-            top: 0,
-          }} size={48} /></>
-          
+          <>
+            <Image
+              style={styles.imageStyle}
+              source={{
+                uri: 'data:image/jpeg;base64,' + image,
+              }}
+            />
+            <Icon
+              onPress={() => SetImage('')}
+              name="remove"
+              style={{
+                position: 'absolute',
+                end: 0,
+                top: 0,
+              }}
+              size={48}
+            />
+          </>
         ) : (
           <Text>''</Text>
         )}
