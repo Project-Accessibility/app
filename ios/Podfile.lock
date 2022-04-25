@@ -92,8 +92,6 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (3.3.1):
     - RNPermissions
-  - Permission-PhotoLibraryAddOnly (3.3.1):
-    - RNPermissions
   - Permission-SpeechRecognition (3.3.1):
     - RNPermissions
   - RCT-Folly (2021.06.28.00-v2):
@@ -419,7 +417,6 @@ DEPENDENCIES:
   - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
-  - Permission-PhotoLibraryAddOnly (from `../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly`)
   - Permission-SpeechRecognition (from `../node_modules/react-native-permissions/ios/SpeechRecognition`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -501,8 +498,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Notifications"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary"
-  Permission-PhotoLibraryAddOnly:
-    :path: "../node_modules/react-native-permissions/ios/PhotoLibraryAddOnly"
   Permission-SpeechRecognition:
     :path: "../node_modules/react-native-permissions/ios/SpeechRecognition"
   RCT-Folly:
@@ -596,7 +591,6 @@ SPEC CHECKSUMS:
   Permission-Microphone: 13922195a81b9d46d2df8050c225006eae126d49
   Permission-Notifications: 4b21cfdd5e8aab2cbb1f117aaa17b44e1f5736c4
   Permission-PhotoLibrary: ddb5a158725b29cb12e9e477e8a5f5151c66cc3c
-  Permission-PhotoLibraryAddOnly: 104e42dbe894b0fccb370be26dd1b4a3c23578eb
   Permission-SpeechRecognition: fdab73ea6aec7103fef3ef8719194e9ef65dbb9e
   RCT-Folly: 19dac003a3f572f05a3b77277df72906a73469f1
   RCTRequired: 3c77b683474faf23920fbefc71c4e13af21470c0
@@ -631,6 +625,6 @@ SPEC CHECKSUMS:
   Yoga: 90dcd029e45d8a7c1ff059e8b3c6612ff409061a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: aa00206659240debc0da7e5f46e9fb6225d13990
+PODFILE CHECKSUM: 08745d317022e3fb117d8bc537aa9e7b8b50358c
 
 COCOAPODS: 1.11.3

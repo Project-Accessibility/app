@@ -46,13 +46,13 @@ const ImageUpload = () => {
     //check ios camera
     check(PERMISSIONS.IOS.CAMERA)
       .then(async (result) => {
-        (await request(PERMISSIONS.IOS.CAMERA)) == result;
+        await request(PERMISSIONS.IOS.CAMERA);
         switch (result) {
           case RESULTS.UNAVAILABLE:
             console.log('This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            (await request(PERMISSIONS.IOS.CAMERA)) == result;
+            await request(PERMISSIONS.IOS.CAMERA);
             console.log('The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
@@ -73,13 +73,13 @@ const ImageUpload = () => {
     //check android camera
     check(PERMISSIONS.ANDROID.CAMERA)
       .then(async (result) => {
-        (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
+        await request(PERMISSIONS.ANDROID.CAMERA);
         switch (result) {
           case RESULTS.UNAVAILABLE:
             console.log('This feature is not available (on this device / in this context)');
             break;
           case RESULTS.DENIED:
-            (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
+            await request(PERMISSIONS.ANDROID.CAMERA)
             console.log('The permission has not been requested / is denied but requestable');
             break;
           case RESULTS.LIMITED:
@@ -98,7 +98,7 @@ const ImageUpload = () => {
         console.log(error);
       });
   };
-  const changeSize = () => {};
+  
   return (
     <>
       <View style={styles.container}>
