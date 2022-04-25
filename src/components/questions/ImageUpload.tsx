@@ -1,82 +1,102 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ToastAndroid,
-  Alert,
-  PermissionsAndroid,
-  Platform,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { request, PERMISSIONS, check, RESULTS } from 'react-native-permissions';
-import * as ImagePicker from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 
 const ImageUpload = () => {
-  const [image, SetImage] = React.useState('');
-
-  // Show toast alert messages
-  const setToastMsg = (msg: any) => {
-    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
-  };
+  const [image, SetImage] = React.useState<string | undefined>('');
 
   const PickImageFromGallery = () => {
-    ImagePicker.launchImageLibrary(
-      { mediaType: 'photo', quality: 1, includeBase64: true },
-      (response) => {
-        if (response.didCancel) {
-          setToastMsg('Geen foto gekozen');
-        } else if (response.errorCode == 'permission') {
-          setToastMsg('Permissie afgewezen');
-        } else if (response.errorCode == 'others') {
-          setToastMsg(response.errorMessage);
-        } else {
-          SetImage(response.assets[0].base64);
+    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+      if (response.didCancel) {
+        console.log('Geen foto gekozen');
+      } else if (response.errorCode == 'permission') {
+        console.log('Permissie afgewezen');
+      } else if (response.errorCode == 'others') {
+        console.log(response.errorMessage);
+      } else {
+        if (response.assets) {
+          const source = response.assets[0].base64;
+          SetImage(source);
         }
       }
-    );
+    });
   };
 
   const UseCamera = () => {
-    ImagePicker.launchCamera(
-      { mediaType: 'photo', quality: 1, includeBase64: true },
-      (response) => {
-        if (response.didCancel) {
-          setToastMsg('Geen foto gemaakt');
-        } else if (response.errorCode == 'permission') {
-          setToastMsg('Permissie afgewezen');
-        } else if (response.errorCode == 'others') {
-          setToastMsg(response.errorMessage);
-        } else {
-          SetImage(response.assets[0].base64);
+    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+      if (response.didCancel) {
+        console.log('Geen foto gemaakt');
+      } else if (response.errorCode == 'permission') {
+        console.log('Permissie afgewezen');
+      } else if (response.errorCode == 'others') {
+        console.log(response.errorMessage);
+      } else {
+        if (response.assets) {
+          const source = response.assets[0].base64;
+          SetImage(source);
         }
       }
-    );
+    });
   };
 
   const RequestCameraPermission = async () => {
     //check ios camera
-    let result = await check(PERMISSIONS.IOS.CAMERA);
-    {
-      if (result === RESULTS.GRANTED) {
-        UseCamera();
-      } else if (result === RESULTS.DENIED) {
-        result = await request(PERMISSIONS.IOS.CAMERA);
-      }
-    }
+    check(PERMISSIONS.IOS.CAMERA)
+      .then(async (result) => {
+        (await request(PERMISSIONS.IOS.CAMERA)) == result;
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available (on this device / in this context)');
+            break;
+          case RESULTS.DENIED:
+            (await request(PERMISSIONS.IOS.CAMERA)) == result;
+            console.log('The permission has not been requested / is denied but requestable');
+            break;
+          case RESULTS.LIMITED:
+            console.log('The permission is limited: some actions are possible');
+            break;
+          case RESULTS.GRANTED:
+            UseCamera();
+            console.log('The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     //check android camera
-    check(PERMISSIONS.ANDROID.CAMERA);
-    {
-      const granted = await request(PERMISSIONS.ANDROID.CAMERA);
-      if (granted) {
-        UseCamera();
-      } else if (result === RESULTS.DENIED) {
-        result = await request(PERMISSIONS.ANDROID.CAMERA);
-      }
-    }
+    check(PERMISSIONS.ANDROID.CAMERA)
+      .then(async (result) => {
+        (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available (on this device / in this context)');
+            break;
+          case RESULTS.DENIED:
+            (await request(PERMISSIONS.ANDROID.CAMERA)) == result;
+            console.log('The permission has not been requested / is denied but requestable');
+            break;
+          case RESULTS.LIMITED:
+            console.log('The permission is limited: some actions are possible');
+            break;
+          case RESULTS.GRANTED:
+            UseCamera();
+            console.log('The permission is granted');
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

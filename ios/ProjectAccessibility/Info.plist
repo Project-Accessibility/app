@@ -38,10 +38,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je gallerij openen<string/>
+	<string>$(PRODUCT_NAME) wilt graag je gallerij openen</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je camera gebruiken</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

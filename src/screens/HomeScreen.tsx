@@ -13,7 +13,7 @@ const HomeScreen = () => {
     <>
       <CodeInput />
       <MasterContainer>
-        <ImageUpload/>
+        <ImageUpload />
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
           <QuestionnaireList questionnaires={[getQuestionnaireMock(), getQuestionnaireMock()]} />
