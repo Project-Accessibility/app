@@ -99,7 +99,6 @@ const handleHelpButton = (navigation: NavigationProp<any, any>) => {
 const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: COLORS.darkBlue,
-    marginBottom: 10,
   },
   headerBar: {
     width: '100%',
