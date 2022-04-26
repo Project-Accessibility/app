@@ -13,7 +13,9 @@ const HomeScreen = () => {
     <>
       <CodeInput />
       <MasterContainer>
-        <ImageUpload />
+        <ImageUpload onImageSelected={function (base64Image: string): void {
+          console.log(base64Image)
+        } } />
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
           <QuestionnaireList questionnaires={[getQuestionnaireMock(), getQuestionnaireMock()]} />

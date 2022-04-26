@@ -53,7 +53,6 @@ const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) 
           <>
             <View style={styles.imgStyle}>
               <ImageModal
-                resizeMode="center"
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
