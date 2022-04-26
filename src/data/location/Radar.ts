@@ -34,18 +34,9 @@ class RadarLocation {
    */
   private configureRadar(uniqueUserId: string) {
     Radar.setUserId(uniqueUserId);
-    // Radar.on('clientLocation', (result: any) => {
-    //   console.log('clientLocation:' + JSON.stringify(result));
-    // });
-    // Radar.on('location', (result: any) => {
-    //   console.log('location:' + JSON.stringify(result));
-    // });
     Radar.on('events', (result: any) => {
       radarLocation.trigger(true, result);
     });
-    // Radar.on('error', (err: Error) => {
-    //   console.log(err.message);
-    // });
   }
 
   /**

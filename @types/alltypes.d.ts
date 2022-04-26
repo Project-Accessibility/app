@@ -68,13 +68,7 @@ declare module 'react-native-radar' {
     stopTracking: () => void;
     getLocation: () => any;
     searchGeofences: (options: object) => any;
-    on: (
-      event: 'events',
-      callback: // | ((result: any) => void)
-      // (result: { location: RadarLocation; user: any }) => void
-      (result: { events: any; user: any }) => void
-      // | ((err: any) => void)
-    ) => void;
+    on: (event: 'events', callback: (result: { events: any; user: any }) => void) => void;
     off: (event: 'events' | 'location' | 'error') => void;
     updateLocation: (location: RadarLocation) => trackResult;
   }
