@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+    marginTop: 10,
   },
   imagePadding: {
     paddingEnd: 15,
