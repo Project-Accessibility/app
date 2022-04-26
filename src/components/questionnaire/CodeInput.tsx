@@ -18,7 +18,9 @@ const CodeInput = () => {
         style={styles.codeInput}
         placeholder="Code invoeren..."
         placeholderTextColor={COLORS.black}
-        onChangeText={(value: String) => setCode(value)}
+        maxLength={5}
+        autoCapitalize='characters'
+        onChangeText={(value: String) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity style={styles.codeButton} onPress={handleCodeEntered}>
         <Icon name="chevron-right" size={60} color={COLORS.black} />
