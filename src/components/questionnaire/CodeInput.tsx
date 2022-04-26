@@ -19,7 +19,7 @@ const CodeInput = () => {
         placeholder="Code invoeren..."
         placeholderTextColor={COLORS.black}
         maxLength={5}
-        autoCapitalize='characters'
+        autoCapitalize="characters"
         onChangeText={(value: String) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity style={styles.codeButton} onPress={handleCodeEntered}>
