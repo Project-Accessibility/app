@@ -7,7 +7,7 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageUpload = () => {
+const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
   const checkResponse = (response: ImagePickerResponse) => {
@@ -19,8 +19,9 @@ const ImageUpload = () => {
     } else if (response.errorCode === 'others') {
       console.log(response.errorMessage);
     } else {
-      if (response.assets) {
+      if (response.assets && response.assets[0]) {
         const source = response.assets[0].base64;
+        props.onImageSelected(source ?? '');
         SetImage(source);
       }
     }
