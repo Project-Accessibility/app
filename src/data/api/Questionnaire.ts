@@ -2,13 +2,13 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 
-async function getQuestionnaireById(id: String): Promise<Questionnaire> {
+async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[]> {
   const response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getQuestionnaireById,
-    { id: id }
+    { codes: codes }
   );
   return response.data;
 }
 
-export { getQuestionnaireById };
+export { getQuestionnairesByCodes };
