@@ -14,7 +14,7 @@
       "questionnaire_id": 1,
       "geofence": {
         "id": 1,
-        "longtitude": 4.8951679,
+        "longitude": 4.8951679,
         "latitude": 52.3702157,
         "radius": 100
       },
@@ -109,7 +109,7 @@
       "questionnaire_id": 1,
       "geofence": {
         "id": 2,
-        "longtitude": 4.1991679,
+        "longitude": 4.1991679,
         "latitude": 51.3102157,
         "radius": 100
       },
