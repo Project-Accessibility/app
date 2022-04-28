@@ -32,7 +32,7 @@ function getAnsweredQuestion(question: Question): boolean {
 
   let totalQuestions = question.questionOptions?.length as number;
 
-  return totalQuestions <= answeredQuestions ? true : false;
+  return totalQuestions <= answeredQuestions;
 }
 
 const styles = StyleSheet.create({
