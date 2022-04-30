@@ -42,6 +42,7 @@ jobs:
         with:
           envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.ACC_ENDPOINT_TO_ENFORCE }}
           envkey_API_KEY: ${{ secrets.ACC_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
       - name: Make envfile Development
         if: github.ref != 'refs/heads/main'
@@ -49,6 +50,7 @@ jobs:
         with:
           envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.DEV_ENDPOINT_TO_ENFORCE }}
           envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
       # Create react-native app Bundle
       - name: Building bundle

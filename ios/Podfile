@@ -27,6 +27,7 @@ target 'ProjectAccessibility' do
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
+  pod 'RadarSDK', '~> 3.2.3'
 
   target 'ProjectAccessibilityTests' do
     inherit! :complete

@@ -9,8 +9,14 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
+import Radar from '../data/location/Radar';
 
 const QuestionnaireScreen = () => {
+  Radar.on((result: any) => {
+    console.log('events:' + JSON.stringify(result));
+  });
+  Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
+
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
   const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);

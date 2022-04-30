@@ -48,6 +48,7 @@
     "mustache": "^4.2.0",
     "prettier": "^2.5.1",
     "radio-buttons-react-native": "^1.0.4",
+    "react-native-radar": "^3.2.3",
     "react-test-renderer": "17.0.2",
     "typescript": "^4.4.4"
   },
@@ -68,7 +69,10 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(@react-native|react-native|react-native-vector-icons)/)"
+      "node_modules/(?!(@react-native|react-native|react-native-vector-icons|react-native-permissions|react-native-radar)/)"
+    ],
+    "setupFiles": [
+      "./jest.setup.tsx"
     ]
   }
 }
