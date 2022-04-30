@@ -72,11 +72,7 @@ const App = () => {
           }}
           options={{
             header: () => (
-              <Header
-                title={ACCESSIBILITY_STRINGS.questionnaireTitle}
-                hasBackButton
-                hasHelpButton
-              />
+              <Header title={ACCESSIBILITY_STRINGS.sectionTitle} hasBackButton hasHelpButton />
             ),
           }}
         />
