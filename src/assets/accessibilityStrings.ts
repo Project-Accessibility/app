@@ -31,6 +31,8 @@ const ACCESSIBILITY_STRINGS = {
 
   sectionTitle: 'Onderdeel pagina',
 
+  questionTitle: 'Vraag pagina',
+
   street: 'Straat',
   postalCode: 'Postcode',
   city: 'Plaats',

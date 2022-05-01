@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Question } from '../../models/Question';
@@ -5,6 +6,7 @@ import Button from '../generic/Button';
 
 const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
+  const navigation = useNavigation();
   return (
     <>
       {questions?.map((question, index) => {
@@ -13,7 +15,13 @@ const QuestionList = (props: { questions: Question[] }) => {
             <Button
               finished={getAnsweredQuestion(question)}
               title={question.title}
-              onButtonPress={() => console.log(`Clicked, ${question.title}`)}
+              onButtonPress={() => {
+                // @ts-ignore next-line
+                navigation.navigate('Question', {
+                  title: question.title,
+                  question: question,
+                });
+              }}
             />
           </View>
         );
