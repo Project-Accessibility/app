@@ -5,6 +5,7 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
+import RecordUpload from '../components/questions/RecordUpload';
 import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
@@ -13,6 +14,7 @@ const HomeScreen = () => {
       <CodeInput />
       <MasterContainer>
         <View>
+          <RecordUpload />
           <Text style={styles.title}>Vragenlijsten</Text>
           <QuestionnaireList questionnaires={[getQuestionnaireMock(), getQuestionnaireMock()]} />
         </View>
