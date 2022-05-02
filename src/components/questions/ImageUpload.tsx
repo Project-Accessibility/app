@@ -6,11 +6,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
+import { compressAndUpload } from '../utility/Compressor';
+import { CompressFileType } from '../../enums/CompressFileType';
 
 const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
-  const checkResponse = (response: ImagePickerResponse) => {
+  const checkResponse = async (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
     if (response.didCancel) {
       console.log('Geen foto geselecteerd');
@@ -23,6 +25,16 @@ const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) 
         const source = response.assets[0].base64;
         props.onImageSelected(source ?? '');
         SetImage(source);
+        try {
+          const compressedSource = await compressAndUpload(
+            CompressFileType.IMAGE,
+            source as string
+          );
+          console.log(compressedSource);
+        } catch (error) {
+          //Er gaat nog iets mis met de image. Hij zegt image size en width must be > 0
+          console.error(error);
+        }
       }
     }
   };
