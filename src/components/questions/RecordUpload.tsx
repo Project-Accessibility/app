@@ -18,15 +18,14 @@ const RecordUpload = () => {
   const [voice, setVoice] = useState('');
 
   const RequestMicPermission = async () => {
-    //check ios camera
-    permissionCheck.checkPermission(PERMISSIONS.IOS.CAMERA);
+    //check ios record
+    permissionCheck.checkPermission(PERMISSIONS.IOS.MICROPHONE);
 
-    //check android camera
-    permissionCheck.checkPermission(PERMISSIONS.ANDROID.CAMERA);
-    UseMic();
-  };
+    //check android record
+    permissionCheck.checkPermission(PERMISSIONS.ANDROID.RECORD_AUDIO);
+    permissionCheck.checkPermission(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
+    permissionCheck.checkPermission(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
 
-  const UseMic = () => {
     onStartRecord();
   };
 
@@ -54,12 +53,8 @@ const RecordUpload = () => {
 
   const onStartPlay = async () => {
     console.log('onStartPlay');
-    try {
-      await audioRecorderPlayer.startPlayer();
-      setIsPlaying(false);
-    } catch (e) {
-      console.log(e);
-    }
+    await audioRecorderPlayer.startPlayer();
+    setIsPlaying(false);
     audioRecorderPlayer.addPlayBackListener((e: { currentPosition: number; duration: number }) => {
       setCurrentPositionSec(e.currentPosition);
       setCurrentDurationSec(e.duration);
