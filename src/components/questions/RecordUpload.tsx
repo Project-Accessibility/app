@@ -5,6 +5,7 @@ import AudioRecorderPlayer, {
   AudioSet,
   AudioSourceAndroidType,
   RecordBackType,
+  PlayBackType,
 } from 'react-native-audio-recorder-player';
 import { PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
 import React, { Component } from 'react';
@@ -15,14 +16,8 @@ import COLORS from '../../assets/colors';
 interface State {
   isPlaying: boolean;
   isRecording: boolean;
-  recordSecs: number;
-  recordTime: string;
-  currentPositionSec: number;
-  currentDurationSec: number;
-  playTime: string;
-  duration: string;
+  onVoiceSelected: string;
 }
-
 class RecordUpload extends Component<any, State> {
   private audioRecorderPlayer: AudioRecorderPlayer;
 
@@ -31,16 +26,11 @@ class RecordUpload extends Component<any, State> {
     this.state = {
       isRecording: false,
       isPlaying: false,
-      recordSecs: 0,
-      recordTime: '00:00:00',
-      currentPositionSec: 0,
-      currentDurationSec: 0,
-      playTime: '00:00:00',
-      duration: '00:00:00',
+      onVoiceSelected: '',
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
-    this.audioRecorderPlayer.setSubscriptionDuration(0.1); // optional. Default is 0.5
+    this.audioRecorderPlayer.setSubscriptionDuration(0.1);
   }
 
   public render() {
@@ -53,13 +43,13 @@ class RecordUpload extends Component<any, State> {
             ) : (
               <Icon name="microphone" size={48} style={styles.icon} onPress={this.onStartRecord} />
             )}
-
             {this.state.isPlaying ? (
               <Icon name="pause" size={48} style={styles.icon} onPress={this.onPausePlay} />
             ) : (
               <Icon name="play" size={48} style={styles.icon} onPress={this.onStartPlay} />
             )}
             <Icon name="backward" size={48} style={styles.icon} onPress={this.onStopPlay} />
+            <Icon name="trash" size={48} style={styles.icon} onPress={this.onRemoveRecord} />
           </View>
         </View>
       </>
@@ -95,9 +85,9 @@ class RecordUpload extends Component<any, State> {
       console.log('record-back', e);
       this.setState({
         isRecording: true,
+        onVoiceSelected: uri,
       });
     });
-    console.log(`uri: ${uri}`);
   };
 
   private onStopRecord = async () => {
@@ -110,6 +100,14 @@ class RecordUpload extends Component<any, State> {
 
   private onStartPlay = async () => {
     await this.audioRecorderPlayer.startPlayer();
+    this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
+      if (
+        this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)) ===
+        this.audioRecorderPlayer.mmssss(Math.floor(e.duration))
+      ) {
+        this.setState({ isPlaying: false });
+      }
+    });
     this.setState({ isPlaying: true });
   };
 
@@ -122,6 +120,10 @@ class RecordUpload extends Component<any, State> {
     this.setState({ isPlaying: false });
     this.audioRecorderPlayer.stopPlayer();
     this.audioRecorderPlayer.removePlayBackListener();
+  };
+
+  onRemoveRecord = () => {
+    this.setState({ onVoiceSelected: '' });
   };
 }
 
