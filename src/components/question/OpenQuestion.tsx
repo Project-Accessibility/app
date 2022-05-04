@@ -6,17 +6,21 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
   const questionOption: QuestionOption = props.questionOption;
   const [textValue, setTextValue] = useState(DetermineValue(questionOption));
 
-  return <>
-    <TextInput
-      style={styles.input}
-      placeholder='Voer uw antwoord in'
-      multiline={true}
-      textAlignVertical={'top'}
-      editable={true}
-      value={textValue}
-      onChangeText={(text) => {setTextValue(text)}}
-    />
-  </>;
+  return (
+    <>
+      <TextInput
+        style={styles.input}
+        placeholder="Voer uw antwoord in"
+        multiline={true}
+        textAlignVertical={'top'}
+        editable={true}
+        value={textValue}
+        onChangeText={(text) => {
+          setTextValue(text);
+        }}
+      />
+    </>
+  );
 };
 
 function DetermineValue(questionOption: QuestionOption) {
@@ -24,9 +28,9 @@ function DetermineValue(questionOption: QuestionOption) {
 
   if (questionOption.answers && questionOption.answers.length > 0) {
     const answer = questionOption.answers.length > 0 ? questionOption.answers[0] : null;
-    if (!answer) return;
+    if (!answer) return textVal;
     let textAnswer = answer.answer ? answer.answer : null;
-    if (!textAnswer) return;
+    if (!textAnswer) return textVal;
     textVal = textAnswer;
   }
   return textVal;
