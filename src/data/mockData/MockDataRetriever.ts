@@ -11,7 +11,11 @@ function getQuestionOptionMock(): QuestionOption {
   return {
     id: 1,
     type: QuestionOptionType.MULTIPLE_CHOICE,
-    extraData: ['Te fel licht', 'Precies goed', 'Te weinig licht'] as any,
+    extraData: {
+      min: 1,
+      max: 5,
+      step: 1,
+    } as object,
   };
 }
 
