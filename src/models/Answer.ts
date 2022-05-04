@@ -1,10 +1,10 @@
 export class Answer {
   id: number;
-  answer?: JSON;
+  answer?: string;
   createdAt: Date;
   updatedAt?: Date;
 
-  constructor(id: number, createdAt: Date, answer?: JSON, updatedAt?: Date) {
+  constructor(id: number, createdAt: Date, answer?: string, updatedAt?: Date) {
     this.id = id;
     this.answer = answer;
     this.createdAt = createdAt;

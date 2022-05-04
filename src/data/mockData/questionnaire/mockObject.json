@@ -43,7 +43,7 @@
               "answers": [
                 {
                   "id": 1,
-                  "answer": { "value": "Prachtig, precies de juiste hoogte" },
+                  "answer": "Prachtig, precies de juiste hoogte",
                   "createdAt": "2022-04-03T19:17:30.000000Z",
                   "updatedAt": "2022-04-03T19:17:30.000000Z"
                 }
