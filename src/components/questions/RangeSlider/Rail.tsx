@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
+import COLORS from '../../../assets/colors';
 
 const Rail = () => <View style={styles.root} />;
 
@@ -10,6 +11,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 5,
     borderRadius: 2,
-    backgroundColor: '#E4E4E4',
+    backgroundColor: COLORS.darkBlue,
   },
 });

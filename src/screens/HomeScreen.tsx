@@ -14,8 +14,8 @@ const HomeScreen = () => {
       <CodeInput />
       <RangeSlider
         questionOption={getQuestionOptionMock()}
-        onClicked={function (label) {
-          console.log(label);
+        onClicked={function (value) {
+          console.log(value);
         }}
       />
       <MasterContainer>
