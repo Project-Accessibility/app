@@ -7,7 +7,7 @@ import AudioRecorderPlayer, {
   RecordBackType,
   PlayBackType,
 } from 'react-native-audio-recorder-player';
-import { PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
+import { Alert, PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
 import React, { Component } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -70,7 +70,6 @@ class RecordUpload extends Component<any, State> {
         return;
       }
     }
-
     const audioSet: AudioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -78,14 +77,14 @@ class RecordUpload extends Component<any, State> {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-
-    const uri = await this.audioRecorderPlayer.startRecorder(undefined, audioSet);
+    this.setState({
+      onVoiceSelected: await this.audioRecorderPlayer.startRecorder(undefined, audioSet),
+    });
 
     this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
       console.log('record-back', e);
       this.setState({
         isRecording: true,
-        onVoiceSelected: uri,
       });
     });
   };
@@ -99,6 +98,10 @@ class RecordUpload extends Component<any, State> {
   };
 
   private onStartPlay = async () => {
+    if (this.state.onVoiceSelected === '') {
+      Alert.alert('Er is geen opname aanwezig');
+      return;
+    }
     await this.audioRecorderPlayer.startPlayer();
     this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
       if (
@@ -124,6 +127,7 @@ class RecordUpload extends Component<any, State> {
 
   onRemoveRecord = () => {
     this.setState({ onVoiceSelected: '' });
+    this.onStopPlay();
   };
 }
 
