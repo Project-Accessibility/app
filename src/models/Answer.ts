@@ -10,4 +10,9 @@ export class Answer {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
+
+  // public hasAnswer(): boolean {
+  //   return this.answer !== undefined && this.answer !== "";
+  // }
+
 }

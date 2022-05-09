@@ -7,6 +7,8 @@ import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
 import QuestionList from '../components/question/QuestionList';
 import { Section } from '../models/Section';
+import { Question } from '../models/Question';
+import { QuestionOption } from '../models/QuestionOption';
 
 const SectionScreen = () => {
   const [section, setSection] = useState<Section>();
@@ -26,26 +28,27 @@ const SectionScreen = () => {
         <>
           <View>
             <Text style={styles.questionTitle}>Beschrijving</Text>
-            <Divider width="33%" height={2} margin={0} />
+            <Divider width='33%' height={2} margin={0} />
             <Text style={styles.questionText}>{section?.description}</Text>
           </View>
-          <Divider width="100%" height={3} margin={20} />
+          <Divider width='100%' height={3} margin={20} />
         </>
       )}
       {section?.locationDescription && (
         <>
           <View>
             <Text style={styles.questionTitle}>Locatie beschrijving</Text>
-            <Divider width="33%" height={2} margin={0} />
+            <Divider width='33%' height={2} margin={0} />
             <Text style={styles.questionText}>{section?.locationDescription}</Text>
           </View>
-          <Divider width="100%" height={3} margin={20} />
+          <Divider width='100%' height={3} margin={20} />
         </>
       )}
       {section?.questions && (
         <>
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
+            <Text style={styles.questionsAnswered}>Answered: {determineProgress(section.questions)} / { section.questions.length}</Text>
             <QuestionList questions={section.questions} />
           </View>
         </>
@@ -53,6 +56,24 @@ const SectionScreen = () => {
     </MasterContainer>
   );
 };
+
+function determineProgress(questions: Question[]): number {
+  let amountAnswers = 0;
+
+  for (let question of questions) {
+    if (!question.questionOptions) continue;
+
+    for (let option of question.questionOptions) {
+      if (!option.answers) continue;
+      if (option.answers.length < 1) continue;
+      let answer = option.answers[0].answer;
+      if (answer === undefined || answer === '') return 0;
+      amountAnswers++;
+    }
+  }
+
+  return amountAnswers;
+}
 
 const styles = StyleSheet.create({
   questionTitle: {
@@ -68,6 +89,11 @@ const styles = StyleSheet.create({
   questionsTitle: {
     fontFamily: FONTS.regular,
     fontSize: 35,
+    color: COLORS.black,
+  },
+  questionsAnswered: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
     color: COLORS.black,
   },
 });

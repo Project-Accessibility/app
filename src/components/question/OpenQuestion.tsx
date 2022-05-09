@@ -5,8 +5,6 @@ import COLORS from '../../assets/colors';
 import ACC_STRS from '../../assets/accessibilityStrings';
 import FONTS from '../../assets/fonts';
 
-
-
 const OpenQuestion = (props: { questionOption: QuestionOption }) => {
   const questionOption: QuestionOption = props.questionOption;
   const [textValue, setTextValue] = useState(DetermineValue(questionOption));
@@ -32,11 +30,11 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
 };
 
 function Save(questionOption: QuestionOption, textValue: string) {
-  questionOption.answers?.forEach(e => {
+  questionOption.answers?.forEach((e) => {
     if (e.answer !== textValue) {
       e.answer = textValue;
     }
-  })
+  });
 }
 
 function DetermineValue(questionOption: QuestionOption) {
@@ -45,7 +43,7 @@ function DetermineValue(questionOption: QuestionOption) {
   if (questionOption.answers && questionOption.answers.length > 0) {
     const answer = questionOption.answers.length > 0 ? questionOption.answers[0] : null;
     if (!answer) return textVal;
-    let textAnswer = answer.answer ? answer.answer : null;
+    let textAnswer = answer.answer ? answer.answer[0] : null;
     if (!textAnswer) return textVal;
     textVal = textAnswer;
   }
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: COLORS.white,
-    fontFamily: FONTS.semiBold,
+    fontFamily: FONTS.extraBold,
     fontSize: 18,
   },
   input: {

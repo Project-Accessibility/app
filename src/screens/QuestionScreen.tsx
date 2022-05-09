@@ -46,7 +46,6 @@ const QuestionScreen = () => {
 function GetElement(questionOption: QuestionOption, index: number) {
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
-      console.log(questionOption);
       return <OpenQuestion questionOption={questionOption} key={index} />;
     case QuestionOptionType.IMAGE:
       break;
