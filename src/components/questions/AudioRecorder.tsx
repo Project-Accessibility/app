@@ -20,104 +20,21 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 
-interface MyProps {
-  isPlaying: boolean;
-  isRecording: boolean;
-  recordUri: string;
-  isDisabled: boolean;
-  playTime: string;
-  duration: string;
-}
-class AudioRecorder extends Component<
-  { onAudioRecorded: (recordUri: string) => void } | {},
-  MyProps
-> {
-  private audioRecorderPlayer: AudioRecorderPlayer;
+const nullTime = '00:00';
+let audioRecorderPlayer = new AudioRecorderPlayer();
+audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-  constructor(props: MyProps) {
-    super(props);
-    this.state = {
-      isRecording: false,
-      isPlaying: false,
-      recordUri: '',
-      isDisabled: true,
-      playTime: '00:00:00',
-      duration: '00:00:00',
-    };
+const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) => {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPaused, setIsPaused] = React.useState(false);
+  const [isRecording, setIsRecording] = React.useState(false);
+  const [recordUri, setRecordUri] = React.useState('');
+  const [isDisabled, setIsDisabled] = React.useState(false);
+  const [playTime, setPlayTime] = React.useState(nullTime);
+  const [duration, setDuration] = React.useState(nullTime);
 
-    this.audioRecorderPlayer = new AudioRecorderPlayer();
-    this.audioRecorderPlayer.setSubscriptionDuration(0.1);
-  }
-
-  public render() {
-    return (
-      <>
-        <View style={styles.container}>
-          <View style={styles.rowContainer}>
-            {this.state.isRecording ? (
-              <Icon name="stop" size={48} style={styles.icon} onPress={this.onStopRecord} />
-            ) : (
-              <Icon name="microphone" size={48} style={styles.icon} onPress={this.onStartRecord} />
-            )}
-            {this.state.isPlaying ? (
-              <TouchableOpacity
-                disabled={this.state.isDisabled}
-                activeOpacity={0.5}
-                onPress={this.onPausePlay}
-              >
-                <Icon
-                  name="pause"
-                  size={48}
-                  style={this.state.isDisabled ? styles.disabled : styles.icon}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                disabled={this.state.isDisabled}
-                activeOpacity={0.5}
-                onPress={this.onStartPlay}
-              >
-                <Icon
-                  name="play"
-                  size={48}
-                  style={this.state.isDisabled ? styles.disabled : styles.icon}
-                />
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity
-              disabled={this.state.isDisabled}
-              activeOpacity={0.5}
-              onPress={this.onStopPlay}
-            >
-              <Icon
-                name="backward"
-                size={48}
-                style={this.state.isDisabled ? styles.disabled : styles.icon}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              disabled={this.state.isDisabled}
-              activeOpacity={0.5}
-              onPress={this.onRemoveRecord}
-            >
-              <Icon
-                name="trash"
-                size={48}
-                style={this.state.isDisabled ? styles.disabled : styles.icon}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.txtCounter}>
-            {this.state.playTime} / {this.state.duration}
-          </Text>
-        </View>
-      </>
-    );
-  }
-
-  private onStartRecord = async () => {
-    this.onStopPlay();
+  const onStartRecord = async () => {
+    onStopPlay();
     //check android
     if (Platform.OS === 'android') {
       try {
@@ -139,64 +56,108 @@ class AudioRecorder extends Component<
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    this.setState({
-      recordUri: await this.audioRecorderPlayer.startRecorder(undefined, audioSet),
-      isRecording: true,
-      isDisabled: true,
-    });
 
-    this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      this.setState({
-        duration: this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-        playTime: '00:00:00',
-      });
+    setRecordUri(await audioRecorderPlayer.startRecorder(undefined, audioSet));
+    setIsRecording(true);
+    setIsDisabled(true);
+
+    audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
+      setDuration(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)));
+      setPlayTime(nullTime);
     });
   };
 
-  private onStopRecord = async () => {
-    await this.audioRecorderPlayer.stopRecorder();
-    this.audioRecorderPlayer.removeRecordBackListener();
-    this.setState({
-      isRecording: false,
-      isDisabled: false,
-    });
+  const onStopRecord = async () => {
+    await audioRecorderPlayer.stopRecorder();
+    audioRecorderPlayer.removeRecordBackListener();
+
+    setIsRecording(false);
+    setIsDisabled(false);
+
+    props.onAudioRecorded(recordUri);
   };
 
-  private onStartPlay = async () => {
-    await this.audioRecorderPlayer.startPlayer();
-    this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-      this.setState({
-        playTime: this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-        duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-      });
-      if (this.state.playTime === this.state.duration) {
-        this.setState({ isPlaying: false, playTime: '00:00:00' });
+  const onStartPlay = async () => {
+    if (recordUri && isPaused) {
+      await audioRecorderPlayer.resumePlayer();
+    } else {
+      await audioRecorderPlayer.startPlayer();
+    }
+
+    audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
+      setPlayTime(
+        audioRecorderPlayer.mmssss(Math.floor(e.currentPosition > 0 ? e.currentPosition : 0))
+      );
+      setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)));
+      console.log(playTime, duration, playTime === duration);
+      if (playTime === duration) {
+        onStopPlay();
       }
     });
-    this.setState({ isPlaying: true });
+
+    setIsPlaying(true);
+    setIsPaused(false);
   };
 
-  private onPausePlay = async () => {
-    this.setState({ isPlaying: false });
-    await this.audioRecorderPlayer.pausePlayer();
+  const onPausePlay = async () => {
+    setIsPlaying(false);
+    setIsPaused(true);
+    await audioRecorderPlayer.pausePlayer();
   };
 
-  private onStopPlay = async () => {
-    this.setState({ isPlaying: false });
-    this.audioRecorderPlayer.stopPlayer();
-    this.audioRecorderPlayer.removePlayBackListener();
+  const onStopPlay = async () => {
+    setIsPlaying(false);
+    setIsPaused(false);
+    setPlayTime(nullTime);
+
+    await audioRecorderPlayer.stopPlayer();
+    audioRecorderPlayer.removePlayBackListener();
   };
 
-  onRemoveRecord = () => {
-    this.setState({
-      recordUri: '',
-      isDisabled: true,
-      playTime: '00:00:00',
-      duration: '00:00:00',
-    });
-    this.onStopPlay();
+  const onRemoveRecord = () => {
+    setRecordUri('');
+    setIsDisabled(true);
+    setPlayTime(nullTime);
+    setDuration(nullTime);
+
+    props.onAudioRecorded('');
+
+    onStopPlay();
   };
-}
+
+  return (
+    <>
+      <View style={styles.container}>
+        <View style={styles.rowContainer}>
+          {isRecording ? (
+            <Icon name="stop" size={48} style={styles.icon} onPress={onStopRecord} />
+          ) : (
+            <Icon name="microphone" size={48} style={styles.icon} onPress={onStartRecord} />
+          )}
+          {isPlaying ? (
+            <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onPausePlay}>
+              <Icon name="pause" size={48} style={isDisabled ? styles.disabled : styles.icon} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onStartPlay}>
+              <Icon name="play" size={48} style={isDisabled ? styles.disabled : styles.icon} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onStopPlay}>
+            <Icon name="backward" size={48} style={isDisabled ? styles.disabled : styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onRemoveRecord}>
+            <Icon name="trash" size={48} style={isDisabled ? styles.disabled : styles.icon} />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.txtCounter}>
+          {playTime} / {duration}
+        </Text>
+      </View>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
