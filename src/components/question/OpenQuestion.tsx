@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Platform, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+} from 'react-native';
 import { QuestionOption } from '../../models/QuestionOption';
 import COLORS from '../../assets/colors';
 import ACC_STRS from '../../assets/accessibilityStrings';
@@ -33,10 +40,10 @@ function Save(questionOption: QuestionOption, textValue: string) {
   questionOption.answers?.forEach((answer) => {
     if (answer?.answer && answer.answer.length > 0) {
       answer.answer[0] = textValue;
-      const msg = "Antwoord opgeslagen";
+      const msg = 'Antwoord opgeslagen';
 
       if (Platform.OS === 'android') {
-        ToastAndroid.show(ACC_STRS.saveButton, ToastAndroid.SHORT)
+        ToastAndroid.show(ACC_STRS.saveButton, ToastAndroid.SHORT);
       } else {
         // AlertIOS.alert(msg); //TODO ios alert
       }

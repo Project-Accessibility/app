@@ -7,7 +7,34 @@ import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
+
+import storage from '../data/localStorage/TempStorage';
+
+
+
+const testing = async () => {
+  await storage.clear();
+  await storage.saveData('test', 'test');
+  await storage.saveData('test2', 'test2');
+  await storage.saveData('test3', 'test3');
+  await storage.saveData('test4', 'test4');
+
+  console.log('START');
+  storage.printQueue();
+  await storage.saveData('object1', { test: 'test' });
+  storage.printQueue();
+  console.log('END');
+
+  console.log('MODIFIED');
+  await storage.removeItem('object1');
+  await storage.removeItem('test2');
+  storage.printQueue();
+}
+
+testing();
+
 const HomeScreen = () => {
+
   return (
     <>
       <CodeInput />

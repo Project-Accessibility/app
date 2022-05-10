@@ -48,7 +48,10 @@ const SectionScreen = () => {
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
             <Text style={styles.questionsAnswered}>
-              Beantwoord: {isFocused ? `${determineProgress(section.questions)} / ${section.questions.length}` : ''}
+              Beantwoord:{' '}
+              {isFocused
+                ? `${determineProgress(section.questions)} / ${section.questions.length}`
+                : ''}
             </Text>
             <QuestionList questions={section.questions} />
           </View>

@@ -14,10 +14,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.4",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.2",
     "@types/react-native-vector-icons": "^6.4.10",
     "axios": "^0.26.1",
+    "queue-typescript": "^1.0.1",
     "react": "17.0.2",
     "react-native": "0.67.3",
     "react-native-config": "^1.4.5",
