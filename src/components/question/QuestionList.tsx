@@ -39,7 +39,7 @@ function isAnswered(question: Question): boolean {
     if (!questionOption.answers) return finished;
 
     questionOption.answers.forEach((answer) => {
-      if (answer.answer && answer.answer !== "") {
+      if (answer.answer && answer.answer[0] !== '') {
         finished = true;
       }
     });

@@ -27,6 +27,8 @@ const ACCESSIBILITY_STRINGS = {
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar vorige pagina',
 
+  saveButton: 'Antwoord opgeslagen',
+
   questionnaireTitle: 'Vragenlijst pagina',
 
   sectionTitle: 'Onderdeel pagina',
