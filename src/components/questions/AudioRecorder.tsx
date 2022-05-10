@@ -6,7 +6,14 @@ import AudioRecorderPlayer, {
   AudioSourceAndroidType,
   PlayBackType,
 } from 'react-native-audio-recorder-player';
-import { PermissionsAndroid, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, { Component } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,10 +23,12 @@ interface MyProps {
   isPlaying: boolean;
   isRecording: boolean;
   recordUri: string;
-  isVisible: boolean;
+  isDisabled: boolean;
+  playTime: string;
+  duration: string;
 }
 class AudioRecorder extends Component<
-  { onVoiceSelected: (recordUri: string) => void } | {},
+  { onAudioRecorded: (recordUri: string) => void } | {},
   MyProps
 > {
   private audioRecorderPlayer: AudioRecorderPlayer;
@@ -30,7 +39,9 @@ class AudioRecorder extends Component<
       isRecording: false,
       isPlaying: false,
       recordUri: '',
-      isVisible: false,
+      isDisabled: true,
+      playTime: '00:00:00',
+      duration: '00:00:00',
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -42,6 +53,9 @@ class AudioRecorder extends Component<
       <>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
+            <Text style={styles.txtCounter}>
+              {this.state.playTime} / {this.state.duration}
+            </Text>
             {this.state.isRecording ? (
               <Icon name="stop" size={48} style={styles.icon} onPress={this.onStopRecord} />
             ) : (
@@ -49,50 +63,50 @@ class AudioRecorder extends Component<
             )}
             {this.state.isPlaying ? (
               <TouchableOpacity
-                disabled={this.state.isVisible === false}
+                disabled={this.state.isDisabled}
                 activeOpacity={0.5}
                 onPress={this.onPausePlay}
               >
                 <Icon
                   name="pause"
                   size={48}
-                  style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                  style={this.state.isDisabled ? styles.disabled : styles.icon}
                 />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                disabled={this.state.isVisible === false}
+                disabled={this.state.isDisabled}
                 activeOpacity={0.5}
                 onPress={this.onStartPlay}
               >
                 <Icon
                   name="play"
                   size={48}
-                  style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                  style={this.state.isDisabled ? styles.disabled : styles.icon}
                 />
               </TouchableOpacity>
             )}
             <TouchableOpacity
-              disabled={this.state.isVisible === false}
+              disabled={this.state.isDisabled}
               activeOpacity={0.5}
               onPress={this.onStopPlay}
             >
               <Icon
                 name="backward"
                 size={48}
-                style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                style={this.state.isDisabled ? styles.disabled : styles.icon}
               />
             </TouchableOpacity>
 
             <TouchableOpacity
-              disabled={this.state.isVisible === false}
+              disabled={this.state.isDisabled}
               activeOpacity={0.5}
               onPress={this.onRemoveRecord}
             >
               <Icon
                 name="trash"
                 size={48}
-                style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                style={this.state.isDisabled ? styles.disabled : styles.icon}
               />
             </TouchableOpacity>
           </View>
@@ -140,18 +154,18 @@ class AudioRecorder extends Component<
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       isRecording: false,
-      isVisible: true,
+      isDisabled: false,
     });
   };
 
   private onStartPlay = async () => {
     await this.audioRecorderPlayer.startPlayer();
     this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-      //TODO need state properties for view showing duration and position of playtime
-      if (
-        this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)) ===
-        this.audioRecorderPlayer.mmssss(Math.floor(e.duration))
-      ) {
+      this.setState({
+        playTime: this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+        duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+      });
+      if (this.state.playTime === this.state.duration) {
         this.setState({ isPlaying: false });
       }
     });
@@ -172,7 +186,9 @@ class AudioRecorder extends Component<
   onRemoveRecord = () => {
     this.setState({
       recordUri: '',
-      isVisible: false,
+      isDisabled: true,
+      playTime: '00:00:00',
+      duration: '00:00:00',
     });
     this.onStopPlay();
   };
@@ -194,6 +210,13 @@ const styles = StyleSheet.create({
   disabled: {
     color: COLORS.gray,
     marginLeft: 10,
+  },
+  txtCounter: {
+    marginTop: 12,
+    color: COLORS.black,
+    textAlignVertical: 'center',
+    fontFamily: 'Helvetica Neue',
+    letterSpacing: 3,
   },
 });
 export default AudioRecorder;
