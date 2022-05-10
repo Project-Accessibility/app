@@ -4,29 +4,33 @@ import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
   AudioSet,
   AudioSourceAndroidType,
-  RecordBackType,
   PlayBackType,
 } from 'react-native-audio-recorder-player';
-import { Alert, PermissionsAndroid, Platform, StyleSheet, View } from 'react-native';
+import { PermissionsAndroid, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { Component } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 
-interface State {
+interface MyProps {
   isPlaying: boolean;
   isRecording: boolean;
-  onVoiceSelected: string;
+  recordUri: string;
+  isVisible: boolean;
 }
-class RecordUpload extends Component<any, State> {
+class AudioRecorder extends Component<
+  { onVoiceSelected: (recordUri: string) => void } | {},
+  MyProps
+> {
   private audioRecorderPlayer: AudioRecorderPlayer;
 
-  constructor(props: any) {
+  constructor(props: MyProps) {
     super(props);
     this.state = {
       isRecording: false,
       isPlaying: false,
-      onVoiceSelected: '',
+      recordUri: '',
+      isVisible: false,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -44,12 +48,53 @@ class RecordUpload extends Component<any, State> {
               <Icon name="microphone" size={48} style={styles.icon} onPress={this.onStartRecord} />
             )}
             {this.state.isPlaying ? (
-              <Icon name="pause" size={48} style={styles.icon} onPress={this.onPausePlay} />
+              <TouchableOpacity
+                disabled={this.state.isVisible === false}
+                activeOpacity={0.5}
+                onPress={this.onPausePlay}
+              >
+                <Icon
+                  name="pause"
+                  size={48}
+                  style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                />
+              </TouchableOpacity>
             ) : (
-              <Icon name="play" size={48} style={styles.icon} onPress={this.onStartPlay} />
+              <TouchableOpacity
+                disabled={this.state.isVisible === false}
+                activeOpacity={0.5}
+                onPress={this.onStartPlay}
+              >
+                <Icon
+                  name="play"
+                  size={48}
+                  style={this.state.isVisible === false ? styles.disabled : styles.icon}
+                />
+              </TouchableOpacity>
             )}
-            <Icon name="backward" size={48} style={styles.icon} onPress={this.onStopPlay} />
-            <Icon name="trash" size={48} style={styles.icon} onPress={this.onRemoveRecord} />
+            <TouchableOpacity
+              disabled={this.state.isVisible === false}
+              activeOpacity={0.5}
+              onPress={this.onStopPlay}
+            >
+              <Icon
+                name="backward"
+                size={48}
+                style={this.state.isVisible === false ? styles.disabled : styles.icon}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              disabled={this.state.isVisible === false}
+              activeOpacity={0.5}
+              onPress={this.onRemoveRecord}
+            >
+              <Icon
+                name="trash"
+                size={48}
+                style={this.state.isVisible === false ? styles.disabled : styles.icon}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </>
@@ -58,6 +103,7 @@ class RecordUpload extends Component<any, State> {
 
   private onStartRecord = async () => {
     this.onStopPlay();
+    //check android
     if (Platform.OS === 'android') {
       try {
         await PermissionsAndroid.requestMultiple([
@@ -70,6 +116,7 @@ class RecordUpload extends Component<any, State> {
         return;
       }
     }
+
     const audioSet: AudioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -78,14 +125,13 @@ class RecordUpload extends Component<any, State> {
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
     this.setState({
-      onVoiceSelected: await this.audioRecorderPlayer.startRecorder(undefined, audioSet),
+      recordUri: await this.audioRecorderPlayer.startRecorder(undefined, audioSet),
+      isRecording: true,
     });
 
-    this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      console.log('record-back', e);
-      this.setState({
-        isRecording: true,
-      });
+    this.audioRecorderPlayer.addRecordBackListener(() => {
+      //TODO need state properties for view showing position of playtime
+      this.setState({});
     });
   };
 
@@ -94,16 +140,14 @@ class RecordUpload extends Component<any, State> {
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       isRecording: false,
+      isVisible: true,
     });
   };
 
   private onStartPlay = async () => {
-    if (this.state.onVoiceSelected === '') {
-      Alert.alert('Er is geen opname aanwezig');
-      return;
-    }
     await this.audioRecorderPlayer.startPlayer();
     this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
+      //TODO need state properties for view showing duration and position of playtime
       if (
         this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)) ===
         this.audioRecorderPlayer.mmssss(Math.floor(e.duration))
@@ -126,7 +170,10 @@ class RecordUpload extends Component<any, State> {
   };
 
   onRemoveRecord = () => {
-    this.setState({ onVoiceSelected: '' });
+    this.setState({
+      recordUri: '',
+      isVisible: false,
+    });
     this.onStopPlay();
   };
 }
@@ -134,25 +181,19 @@ class RecordUpload extends Component<any, State> {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: '#fff',
     alignItems: 'flex-end',
   },
   rowContainer: {
     flexDirection: 'row',
     marginTop: 10,
   },
-  imagePadding: {
-    paddingEnd: 15,
-  },
   icon: {
     color: COLORS.black,
     marginLeft: 10,
   },
-  imgStyle: {
-    width: 150,
-    height: 150,
-    resizeMode: 'center',
-    alignSelf: 'center',
+  disabled: {
+    color: COLORS.gray,
+    marginLeft: 10,
   },
 });
-export default RecordUpload;
+export default AudioRecorder;
