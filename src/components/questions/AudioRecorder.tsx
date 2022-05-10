@@ -5,6 +5,7 @@ import AudioRecorderPlayer, {
   AudioSet,
   AudioSourceAndroidType,
   PlayBackType,
+  RecordBackType,
 } from 'react-native-audio-recorder-player';
 import {
   PermissionsAndroid,
@@ -53,9 +54,6 @@ class AudioRecorder extends Component<
       <>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <Text style={styles.txtCounter}>
-              {this.state.playTime} / {this.state.duration}
-            </Text>
             {this.state.isRecording ? (
               <Icon name="stop" size={48} style={styles.icon} onPress={this.onStopRecord} />
             ) : (
@@ -110,6 +108,9 @@ class AudioRecorder extends Component<
               />
             </TouchableOpacity>
           </View>
+          <Text style={styles.txtCounter}>
+            {this.state.playTime} / {this.state.duration}
+          </Text>
         </View>
       </>
     );
@@ -141,11 +142,14 @@ class AudioRecorder extends Component<
     this.setState({
       recordUri: await this.audioRecorderPlayer.startRecorder(undefined, audioSet),
       isRecording: true,
+      isDisabled: true,
     });
 
-    this.audioRecorderPlayer.addRecordBackListener(() => {
-      //TODO need state properties for view showing position of playtime
-      this.setState({});
+    this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
+      this.setState({
+        duration: this.audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+        playTime: '00:00:00',
+      });
     });
   };
 
@@ -166,7 +170,7 @@ class AudioRecorder extends Component<
         duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
       });
       if (this.state.playTime === this.state.duration) {
-        this.setState({ isPlaying: false });
+        this.setState({ isPlaying: false, playTime: '00:00:00' });
       }
     });
     this.setState({ isPlaying: true });
@@ -197,7 +201,7 @@ class AudioRecorder extends Component<
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -209,14 +213,14 @@ const styles = StyleSheet.create({
   },
   disabled: {
     color: COLORS.gray,
-    marginLeft: 10,
+    marginLeft: 15,
   },
   txtCounter: {
-    marginTop: 12,
+    marginTop: 15,
     color: COLORS.black,
     textAlignVertical: 'center',
-    fontFamily: 'Helvetica Neue',
     letterSpacing: 3,
+    fontSize: 20,
   },
 });
 export default AudioRecorder;

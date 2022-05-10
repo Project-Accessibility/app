@@ -15,7 +15,7 @@ const HomeScreen = () => {
       <MasterContainer>
         <View>
           <AudioRecorder
-            onVoiceSelected={function (recordUri: string): void {
+            onAudioRecorded={function (recordUri: string): void {
               console.log(recordUri);
             }}
           />
