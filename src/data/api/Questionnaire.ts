@@ -49,6 +49,13 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     { code: code, questionId: question.id },
     generateFormDataByQuestion(question)
   );
+  return response.data;
 }
 
-export { getQuestionnairesByCodes, getAllQuestionnaireDataByCode, saveQuestionByIdAndCode, saveQuestionnaireByCode, getQuestionByIdAndCode };
+export {
+  getQuestionnairesByCodes,
+  getAllQuestionnaireDataByCode,
+  saveQuestionByIdAndCode,
+  saveQuestionnaireByCode,
+  getQuestionByIdAndCode,
+};

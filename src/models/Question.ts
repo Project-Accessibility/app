@@ -9,7 +9,15 @@ export class Question {
   question: string;
   questionOptions?: [QuestionOption];
 
-  constructor(id: number, uuid: string, version: number, section_id: number, title: string, question: string, questionOptions?: [QuestionOption]) {
+  constructor(
+    id: number,
+    uuid: string,
+    version: number,
+    section_id: number,
+    title: string,
+    question: string,
+    questionOptions?: [QuestionOption]
+  ) {
     this.id = id;
     this.uuid = uuid;
     this.version = version;

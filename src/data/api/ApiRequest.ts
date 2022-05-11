@@ -12,7 +12,7 @@ function getRequest(
 ): Promise<AxiosResponse> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
   console.log(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, JSON.stringify(body));
-  
+
   return axios.get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
     headers: {
       [api.headers.authKey.key]: Config.API_KEY,
@@ -33,7 +33,7 @@ function postRequest(
     headers: {
       [api.headers.authKey.key]: Config.API_KEY,
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
   });
 }

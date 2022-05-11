@@ -8,8 +8,8 @@
     },
     "questions": {
       "base_endpoint": "questions",
-      "getQuestionByIdAndCode": "{{id}}/{{code}}",
-      "saveQuestionByIdAndCode": "{{id}}/{{code}}"
+      "getQuestionByIdAndCode": "{{questionId}}/{{code}}",
+      "saveQuestionByIdAndCode": "{{questionId}}/{{code}}"
     }
   },
   "hosts": {
