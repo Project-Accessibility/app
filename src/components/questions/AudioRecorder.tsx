@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { Component } from 'react';
+import React from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
@@ -29,7 +29,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
   const [isPaused, setIsPaused] = React.useState(false);
   const [isRecording, setIsRecording] = React.useState(false);
   const [recordUri, setRecordUri] = React.useState('');
-  const [isDisabled, setIsDisabled] = React.useState(false);
+  const [isDisabled, setIsDisabled] = React.useState(true);
   const [playTime, setPlayTime] = React.useState(nullTime);
   const [duration, setDuration] = React.useState(nullTime);
 
@@ -62,7 +62,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setIsDisabled(true);
 
     audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      setDuration(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)));
+      setDuration(audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 60)));
       setPlayTime(nullTime);
     });
   };
@@ -85,12 +85,9 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-      setPlayTime(
-        audioRecorderPlayer.mmssss(Math.floor(e.currentPosition > 0 ? e.currentPosition : 0))
-      );
-      setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)));
-      console.log(playTime, duration, playTime === duration);
-      if (playTime === duration) {
+      setPlayTime(audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 60)));
+      setDuration(audioRecorderPlayer.mmss(Math.floor(e.duration / 60)));
+      if (e.currentPosition === e.duration) {
         onStopPlay();
       }
     });
