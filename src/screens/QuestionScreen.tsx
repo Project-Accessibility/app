@@ -5,6 +5,7 @@ import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
+import { QuestionOptionType } from '../enums/QuestionOptionType';
 import { Question } from '../models/Question';
 
 const QuestionScreen = () => {
@@ -31,6 +32,15 @@ const QuestionScreen = () => {
             <Divider width="100%" height={3} margin={20} />
           </>
         )}
+        {question?.questionOptions?.forEach(questionOption => {
+          if(questionOption.type == QuestionOptionType.OPEN){
+            return (
+              <>
+              
+              </>
+            )
+          }
+        })}
       </ScrollView>
     </MasterContainer>
   );
