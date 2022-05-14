@@ -32,13 +32,9 @@ const QuestionScreen = () => {
             <Divider width="100%" height={3} margin={20} />
           </>
         )}
-        {question?.questionOptions?.forEach(questionOption => {
-          if(questionOption.type == QuestionOptionType.OPEN){
-            return (
-              <>
-              
-              </>
-            )
+        {question?.questionOptions?.forEach((questionOption) => {
+          if (questionOption.type == QuestionOptionType.OPEN) {
+            return <></>;
           }
         })}
       </ScrollView>
