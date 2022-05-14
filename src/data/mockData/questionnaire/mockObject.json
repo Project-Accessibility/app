@@ -14,7 +14,7 @@
       "questionnaire_id": 1,
       "geofence": {
         "id": 1,
-        "longtitude": 4.8951679,
+        "longitude": 4.8951679,
         "latitude": 52.3702157,
         "radius": 100
       },
@@ -91,6 +91,14 @@
               "extra_data": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
+            },
+            {
+              "id": 5,
+              "question_id": 2,
+              "type": "MULTIPLE_CHOICE",
+              "extra_data": ["Te fel", "Precies goed", "Niet fel genoeg"],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
             }
           ]
         }
@@ -101,7 +109,7 @@
       "questionnaire_id": 1,
       "geofence": {
         "id": 2,
-        "longtitude": 4.1991679,
+        "longitude": 4.1991679,
         "latitude": 51.3102157,
         "radius": 100
       },
