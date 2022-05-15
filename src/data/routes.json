@@ -1,14 +1,21 @@
 {
   "apiEndpoints": {
     "questionnaire": {
-      "base_endpoint": "questionnaire",
-      "getQuestionnaireById": "{{id}}"
+      "base_endpoint": "questionnaires",
+      "getQuestionnaireById": "getByCodes",
+      "getAllQuestionnaireDataByCode": "{{code}}",
+      "saveQuestionnaireByCode": "{{code}}"
+    },
+    "questions": {
+      "base_endpoint": "questions",
+      "getQuestionByIdAndCode": "{{questionId}}/{{code}}",
+      "saveQuestionByIdAndCode": "{{questionId}}/{{code}}"
     }
   },
   "hosts": {
     "devApi": "https://questionnaire-dev.jaap.ru/api",
     "accApi": "https://questionnaire-acc.jaap.ru/api",
-    "localApi": "http://localhost:8000/api",
-    "localDockerApi": "http://localhost:80/api"
+    "localApi": "http://10.0.2.2:8000/api",
+    "localDockerApi": "http://10.0.2.2:80/api"
   }
 }
