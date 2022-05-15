@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 20,
     maxHeight: 5 * 32, //32 is one line
-    color: COLORS.black
+    color: COLORS.black,
   },
 });
 
