@@ -35,8 +35,8 @@ const QuestionScreen = () => {
               <Text style={styles.questionText}>{question.question}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />
-            {question?.questionOptions &&
-              question?.questionOptions?.map((questionOption, index) => {
+            {question.questionOptions &&
+              question.questionOptions?.map((questionOption, index) => {
                 return (
                   <View key={index} style={styles.questionItem}>
                     {getElement(questionOption)}
