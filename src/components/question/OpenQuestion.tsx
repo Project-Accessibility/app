@@ -79,7 +79,7 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
       {/*<TouchableOpacity style={styles.buttonView}>*/}
       {/*  <Text style={styles.buttonText} onPress={() => setShouldClear(true)}>*/}
       {/*    Clear*/}
-      {/*  </Text>*/}
+      {/*  </Text>  // TODO remove when upload to api implemented */}
       {/*</TouchableOpacity>*/}
     </>
   );
@@ -108,7 +108,7 @@ async function Save(questionOption: QuestionOption, newTextValue: string) {
             } else {
               // AlertIOS.alert(ACC_STRS.saveButton); //TODO ios alert
             }
-          }) // TODO hier naar kijken
+          }) // TODO add Toast equivalent for ios
           .catch((e) => console.log(e));
       }
     }

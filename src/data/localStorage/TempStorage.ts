@@ -21,11 +21,9 @@ class TempStorage {
   }
 
   private async saveQueue() {
-    console.log('Saving queue...');
     try {
       const jsonValue = JSON.stringify(this.objectQueue);
       await AsyncStorage.setItem('objectQueue', jsonValue);
-      console.log('Saved queue');
     } catch (error) {
       // Error saving data
       console.log('TempStorage.SaveQueue error');
@@ -38,28 +36,25 @@ class TempStorage {
     console.log(JSON.stringify(this.objectQueue, null, 2));
   }
 
-  private async retrieveQueue() {
-    this.checkedLocalStorageForQueue = true;
-    try {
-      const jsonValue = await AsyncStorage.getItem('objectQueue');
-      this.objectQueue = jsonValue !== null ? JSON.parse(jsonValue) : [];
-      this.viewQueue();
-    } catch (e) {
-      // error reading value
-      throw new Error('Error getting model');
-    }
-  }
-
   async clear() {
-    console.log('Clearing local storage...');
     this.objectQueue = [];
     await AsyncStorage.clear();
     this.viewQueue();
+    console.log('Local storage cleared');
   }
 
   private async RetrieveExistingObjectQueue() {
     if (this.objectQueue.length === 0 && !this.checkedLocalStorageForQueue) {
-      await this.retrieveQueue();
+      this.checkedLocalStorageForQueue = true;
+      try {
+        const jsonValue = await AsyncStorage.getItem('objectQueue');
+        this.objectQueue = jsonValue !== null ? JSON.parse(jsonValue) : [];
+        this.viewQueue();
+      } catch (e) {
+        // error reading value
+        console.log('TempStorage.retrieveQueue error');
+        throw new Error('Error getting model');
+      }
     }
   }
 
