@@ -22,22 +22,24 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
   const [shouldClear, setShouldClear] = useState(false);
 
   const load = async () => {
-    await DetermineValue(questionOption).then(e => {
-      setTextValue(e);
-      console.log(`Found a value in load: ${e}`);
-    }).catch(e => console.log(`O no! Found error: ${e}`));
-  }
+    await DetermineValue(questionOption)
+      .then((e) => {
+        setTextValue(e);
+        console.log(`Found a value in load: ${e}`);
+      })
+      .catch((e) => console.log(`O no! Found error: ${e}`));
+  };
 
   const save = async () => {
     await Save(questionOption, textValue);
-  }
+  };
 
   const clear = async () => {
     await clearQueue();
-  }
+  };
 
   useEffect(() => {
-    if (shouldClear){
+    if (shouldClear) {
       clear();
       setShouldClear(false);
     }
@@ -45,15 +47,15 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
 
   useEffect(() => {
     load();
-  }, [])
+  }, []);
 
   useEffect(() => {
+    // Save button does not work for saving. Auto save when leave textbox.
     if (shouldSave) {
       save();
       setShouldSave(false);
     }
-  }, [shouldSave])
-
+  }, [shouldSave]);
 
   return (
     <>
@@ -74,9 +76,11 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
       <TouchableOpacity style={styles.buttonView}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonView}>
-        <Text style={styles.buttonText} onPress={() => setShouldClear(true)}>Clear</Text>
-      </TouchableOpacity>
+      {/*<TouchableOpacity style={styles.buttonView}>*/}
+      {/*  <Text style={styles.buttonText} onPress={() => setShouldClear(true)}>*/}
+      {/*    Clear*/}
+      {/*  </Text>*/}
+      {/*</TouchableOpacity>*/}
     </>
   );
 };
@@ -89,13 +93,14 @@ async function clearQueue() {
 async function Save(questionOption: QuestionOption, newTextValue: string) {
   const s1 = TempStorage.getInstance();
 
-  if (questionOption.answers){
+  if (questionOption.answers) {
     for (const answer of questionOption.answers) {
       if (answer?.answer && answer.answer.length > 0) {
         answer.answer[0] = newTextValue;
 
         // questionOption id + answer id
-        await s1.saveData(FormattedStorageName(questionOption, answer), questionOption)
+        await s1
+          .saveData(FormattedStorageName(questionOption, answer), questionOption)
           .then(() => {
             if (Platform.OS === 'android') {
               ToastAndroid.show(ACC_STRS.saveButton, ToastAndroid.SHORT);
@@ -103,8 +108,8 @@ async function Save(questionOption: QuestionOption, newTextValue: string) {
             } else {
               // AlertIOS.alert(ACC_STRS.saveButton); //TODO ios alert
             }
-          })// TODO hier naar kijken
-          .catch(e => console.log(e));
+          }) // TODO hier naar kijken
+          .catch((e) => console.log(e));
       }
     }
   }
@@ -121,18 +126,20 @@ async function DetermineValue(questionOption: QuestionOption) {
   // Search local storage for answer
   // First check local queue. It contains the datetime of a each saved answer that
   // has not yet been saved to the server.
+  // TODO use api to get the latest answer
   // TODO If local answer is newer than API answer, use local answer.
 
   if (questionOption.answers && questionOption.answers.length > 0) {
     const answer = questionOption.answers.length > 0 ? questionOption.answers[0] : null;
     let name = answer !== null ? FormattedStorageName(questionOption, answer) : null;
     if (name) {
-      let olderData: QuestionOption = await s1.tryGetModelFromLocalStorage(name)
-        .catch(e => console.log(`error in DetermineValue: ${e}`)) as QuestionOption;
+      let olderData: QuestionOption = (await s1
+        .tryGetModelFromLocalStorage(name)
+        .catch((e) => console.log(`error in DetermineValue: ${e}`))) as QuestionOption;
 
       if (olderData) {
-        olderData.answers?.forEach(ans => {
-          ans.answer?.forEach(a => {
+        olderData.answers?.forEach((ans) => {
+          ans.answer?.forEach((a) => {
             textVal = a;
           });
         });

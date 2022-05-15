@@ -11,8 +11,7 @@ class TempStorage {
   private objectQueue: QueueType[] = [];
   private checkedLocalStorageForQueue: boolean = false;
 
-  private constructor() {
-  }
+  private constructor() {}
 
   public static getInstance(): TempStorage {
     if (!TempStorage.instance) {
@@ -35,7 +34,7 @@ class TempStorage {
     }
   }
 
-  viewQueue(){
+  viewQueue() {
     console.log(JSON.stringify(this.objectQueue, null, 2));
   }
 
@@ -58,9 +57,7 @@ class TempStorage {
     this.viewQueue();
   }
 
-
   private async RetrieveExistingObjectQueue() {
-    console.log(`Checked local storage? ${this.checkedLocalStorageForQueue}`);
     if (this.objectQueue.length == 0 && !this.checkedLocalStorageForQueue) {
       await this.retrieveQueue();
     }
@@ -81,16 +78,14 @@ class TempStorage {
       key: key,
     };
 
-    await this.storeModel(value, key)
-      .then(() => {
-        this.addToQueue(obj);
-      });
+    await this.storeModel(value, key).then(() => {
+      this.addToQueue(obj);
+    });
 
     await this.saveQueue();
-
   }
 
-  private addToQueue(object: QueueType){
+  private addToQueue(object: QueueType) {
     for (let i = 0; i < this.objectQueue.length; i++) {
       if (this.objectQueue[i].key == object.key) {
         this.objectQueue[i] = object;
@@ -106,13 +101,12 @@ class TempStorage {
   Returns null if no data found
   TODO add date check based on API response
    */
-  public async tryGetModelFromLocalStorage(key: string) : Promise<object| undefined> {
+  public async tryGetModelFromLocalStorage(key: string): Promise<object | undefined> {
     if (!key) return undefined;
     await this.RetrieveExistingObjectQueue();
 
     for (let value of this.objectQueue) {
       if (value.key == key) {
-        console.log('found in queue');
         return this.getModel(key);
       }
     }
@@ -120,8 +114,8 @@ class TempStorage {
   }
 
   /*
-  *** Loop through queue and upload to API. ***
-  *** TODO implement this function
+   *** Loop through queue and upload to API. ***
+   *** TODO implement this function
    */
   async sendToAPI() {
     await this.RetrieveExistingObjectQueue(); // probably runs first
@@ -147,7 +141,6 @@ class TempStorage {
     }
   }
 
-
   async storeString(value: string, key: string) {
     try {
       await AsyncStorage.setItem(key, value);
@@ -157,7 +150,7 @@ class TempStorage {
     }
   }
 
-  private async getModel(key: string) : Promise<object> {
+  private async getModel(key: string): Promise<object> {
     try {
       const jsonValue = await AsyncStorage.getItem(key);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -184,7 +177,6 @@ class TempStorage {
         if (obj.key == key) {
           this.objectQueue.splice(this.objectQueue.indexOf(obj));
 
-
           await this.saveQueue();
         }
       }
@@ -196,9 +188,9 @@ class TempStorage {
 }
 
 type QueueType = {
-  type: string,
-  datetime: Date,
-  key: string
-}
+  type: string;
+  datetime: Date;
+  key: string;
+};
 
 export default TempStorage;
