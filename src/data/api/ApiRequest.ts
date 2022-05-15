@@ -7,11 +7,16 @@ import { api } from '../consts.json';
 function getRequest(
   baseEndpoint: string,
   endpoint: string,
-  endpointParams: Object = {}
+  endpointParams: Object = {},
+  body: Object = {}
 ): Promise<AxiosResponse> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
   return axios.get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
-    headers: { [api.headers.authKey.key]: Config.API_KEY },
+    headers: {
+      [api.headers.authKey.key]: Config.API_KEY,
+      'Content-Type': 'application/json',
+    },
+    data: body,
   });
 }
 
@@ -23,7 +28,11 @@ function postRequest(
 ): Promise<AxiosResponse> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
   return axios.post(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, postData, {
-    headers: { [api.headers.authKey.key]: Config.API_KEY },
+    headers: {
+      [api.headers.authKey.key]: Config.API_KEY,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
   });
 }
 
