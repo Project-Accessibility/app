@@ -1,6 +1,6 @@
 import { useFocusEffect, useIsFocused, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';

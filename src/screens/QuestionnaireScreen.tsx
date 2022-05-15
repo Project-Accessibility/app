@@ -24,7 +24,7 @@ const QuestionnaireScreen = () => {
 
   const route = useRoute();
 
-  const TempStorageInstance = TempStorage.getInstance();
+  // const TempStorageInstance = TempStorage.getInstance();
   // TempStorageInstance.storeString("ActiveQuestionaireCode", questionnaire.)
 
   useEffect(() => {

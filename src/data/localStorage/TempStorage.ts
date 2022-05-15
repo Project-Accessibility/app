@@ -58,7 +58,7 @@ class TempStorage {
   }
 
   private async RetrieveExistingObjectQueue() {
-    if (this.objectQueue.length == 0 && !this.checkedLocalStorageForQueue) {
+    if (this.objectQueue.length === 0 && !this.checkedLocalStorageForQueue) {
       await this.retrieveQueue();
     }
   }
@@ -87,7 +87,7 @@ class TempStorage {
 
   private addToQueue(object: QueueType) {
     for (let i = 0; i < this.objectQueue.length; i++) {
-      if (this.objectQueue[i].key == object.key) {
+      if (this.objectQueue[i].key === object.key) {
         this.objectQueue[i] = object;
         console.log('replaced item in queue');
         return;
@@ -106,7 +106,7 @@ class TempStorage {
     await this.RetrieveExistingObjectQueue();
 
     for (let value of this.objectQueue) {
-      if (value.key == key) {
+      if (value.key === key) {
         return this.getModel(key);
       }
     }
@@ -174,7 +174,7 @@ class TempStorage {
     try {
       await AsyncStorage.removeItem(key);
       for (let obj of this.objectQueue) {
-        if (obj.key == key) {
+        if (obj.key === key) {
           this.objectQueue.splice(this.objectQueue.indexOf(obj));
 
           await this.saveQueue();
