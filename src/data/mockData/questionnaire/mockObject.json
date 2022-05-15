@@ -37,7 +37,7 @@
               "id": 1,
               "question_id": 1,
               "type": "OPEN",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": [
@@ -53,7 +53,7 @@
               "id": 2,
               "question_id": 1,
               "type": "IMAGE",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": []
@@ -72,7 +72,7 @@
               "id": 3,
               "question_id": 2,
               "type": "OPEN",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": [
@@ -88,7 +88,7 @@
               "id": 4,
               "question_id": 2,
               "type": "VOICE",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             },
@@ -96,7 +96,7 @@
               "id": 5,
               "question_id": 2,
               "type": "MULTIPLE_CHOICE",
-              "extra_data": ["Te fel", "Precies goed", "Niet fel genoeg"],
+              "extraData": ["Te fel", "Precies goed", "Niet fel genoeg"],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             }
@@ -132,7 +132,7 @@
               "id": 5,
               "question_id": 2,
               "type": "OPEN",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": [
@@ -148,7 +148,7 @@
               "id": 6,
               "question_id": 2,
               "type": "IMAGE",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": []
@@ -167,7 +167,7 @@
               "id": 7,
               "question_id": 4,
               "type": "OPEN",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": [
@@ -183,7 +183,7 @@
               "id": 8,
               "question_id": 4,
               "type": "VOICE",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             },
@@ -191,7 +191,7 @@
               "id": 9,
               "question_id": 4,
               "type": "IMAGE",
-              "extra_data": [],
+              "extraData": [],
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             }
