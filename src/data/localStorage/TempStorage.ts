@@ -1,91 +1,163 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Queue } from 'queue-typescript';
 
 /*
-*   Limits: 6 MB by default.
-*   Reading size max is 2 MB.
-*   docs: https://react-native-async-storage.github.io/async-storage/docs/limits
-*/
+ *   Limits: 6 MB by default.
+ *   Reading size max is 2 MB.
+ *   docs: https://react-native-async-storage.github.io/async-storage/docs/limits
+ */
 
 class TempStorage {
-  private readonly objectQueue: Queue<object>;
+  private static instance: TempStorage;
+  private objectQueue: QueueType[] = [];
+  private checkedLocalStorageForQueue: boolean = false;
 
-  constructor() {
-    this.objectQueue = new Queue();
+  private constructor() {
   }
 
-  // TODO remove or make private
-  async clear() {
-    await AsyncStorage.clear();
-  }
-
-  printQueue() {
-    console.log();
-    console.log('-------------------------------');
-    for (let obj of this.objectQueue) {
-      console.log(`${obj.type} ${obj.key}`);
+  public static getInstance(): TempStorage {
+    if (!TempStorage.instance) {
+      TempStorage.instance = new TempStorage();
     }
-    console.log('-------------------------------');
-    console.log();
+    return TempStorage.instance;
+  }
+
+  private async saveQueue() {
+    console.log('Saving queue...');
+    try {
+      const jsonValue = JSON.stringify(this.objectQueue);
+      await AsyncStorage.setItem('objectQueue', jsonValue);
+      console.log('Saved queue');
+    } catch (error) {
+      // Error saving data
+      console.log('TempStorage.SaveQueue error');
+      console.log(error);
+      throw new Error('Error saving queue');
+    }
+  }
+
+  viewQueue(){
+    console.log(JSON.stringify(this.objectQueue, null, 2));
+  }
+
+  private async retrieveQueue() {
+    this.checkedLocalStorageForQueue = true;
+    try {
+      const jsonValue = await AsyncStorage.getItem('objectQueue');
+      this.objectQueue = jsonValue !== null ? JSON.parse(jsonValue) : [];
+      this.viewQueue();
+    } catch (e) {
+      // error reading value
+      throw new Error('Error getting model');
+    }
+  }
+
+  async clear() {
+    console.log('Clearing local storage...');
+    this.objectQueue = [];
+    await AsyncStorage.clear();
+    this.viewQueue();
+  }
+
+
+  private async RetrieveExistingObjectQueue() {
+    console.log(`Checked local storage? ${this.checkedLocalStorageForQueue}`);
+    if (this.objectQueue.length == 0 && !this.checkedLocalStorageForQueue) {
+      await this.retrieveQueue();
+    }
   }
 
   /*
-  * Save data for later sync with api
-  * Temp added to local storage
-  *   TODO remove option for saving string?
-  *   TODO add target (api route) to send to specific api endpoint?
-  */
-  async saveData(key: string, value: any) {
-    if (typeof value === 'object') {
-      await this.storeModel(value, key);
-      this.objectQueue.enqueue({
-        'type': 'object',
-        'key': key,
+   * Save data for later sync with api
+   * Temp added to local storage
+   *
+   *   TODO add target (api route) to send to specific api endpoint?
+   */
+  async saveData(key: string, value: object) {
+    await this.RetrieveExistingObjectQueue();
+
+    let obj: QueueType = {
+      type: 'object',
+      datetime: new Date(),
+      key: key,
+    };
+
+    await this.storeModel(value, key)
+      .then(() => {
+        this.addToQueue(obj);
       });
-    } else if (typeof value === 'string') {
-      await this.storeString(value, key);
-      this.objectQueue.enqueue({
-        'type': 'string',
-        'key': key,
-      });
-    }
+
+    await this.saveQueue();
+
   }
 
-  async sendToAPI() {
-    throw new Error('Not implemented');
-
-    while (this.objectQueue.length > 0) {
-      const item = this.objectQueue.dequeue();
-
+  private addToQueue(object: QueueType){
+    for (let i = 0; i < this.objectQueue.length; i++) {
+      if (this.objectQueue[i].key == object.key) {
+        this.objectQueue[i] = object;
+        console.log('replaced item in queue');
+        return;
+      }
     }
+    console.log('Did not find copy. Adding to queue');
+    this.objectQueue.push(object);
+  }
+
+  /*
+  Returns null if no data found
+  TODO add date check based on API response
+   */
+  public async tryGetModelFromLocalStorage(key: string) : Promise<object| undefined> {
+    if (!key) return undefined;
+    await this.RetrieveExistingObjectQueue();
+
+    for (let value of this.objectQueue) {
+      if (value.key == key) {
+        console.log('found in queue');
+        return this.getModel(key);
+      }
+    }
+    return undefined;
+  }
+
+  /*
+  *** Loop through queue and upload to API. ***
+  *** TODO implement this function
+   */
+  async sendToAPI() {
+    await this.RetrieveExistingObjectQueue(); // probably runs first
+
+    // check if anything to upload.
+    // while (this.objectQueue.length > 0) {
+    //   const obj = this.objectQueue.dequeue();
+    //   // upload to api
+    //   // remove from local storage
+    // }
+    // clear queue
   }
 
   private async storeModel(value: object, key: string) {
     try {
       const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(
-        key,
-        jsonValue,
-      );
+      await AsyncStorage.setItem(key, jsonValue);
     } catch (error) {
       // Error saving data
+      console.log('TempStorage.storeModel error');
+      console.log(error);
       throw new Error('Error saving model');
     }
   }
 
-  private async storeString(value: string, key: string) {
+
+  async storeString(value: string, key: string) {
     try {
-      await AsyncStorage.setItem(
-        key,
-        value,
-      );
+      await AsyncStorage.setItem(key, value);
     } catch (error) {
       // Error saving data
       throw new Error('Error saving string');
     }
   }
 
-  async getModel(key: string) {
+  private async getModel(key: string) : Promise<object> {
     try {
       const jsonValue = await AsyncStorage.getItem(key);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -95,7 +167,7 @@ class TempStorage {
     }
   }
 
-  async getString(key: string) {
+  private async getString(key: string) {
     try {
       const value = await AsyncStorage.getItem(key);
       return value != null ? value : null;
@@ -105,12 +177,15 @@ class TempStorage {
     }
   }
 
-  async removeItem(key: string) {
+  private async removeItem(key: string) {
     try {
       await AsyncStorage.removeItem(key);
       for (let obj of this.objectQueue) {
         if (obj.key == key) {
-          this.objectQueue.remove(obj);
+          this.objectQueue.splice(this.objectQueue.indexOf(obj));
+
+
+          await this.saveQueue();
         }
       }
     } catch (e) {
@@ -118,8 +193,12 @@ class TempStorage {
       throw new Error('Error removing data');
     }
   }
-
 }
 
-const storage = new TempStorage();
-export default storage;
+type QueueType = {
+  type: string,
+  datetime: Date,
+  key: string
+}
+
+export default TempStorage;

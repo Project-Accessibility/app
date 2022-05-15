@@ -1,6 +1,6 @@
-import { useIsFocused, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
@@ -8,6 +8,7 @@ import MasterContainer from '../components/generic/MasterContainer';
 import QuestionList from '../components/question/QuestionList';
 import { Section } from '../models/Section';
 import { Question } from '../models/Question';
+import TempStorage from '../data/localStorage/TempStorage';
 
 const SectionScreen = () => {
   const [section, setSection] = useState<Section>();
@@ -19,6 +20,15 @@ const SectionScreen = () => {
     if (!currentParams) return;
     setSection(currentParams.section);
   }, [route.params]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      updateApi();
+      // BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      // return () =>
+      //   BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [isFocused])
+  );
 
   return (
     <MasterContainer>
@@ -48,10 +58,7 @@ const SectionScreen = () => {
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
             <Text style={styles.questionsAnswered}>
-              Beantwoord:{' '}
-              {isFocused
-                ? `${determineProgress(section.questions)} / ${section.questions.length}`
-                : ''}
+              Beantwoord: {isFocused ? `${determineProgress(section.questions)} / ${section.questions.length}` : ''}
             </Text>
             <QuestionList questions={section.questions} />
           </View>
@@ -59,6 +66,12 @@ const SectionScreen = () => {
       )}
     </MasterContainer>
   );
+};
+
+const updateApi = () => {
+  let storage = TempStorage.getInstance();
+  storage.sendToAPI();
+  return true;
 };
 
 function determineProgress(questions: Question[]): number {
