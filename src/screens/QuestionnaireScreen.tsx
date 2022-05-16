@@ -9,25 +9,39 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
-import Radar from '../data/location/Radar';
+import Radar, { Event, Result } from '../data/location/Radar';
 
 const QuestionnaireScreen = () => {
-  Radar.on((result: any) => {
-    console.log('events:' + JSON.stringify(result));
-  });
-  Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
-
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
   const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
+  const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
 
   const route = useRoute();
 
   useEffect(() => {
+    Radar.on(setNearBySections);
+    Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
-  }, [route.params]);
+
+    function setNearBySections(result: Result) {
+      const nearbyGeofences = result.events.filter((event: Event) => {
+        return event.type === 'entered';
+      });
+      const nearbyGeofenceIds = nearbyGeofences.map((event: Event) => {
+        return event.geofence.sectionId;
+      });
+      let sections: Section[] = [];
+      if (questionnaire && questionnaire.sections) {
+        sections = questionnaire.sections;
+        console.log(sections);
+        console.log(nearbyGeofenceIds);
+      }
+      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
+    }
+  }, [route.params, questionnaire]);
 
   return (
     <MasterContainer>
@@ -57,7 +71,7 @@ const QuestionnaireScreen = () => {
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
-            <SectionList sections={getSectionsThatAreNearby(questionnaire.sections, [1], [])} />
+            <SectionList sections={nearbySections} />
           </View>
           <Divider width="100%" height={3} margin={20} />
           <View>
@@ -84,7 +98,7 @@ function getSectionsThatAreNearby(
   sections: Section[],
   closeGeofenceIds: number[] = [],
   closeTeachableMachineIds: string[] = []
-) {
+): Section[] {
   let closeSections: Section[] = [];
   sections?.forEach((section) => {
     if (
