@@ -5,19 +5,12 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
-import { getQuestionnaireMock, getQuestionOptionMock } from '../data/mockData/MockDataRetriever';
-import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
+import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
   return (
     <>
       <CodeInput />
-      <RangeSlider
-        questionOption={getQuestionOptionMock()}
-        onChange={function (value) {
-          console.log(value);
-        }}
-      />
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
