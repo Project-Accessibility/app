@@ -2,6 +2,62 @@ import { Platform } from 'react-native';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Radar from 'react-native-radar';
 
+export class Result {
+  user: User;
+  events: Event[];
+
+  constructor(user: User, events: Event[]) {
+    this.user = user;
+    this.events = events;
+  }
+
+  addEvent(event: Event) {
+    this.events.push(event);
+  }
+}
+
+export class User {
+  stopped: boolean;
+  location: Location;
+
+  constructor(stopped: boolean, location: Location) {
+    this.stopped = stopped;
+    this.location = location;
+  }
+}
+
+export class Location {
+  longitude: number;
+  latitude: number;
+
+  constructor(longitude: number, latitude: number) {
+    this.longitude = longitude;
+    this.latitude = latitude;
+  }
+}
+
+export class Event {
+  geofence: Geofence;
+  type: string;
+
+  constructor(geofence: Geofence, type: string) {
+    this.geofence = geofence;
+    this.type = type;
+  }
+}
+
+export class Geofence {
+  sectionId: number;
+  sectionTitle: string;
+  sectionDescription: string;
+
+  constructor(sectionId: number, sectionTitle: string, sectionDescription: string) {
+    this.sectionId = sectionId;
+    this.sectionTitle = sectionTitle;
+    this.sectionDescription = sectionDescription;
+  }
+}
+
 class RadarLocation {
   private callback: Function | undefined;
 
@@ -42,9 +98,9 @@ class RadarLocation {
   /**
    * Ask for location permissions
    *
-   * @private
+   * @protected
    */
-  private async handleLocationPermission() {
+  protected async handleLocationPermission() {
     if (Platform.OS === 'ios') {
       const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
 
@@ -81,7 +137,6 @@ class RadarLocation {
     if (this.callback) {
       this.callback(this.getResult(false, result));
     }
-    console.log('Location is granted!');
     await Radar.startTrackingContinuous();
   }
 
@@ -92,7 +147,7 @@ class RadarLocation {
    * @param result
    * @private
    */
-  private trigger(isEvent: boolean, result: any) {
+  private trigger(isEvent: boolean, result: any): void {
     if (this.callback) {
       this.callback(this.getResult(isEvent, result));
     }
@@ -105,26 +160,24 @@ class RadarLocation {
    * @param data
    * @private
    */
-  private getResult(isEvent: boolean, data: any) {
-    const result = {
-      user: {
-        stopped: isEvent ? data.user.stopped : data.location.speed === 0,
-        location: {
-          longitude: isEvent ? data.user.location.coordinates[0] : data.location.longitude,
-          latitude: isEvent ? data.user.location.coordinates[1] : data.location.latitude,
-        },
-      },
-      events: [],
-    };
+  private getResult(isEvent: boolean, data: any): Result {
+    const result = new Result(
+      new User(
+        isEvent ? data.user.stopped : data.location.speed === 0,
+        new Location(
+          isEvent ? data.user.location.coordinates[0] : data.location.longitude,
+          isEvent ? data.user.location.coordinates[1] : data.location.latitude
+        )
+      ),
+      []
+    );
     if (isEvent) {
       data.events.forEach((event: any) => {
-        // @ts-ignore
-        result.events.push(this.getEvent(isEvent, event));
+        result.addEvent(this.getEvent(isEvent, event));
       });
     } else {
       data.geofences.forEach((geofence: any) => {
-        // @ts-ignore
-        result.events.push(this.getEvent(isEvent, geofence));
+        result.addEvent(this.getEvent(isEvent, geofence));
       });
     }
     return result;
@@ -135,17 +188,18 @@ class RadarLocation {
    *
    * @param isEvent
    * @param data
-   * @private
+   * @protected
    */
-  private getEvent(isEvent: boolean, data: any): object {
-    return {
-      geofence: {
-        sectionId: isEvent ? data.geofence.externalId : data.externalId,
-        sectionTitle: isEvent ? data.geofence.tag : data.tag,
-        sectionDescription: isEvent ? data.geofence.description : data.description,
-      },
-      type: isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered',
-    };
+  protected getEvent(isEvent: boolean, data: any): Event {
+    const geofence = new Geofence(
+      isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
+      isEvent ? data.geofence.tag : data.tag,
+      isEvent ? data.geofence.description : data.description
+    );
+    return new Event(
+      geofence,
+      isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered'
+    );
   }
 }
 
