@@ -10,7 +10,7 @@ import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar from '../data/location/Radar';
-import TempStorage from '../data/localStorage/TempStorage';
+// import TempStorage from '../data/localStorage/TempStorage';
 
 const QuestionnaireScreen = () => {
   Radar.on((result: any) => {

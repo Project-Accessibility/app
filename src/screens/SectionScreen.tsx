@@ -27,7 +27,7 @@ const SectionScreen = () => {
       // BackHandler.addEventListener('hardwareBackPress', onBackPress);
       // return () =>
       //   BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [isFocused])
+    }, [])
   );
 
   return (

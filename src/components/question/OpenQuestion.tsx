@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  TouchableOpacity,
-} from 'react-native';
+import { Platform, StyleSheet, Text, ToastAndroid, TouchableOpacity } from 'react-native';
 import { QuestionOption } from '../../models/QuestionOption';
 import COLORS from '../../assets/colors';
 import ACC_STRS from '../../assets/accessibilityStrings';
@@ -70,7 +63,7 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
         onEndEditing={() => {
           setShouldSave(true);
         }}
-      ></OpenTextArea>
+      />
       <TouchableOpacity style={styles.buttonView}>
         <Text style={styles.buttonText}>Opslaan</Text>
         {/*TODO Opslaan en teruggaan van maken? */}
@@ -130,7 +123,7 @@ async function DetermineValue(questionOption: QuestionOption) {
   // TODO If local answer is newer than API answer, use local answer.
 
   if (questionOption.answers && questionOption.answers.length > 0) {
-    const answer = questionOption.answers.length > 0 ? questionOption.answers[0] : null;
+    const answer = questionOption.answers[0];
     let name = answer !== null ? FormattedStorageName(questionOption, answer) : null;
     if (name) {
       let olderData: QuestionOption = (await s1
