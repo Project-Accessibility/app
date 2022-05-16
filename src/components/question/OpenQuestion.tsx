@@ -13,6 +13,7 @@ import ACC_STRS from '../../assets/accessibilityStrings';
 import FONTS from '../../assets/fonts';
 import TempStorage from '../../data/localStorage/TempStorage';
 import { Answer } from '../../models/Answer';
+import OpenTextArea from '../questions/OpenTextArea';
 
 const OpenQuestion = (props: { questionOption: QuestionOption }) => {
   let textVal = '';
@@ -59,11 +60,8 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
 
   return (
     <>
-      <TextInput
-        style={styles.input}
+      <OpenTextArea
         placeholder={ACC_STRS.questionOpenPlaceHolder}
-        multiline={true}
-        textAlignVertical={'top'}
         editable={true}
         value={textValue}
         onChangeText={(text) => {
@@ -72,14 +70,16 @@ const OpenQuestion = (props: { questionOption: QuestionOption }) => {
         onEndEditing={() => {
           setShouldSave(true);
         }}
-      />
+      ></OpenTextArea>
       <TouchableOpacity style={styles.buttonView}>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={styles.buttonText}>Opslaan</Text>
+        {/*TODO Opslaan en teruggaan van maken? */}
       </TouchableOpacity>
       {/*<TouchableOpacity style={styles.buttonView}>*/}
       {/*  <Text style={styles.buttonText} onPress={() => setShouldClear(true)}>*/}
       {/*    Clear*/}
-      {/*  </Text>  // TODO remove when upload to api implemented */}
+      {/*  </Text>*/}
+      {/*  /!* TODO remove when upload to api implemented*!/*/}
       {/*</TouchableOpacity>*/}
     </>
   );
