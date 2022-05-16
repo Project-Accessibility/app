@@ -77,7 +77,7 @@ const QuestionnaireScreen = () => {
           <View>
             <Text
               style={styles.sectionTitle}
-              accessibilityLabel={'Alle onderdelen'}
+              accessibilityLabel={'Alle onderdelen ' + (sectionsVisible ? 'tonen' : 'verbergen')}
               accessibilityHint={'Deze kop is inklapbaar'}
               onPress={() => {
                 setSectionsVisible(!sectionsVisible);
