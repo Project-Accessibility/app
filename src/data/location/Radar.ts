@@ -131,14 +131,12 @@ class RadarLocation {
    * @private
    */
   private async runRadarTracking() {
-    console.log('run radar tracking');
     const result = await Radar.searchGeofences({
       radius: 20,
     });
     if (this.callback) {
       this.callback(this.getResult(false, result));
     }
-    console.log('Location is granted!');
     await Radar.startTrackingContinuous();
   }
 
@@ -150,7 +148,6 @@ class RadarLocation {
    * @private
    */
   private trigger(isEvent: boolean, result: any): void {
-    console.log('trigger');
     if (this.callback) {
       this.callback(this.getResult(isEvent, result));
     }
