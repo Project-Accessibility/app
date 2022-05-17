@@ -36,10 +36,10 @@ const HelpScreen = () => {
         source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
       />
       <View style={styles.contactInfo}>
-        <View accessible={true}>
+        <View>
           <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
           {/*Creating text elements based on data*/}
-          {createText()}
+          <View accessible={true}>{createText()}</View>
         </View>
         <TouchableOpacity
           style={styles.emailBtn}
