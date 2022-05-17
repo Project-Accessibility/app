@@ -85,7 +85,11 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-      setPlayTime(audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 60)));
+      setPlayTime(
+        audioRecorderPlayer.mmss(
+          Math.floor(e.currentPosition / 60 > 0 ? e.currentPosition / 60 : 0)
+        )
+      );
       setDuration(audioRecorderPlayer.mmss(Math.floor(e.duration / 60)));
       if (e.currentPosition === e.duration) {
         onStopPlay();
