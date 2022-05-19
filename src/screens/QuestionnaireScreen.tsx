@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -75,8 +75,7 @@ const QuestionnaireScreen = () => {
           </View>
           <Divider width="100%" height={3} margin={20} />
           <View>
-            <Text
-              style={styles.sectionTitle}
+            <TouchableOpacity
               accessibilityLabel={'Alle onderdelen'}
               accessibilityHint={'Inklapbaar, ' + (sectionsVisible ? 'open' : 'dicht')}
               onPress={() => {
@@ -84,8 +83,10 @@ const QuestionnaireScreen = () => {
                 setSectionsIcon(sectionsVisible ? 'angle-up' : 'angle-down');
               }}
             >
-              Alle onderdelen <Icon name={sectionsIcon} size={30} />
-            </Text>
+              <Text style={styles.sectionTitle}>
+                Alle onderdelen <Icon name={sectionsIcon} size={30} />
+              </Text>
+            </TouchableOpacity>
             <Divider width="33%" height={2} margin={0} />
             {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>
