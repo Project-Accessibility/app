@@ -27,9 +27,20 @@ class TempStorage {
     return TempStorage.instance;
   }
 
+  private LoadQueueFromLocalStorage() {
+    AsyncStorage.getItem('Queue')
+      .then((result: string | null) => {
+        if (result === null) this.objectQueue = [];
+        else this.objectQueue = JSON.parse(result);
+      })
+      .catch((_: Error) => {
+        this.objectQueue = [];
+      });
+  }
+
   public async AddObjectToQueue(action: QueueAction, object: Object) {
     console.log(object);
-    const participantCode = await new ParticipantCode().LoadParticipantCodeFromLocalStorage();
+    const participantCode = await ParticipantCode.LoadParticipantCodeFromLocalStorage();
     if (!participantCode) return;
 
     let newQueueObject: QueueObjectType = {
@@ -51,7 +62,7 @@ class TempStorage {
     this.SaveQueueToLocalStorage();
   }
 
-  private generateKey(action: QueueAction, object: Object) {
+  private generateKey(action: QueueAction, object: Object): string {
     switch (action) {
       case QueueAction.SaveQuestion:
         const question = object as Question;
@@ -72,17 +83,6 @@ class TempStorage {
 
   private SaveQueueToLocalStorage() {
     AsyncStorage.setItem('Queue', JSON.stringify(this.objectQueue));
-  }
-
-  private async LoadQueueFromLocalStorage() {
-    AsyncStorage.getItem('Queue')
-      .then((result: string | null) => {
-        if (result === null) this.objectQueue = [];
-        else this.objectQueue = JSON.parse(result);
-      })
-      .catch((_: Error) => {
-        this.objectQueue = [];
-      });
   }
 
   public ExecuteQueue() {
