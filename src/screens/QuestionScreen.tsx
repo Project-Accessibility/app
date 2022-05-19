@@ -7,11 +7,16 @@ import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
 import { Question } from '../models/Question';
 import { QuestionOption } from '../models/QuestionOption';
-import OpenQuestion from '../components/question/OpenQuestion';
 import { QuestionOptionType } from '../enums/QuestionOptionType';
+import SaveButton from '../components/generic/SaveButton';
+import OpenTextArea from '../components/questions/OpenTextArea';
+import { Answer } from '../models/Answer';
+import Queue from '../data/localStorage/Queue';
+import { QueueAction } from '../enums/QueueAction';
 
 const QuestionScreen = () => {
   const route = useRoute();
+  const queue = Queue.getInstance();
   const [question, setquestion] = useState<Question>();
 
   useEffect(() => {
@@ -19,6 +24,13 @@ const QuestionScreen = () => {
     if (!currentParams) return;
     setquestion(currentParams.question);
   }, [route.params]);
+
+  useEffect(() => {
+    return function cleanup() {
+      if (!question) return;
+      queue.AddObjectToQueue(QueueAction.SaveQuestion, question as Object);
+    };
+  });
 
   return (
     <MasterContainer>
@@ -38,6 +50,7 @@ const QuestionScreen = () => {
               )}
           </>
         )}
+        <SaveButton question={question} />
       </ScrollView>
     </MasterContainer>
   );
@@ -46,7 +59,20 @@ const QuestionScreen = () => {
 function GetElement(questionOption: QuestionOption, index: number) {
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
-      return <OpenQuestion questionOption={questionOption} key={index} />;
+      return (
+        <OpenTextArea
+          defaultValue={questionOption.answers?.[0].answer?.[0]}
+          key={index}
+          onChangeText={(value: string) => {
+            questionOption.answers = [
+              {
+                id: questionOption.answers?.[0].id ?? 1,
+                answer: [value],
+              } as Answer,
+            ];
+          }}
+        />
+      );
     case QuestionOptionType.IMAGE:
       break;
     case QuestionOptionType.VIDEO:

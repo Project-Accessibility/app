@@ -5,6 +5,7 @@
   "description": "Hoe goed is het rijksmuseum te bezoeken?",
   "instructions": "Ga naar het Rijksmuseum en vul de vragenlijst in!",
   "open": true,
+  "participantCode": "HTSIL",
   "teachable_machine_link": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
   "created_at": "2022-04-03T19:17:30.000000Z",
   "updated_at": "2022-04-03T19:17:30.000000Z",

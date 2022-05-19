@@ -4,6 +4,7 @@ export class Questionnaire {
   id: number;
   title: string;
   open: boolean;
+  participantCode: string;
   description?: string;
   instructions?: string;
   teachableMachineLink?: string;
@@ -13,6 +14,7 @@ export class Questionnaire {
     id: number,
     title: string,
     open: boolean,
+    participantCode: string,
     description?: string,
     instructions?: string,
     teachableMachineLink?: string,
@@ -21,6 +23,7 @@ export class Questionnaire {
     this.id = id;
     this.title = title;
     this.open = open;
+    this.participantCode = participantCode;
     this.description = description;
     this.instructions = instructions;
     this.teachableMachineLink = teachableMachineLink;

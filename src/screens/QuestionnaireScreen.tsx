@@ -10,7 +10,7 @@ import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar from '../data/location/Radar';
-// import TempStorage from '../data/localStorage/TempStorage';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
 
 const QuestionnaireScreen = () => {
   Radar.on((result: any) => {
@@ -24,13 +24,13 @@ const QuestionnaireScreen = () => {
 
   const route = useRoute();
 
-  // const TempStorageInstance = TempStorage.getInstance();
-  // TempStorageInstance.storeString("ActiveQuestionaireCode", questionnaire.)
-
   useEffect(() => {
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
+    new ParticipantCode().SaveParticipantCodeToLocalStorage(
+      currentParams.questionnaire.participantCode
+    );
   }, [route.params]);
 
   return (

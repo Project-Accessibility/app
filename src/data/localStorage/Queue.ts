@@ -1,0 +1,120 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+import { QueueAction } from '../../enums/QueueAction';
+import { Question } from '../../models/Question';
+import { Questionnaire } from '../../models/Questionnaire';
+import { saveQuestionByIdAndCode, saveQuestionnaireByCode } from '../api/Questionnaire';
+import ParticipantCode from './ParticipantCode';
+
+class TempStorage {
+  private static instance: TempStorage;
+  private objectQueue: QueueObjectType[] = [];
+  private isConnected = false;
+
+  private constructor() {
+    this.LoadQueueFromLocalStorage();
+    NetInfo.fetch().then((state) => {
+      console.log('Is connected?', state.isConnected);
+      this.isConnected = state.isConnected ?? false;
+    });
+    setInterval(() => this.ExecuteQueue(), 1000 * 15);
+  }
+
+  public static getInstance(): TempStorage {
+    if (!TempStorage.instance) {
+      TempStorage.instance = new TempStorage();
+    }
+    return TempStorage.instance;
+  }
+
+  public async AddObjectToQueue(action: QueueAction, object: Object) {
+    console.log(object);
+    const participantCode = await new ParticipantCode().LoadParticipantCodeFromLocalStorage();
+    if (!participantCode) return;
+
+    let newQueueObject: QueueObjectType = {
+      key: this.generateKey(action, object),
+      action: action,
+      object: object,
+      participantCode: participantCode,
+    };
+
+    for (let i = 0; i < this.objectQueue.length; i++) {
+      if (this.objectQueue[i].key === newQueueObject.key) {
+        this.objectQueue[i] = newQueueObject;
+        console.log('replaced item in queue');
+        return;
+      }
+    }
+    this.objectQueue.push(newQueueObject);
+
+    this.SaveQueueToLocalStorage();
+  }
+
+  private generateKey(action: QueueAction, object: Object) {
+    switch (action) {
+      case QueueAction.SaveQuestion:
+        const question = object as Question;
+        return `${question.id}-question`;
+      case QueueAction.SaveQuestionnaire:
+        const questionnaire = object as Questionnaire;
+        return `${questionnaire.id}-questionnaire`;
+    }
+  }
+
+  private RemoveObjectFromQueue(queueObject: QueueObjectType) {
+    this.objectQueue = this.objectQueue.filter(
+      (QueueObject: QueueObjectType) => QueueObject.key !== queueObject.key
+    );
+
+    this.SaveQueueToLocalStorage();
+  }
+
+  private SaveQueueToLocalStorage() {
+    AsyncStorage.setItem('Queue', JSON.stringify(this.objectQueue));
+  }
+
+  private async LoadQueueFromLocalStorage() {
+    AsyncStorage.getItem('Queue')
+      .then((result: string | null) => {
+        if (result === null) this.objectQueue = [];
+        else this.objectQueue = JSON.parse(result);
+      })
+      .catch((_: Error) => {
+        this.objectQueue = [];
+      });
+  }
+
+  public ExecuteQueue() {
+    if (!this.isConnected) return;
+    for (let i = this.objectQueue.length - 1; i >= 0; i--) {
+      const queueObject = this.objectQueue[i];
+      switch (queueObject.action) {
+        case QueueAction.SaveQuestion:
+          saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question).then(
+            () => this.RemoveObjectFromQueue(queueObject)
+          );
+          break;
+        case QueueAction.SaveQuestionnaire:
+          saveQuestionnaireByCode(
+            queueObject.participantCode,
+            queueObject.object as Questionnaire
+          ).then(() => this.RemoveObjectFromQueue(queueObject));
+          break;
+      }
+    }
+  }
+
+  private unsubscribe = NetInfo.addEventListener((state) => {
+    this.isConnected = state.isConnected ?? false;
+  });
+}
+
+type QueueObjectType = {
+  key: string;
+  action: QueueAction;
+  object: Object;
+  participantCode: string;
+};
+
+export default TempStorage;
