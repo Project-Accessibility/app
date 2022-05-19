@@ -1,4 +1,4 @@
-export class Answer {
+export default class Answer {
   id: number;
   answer?: [string];
   createdAt?: Date;

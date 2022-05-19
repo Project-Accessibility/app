@@ -3,6 +3,11 @@ const ACCESSIBILITY_STRINGS = {
   homeButtonHint: 'Terug naar het hoofdscherm',
   homeTitle: 'Hoofdscherm',
 
+  codeInputField: 'Code invoeren',
+  codeInputButton: 'Code versturen',
+  codeInputButtonHint: 'Navigeert naar vragenlijst scherm',
+  codeInputButtonAction: 'versturen en navigeren',
+
   helpButton: 'Hulp knop',
   helpButtonHint: 'Naar de helppagina',
   helpTitle: 'Helppagina',
@@ -25,7 +30,7 @@ const ACCESSIBILITY_STRINGS = {
   contactCallPhoneHint: 'Bel naar het bedrijf',
 
   backButton: 'Terug knop',
-  backButtonHint: 'Terug naar vorige pagina',
+  backButtonHint: 'Terug naar',
 
   saveButton: 'Antwoord opgeslagen',
 
