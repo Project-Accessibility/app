@@ -10,7 +10,7 @@ import { QuestionOption } from '../models/QuestionOption';
 import { QuestionOptionType } from '../enums/QuestionOptionType';
 import SaveButton from '../components/generic/SaveButton';
 import OpenTextArea from '../components/questions/OpenTextArea';
-import { Answer } from '../models/Answer';
+import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 
