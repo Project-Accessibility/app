@@ -63,7 +63,7 @@ const QuestionScreen = () => {
 };
 
 function getElement(questionOption: QuestionOption) {
-  const answerId = answerId;
+  const answerId = questionOption.answers?.[0].id ?? 1;
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
