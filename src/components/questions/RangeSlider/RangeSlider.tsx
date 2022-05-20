@@ -62,7 +62,7 @@ const Range = (props: { questionOption: QuestionOption; onChange: (label: number
         <View
           style={styles.slider}
           accessibilityLabel={'Slider'}
-          accessibilityHint={'Tussen ' + range.min + ' en ' + range.max}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}`}
         >
           <RangeSlider
             min={range.min}
