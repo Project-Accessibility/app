@@ -26,7 +26,7 @@ const QuestionnaireScreen = () => {
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
-    ParticipantCode.SaveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
+    ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
 
     function setNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {

@@ -18,8 +18,8 @@ const SaveButton = ({ question }: SaveButtonProps) => {
   };
 
   const SaveData = async (questionObject: Question) => {
-    await queue.AddObjectToQueue(QueueAction.SaveQuestion, questionObject);
-    queue.ExecuteQueue();
+    await queue.addObjectToQueue(QueueAction.SaveQuestion, questionObject);
+    queue.executeQueue();
   };
 
   return (

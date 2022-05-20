@@ -12,12 +12,12 @@ class TempStorage {
   private isConnected = false;
 
   private constructor() {
-    this.LoadQueueFromLocalStorage();
+    this.loadQueueFromLocalStorage();
     NetInfo.fetch().then((state) => {
       console.log('Is connected?', state.isConnected);
       this.isConnected = state.isConnected ?? false;
     });
-    setInterval(() => this.ExecuteQueue(), 1000 * 15);
+    setInterval(() => this.executeQueue(), 1000 * 15);
   }
 
   public static getInstance(): TempStorage {
@@ -27,7 +27,7 @@ class TempStorage {
     return TempStorage.instance;
   }
 
-  private LoadQueueFromLocalStorage() {
+  private loadQueueFromLocalStorage() {
     AsyncStorage.getItem('Queue')
       .then((result: string | null) => {
         if (result === null) this.objectQueue = [];
@@ -38,9 +38,9 @@ class TempStorage {
       });
   }
 
-  public async AddObjectToQueue(action: QueueAction, object: Object) {
+  public async addObjectToQueue(action: QueueAction, object: Object) {
     console.log(object);
-    const participantCode = await ParticipantCode.LoadParticipantCodeFromLocalStorage();
+    const participantCode = await ParticipantCode.loadParticipantCodeFromLocalStorage();
     if (!participantCode) return;
 
     let newQueueObject: QueueObjectType = {
@@ -59,7 +59,7 @@ class TempStorage {
     }
     this.objectQueue.push(newQueueObject);
 
-    this.SaveQueueToLocalStorage();
+    this.saveQueueToLocalStorage();
   }
 
   private generateKey(action: QueueAction, object: Object): string {
@@ -73,33 +73,33 @@ class TempStorage {
     }
   }
 
-  private RemoveObjectFromQueue(queueObject: QueueObjectType) {
+  private removeObjectFromQueue(queueObject: QueueObjectType) {
     this.objectQueue = this.objectQueue.filter(
       (QueueObject: QueueObjectType) => QueueObject.key !== queueObject.key
     );
 
-    this.SaveQueueToLocalStorage();
+    this.saveQueueToLocalStorage();
   }
 
-  private SaveQueueToLocalStorage() {
+  private saveQueueToLocalStorage() {
     AsyncStorage.setItem('Queue', JSON.stringify(this.objectQueue));
   }
 
-  public ExecuteQueue() {
+  public executeQueue() {
     if (!this.isConnected) return;
     for (let i = this.objectQueue.length - 1; i >= 0; i--) {
       const queueObject = this.objectQueue[i];
       switch (queueObject.action) {
         case QueueAction.SaveQuestion:
           saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question).then(
-            () => this.RemoveObjectFromQueue(queueObject)
+            () => this.removeObjectFromQueue(queueObject)
           );
           break;
         case QueueAction.SaveQuestionnaire:
           saveQuestionnaireByCode(
             queueObject.participantCode,
             queueObject.object as Questionnaire
-          ).then(() => this.RemoveObjectFromQueue(queueObject));
+          ).then(() => this.removeObjectFromQueue(queueObject));
           break;
       }
     }

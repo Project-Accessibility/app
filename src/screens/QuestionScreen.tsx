@@ -28,7 +28,7 @@ const QuestionScreen = () => {
   useEffect(() => {
     return function cleanup() {
       if (!question) return;
-      queue.AddObjectToQueue(QueueAction.SaveQuestion, question as Object);
+      queue.addObjectToQueue(QueueAction.SaveQuestion, question as Object);
     };
   });
 

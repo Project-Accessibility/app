@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class ParticipantCode {
-  public static async SaveParticipantCodeToLocalStorage(code: string) {
+  public static async saveParticipantCodeToLocalStorage(code: string) {
     await AsyncStorage.setItem('ParticipantCode', code);
   }
 
-  public static async LoadParticipantCodeFromLocalStorage() {
+  public static async loadParticipantCodeFromLocalStorage() {
     return await AsyncStorage.getItem('ParticipantCode');
   }
 }
