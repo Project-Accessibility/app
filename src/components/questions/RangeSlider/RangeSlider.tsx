@@ -12,9 +12,13 @@ import FONTS from '../../../assets/fonts';
 const sliderWidth = '80%';
 const inputFieldWidth = '15%';
 
-const Range = (props: { questionOption: QuestionOption; onChange: (label: number) => void }) => {
+const Range = (props: {
+  questionOption: QuestionOption;
+  defaultValue: number;
+  onChange: (label: number) => void;
+}) => {
   const range = props.questionOption.extraData as any;
-  const [currentValue, setCurrentValue] = useState(range.min);
+  const [currentValue, setCurrentValue] = useState(props.defaultValue ?? range.min);
   const [textValue, setTextValue] = useState(String(range.min));
 
   const renderThumb = useCallback(() => <Thumb />, []);

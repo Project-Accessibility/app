@@ -13,6 +13,7 @@ import OpenTextArea from '../components/questions/OpenTextArea';
 import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
+import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -61,15 +62,13 @@ function GetElement(questionOption: QuestionOption, index: number) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answers?.[0].answer?.[0]}
+          defaultValue={questionOption.answer?.values[0]}
           key={index}
           onChangeText={(value: string) => {
-            questionOption.answers = [
-              {
-                id: questionOption.answers?.[0].id ?? 1,
-                answer: [value],
-              } as Answer,
-            ];
+            questionOption.answer = {
+              id: questionOption.answer?.id ?? 1,
+              values: [value],
+            } as Answer;
           }}
         />
       );
@@ -81,6 +80,19 @@ function GetElement(questionOption: QuestionOption, index: number) {
       break;
     case QuestionOptionType.MULTIPLE_CHOICE:
       break;
+    case QuestionOptionType.RANGE:
+      return (
+        <RangeSlider
+          defaultValue={questionOption.answer?.values[0]}
+          questionOption={questionOption}
+          onChange={(value: number) => {
+            questionOption.answer = {
+              id: questionOption.answer?.id ?? 1,
+              values: [value],
+            } as Answer;
+          }}
+        />
+      );
     case QuestionOptionType.DATE:
       break;
     case QuestionOptionType.DATETIME:
