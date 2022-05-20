@@ -23,7 +23,13 @@ const SaveButton = ({ question }: SaveButtonProps) => {
   };
 
   return (
-    <TouchableOpacity style={styles.buttonView} onPress={() => onSave(question)}>
+    <TouchableOpacity
+      style={styles.buttonView}
+      accessibilityLabel={'Vraag opslaan'}
+      accessibilityHint={'Opslaan is niet definitief'}
+      accessible={true}
+      onPress={() => onSave(question)}
+    >
       <Text style={styles.buttonText}>Opslaan</Text>
     </TouchableOpacity>
   );
