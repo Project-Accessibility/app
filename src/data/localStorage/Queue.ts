@@ -59,7 +59,7 @@ class TempStorage {
     }
     this.objectQueue.push(newQueueObject);
 
-    this.saveQueueToLocalStorage();
+    await this.saveQueueToLocalStorage();
   }
 
   private generateKey(action: QueueAction, object: Object): string {
@@ -73,16 +73,16 @@ class TempStorage {
     }
   }
 
-  private removeObjectFromQueue(queueObject: QueueObjectType) {
+  private async removeObjectFromQueue(queueObject: QueueObjectType) {
     this.objectQueue = this.objectQueue.filter(
       (QueueObject: QueueObjectType) => QueueObject.key !== queueObject.key
     );
 
-    this.saveQueueToLocalStorage();
+    await this.saveQueueToLocalStorage();
   }
 
-  private saveQueueToLocalStorage() {
-    AsyncStorage.setItem('Queue', JSON.stringify(this.objectQueue));
+  private async saveQueueToLocalStorage() {
+    await AsyncStorage.setItem('Queue', JSON.stringify(this.objectQueue));
   }
 
   public executeQueue() {
