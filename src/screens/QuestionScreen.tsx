@@ -65,16 +65,27 @@ const QuestionScreen = () => {
 function getElement(questionOption: QuestionOption) {
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
-      return <OpenTextArea />;
-    case QuestionOptionType.IMAGE:
       return (
-        <ImageUpload
-          onImageSelected={function (base64Image: string): void {
+        <OpenTextArea
+          defaultValue={questionOption.answers?.[0].answer?.[0]}
+          onChangeText={(value: string) => {
             questionOption.answers = [
               {
                 id: questionOption.answers?.[0].id ?? 1,
-                answer: [base64Image] as unknown as JSON,
-                createdAt: new Date(),
+                answer: [value],
+              } as Answer,
+            ];
+          }}
+        />
+      );
+    case QuestionOptionType.IMAGE:
+      return (
+        <ImageUpload
+          onImageSelected={(base64Image: string) => {
+            questionOption.answers = [
+              {
+                id: questionOption.answers?.[0].id ?? 1,
+                answer: [base64Image],
               } as Answer,
             ];
           }}
@@ -88,12 +99,11 @@ function getElement(questionOption: QuestionOption) {
       return (
         <MultipleChoiceList
           questionOption={questionOption}
-          onClicked={function (label: string): void {
+          onClicked={(label: string) => {
             questionOption.answers = [
               {
                 id: questionOption.answers?.[0].id ?? 1,
-                answer: [label] as unknown as JSON,
-                createdAt: new Date(),
+                answer: [label],
               } as Answer,
             ];
           }}
