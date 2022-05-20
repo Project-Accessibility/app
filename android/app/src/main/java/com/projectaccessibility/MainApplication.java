@@ -46,7 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    String publishableKey = "prj_test_pk_ae2236c7436f4f0abbacf7a4dfd973126a38cbc0";
+    String publishableKey = BuildConfig.RADAR_PUBLISHABLE_KEY;
     Radar.initialize(this, publishableKey);
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
