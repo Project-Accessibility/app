@@ -82,11 +82,11 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageUpload
-          onImageSelected={(base64Image: string) => {
+          onImageSelected={(imagePath: string) => {
             questionOption.answers = [
               {
                 id: 1,
-                answer: [base64Image],
+                answer: [imagePath],
               } as Answer,
             ];
           }}

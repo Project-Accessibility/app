@@ -7,7 +7,7 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) => {
+const ImageUpload = (props: { onImageSelected: (imagePath: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
   const checkResponse = (response: ImagePickerResponse) => {
@@ -20,19 +20,19 @@ const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) 
       console.log(response.errorMessage);
     } else {
       if (response.assets && response.assets[0]) {
-        const source = response.assets[0].base64;
+        const source = response.assets[0].uri;
         props.onImageSelected(source ?? '');
         SetImage(source);
       }
     }
   };
   const UseCamera = () => {
-    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
   const PickImageFromGallery = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
@@ -56,7 +56,7 @@ const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) 
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: 'data:image/jpeg;base64,' + image,
+                  uri: image,
                 }}
               />
             </View>
