@@ -63,6 +63,7 @@ const QuestionScreen = () => {
 };
 
 function getElement(questionOption: QuestionOption) {
+  const answerId = answerId;
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
@@ -71,7 +72,7 @@ function getElement(questionOption: QuestionOption) {
           onChangeText={(value: string) => {
             questionOption.answers = [
               {
-                id: questionOption.answers?.[0].id ?? 1,
+                id: answerId,
                 answer: [value],
               } as Answer,
             ];
@@ -84,7 +85,7 @@ function getElement(questionOption: QuestionOption) {
           onImageSelected={(base64Image: string) => {
             questionOption.answers = [
               {
-                id: questionOption.answers?.[0].id ?? 1,
+                id: 1,
                 answer: [base64Image],
               } as Answer,
             ];
@@ -102,7 +103,7 @@ function getElement(questionOption: QuestionOption) {
           onClicked={(label: string) => {
             questionOption.answers = [
               {
-                id: questionOption.answers?.[0].id ?? 1,
+                id: answerId,
                 answer: [label],
               } as Answer,
             ];
