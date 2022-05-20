@@ -12,9 +12,16 @@ import { QuestionOptionType } from '../enums/QuestionOptionType';
 import { Answer } from '../models/Answer';
 import { Question } from '../models/Question';
 import { QuestionOption } from '../models/QuestionOption';
+import { QuestionOptionType } from '../enums/QuestionOptionType';
+import SaveButton from '../components/generic/SaveButton';
+import OpenTextArea from '../components/questions/OpenTextArea';
+import Answer from '../models/Answer';
+import Queue from '../data/localStorage/Queue';
+import { QueueAction } from '../enums/QueueAction';
 
 const QuestionScreen = () => {
   const route = useRoute();
+  const queue = Queue.getInstance();
   const [question, setquestion] = useState<Question>();
 
   useEffect(() => {
@@ -22,6 +29,13 @@ const QuestionScreen = () => {
     if (!currentParams) return;
     setquestion(currentParams.question);
   }, [route.params]);
+
+  useEffect(() => {
+    return function cleanup() {
+      if (!question) return;
+      queue.addObjectToQueue(QueueAction.SaveQuestion, question as Object);
+    };
+  });
 
   return (
     <MasterContainer>
@@ -45,6 +59,7 @@ const QuestionScreen = () => {
               })}
           </>
         )}
+        <SaveButton question={question} />
       </ScrollView>
     </MasterContainer>
   );

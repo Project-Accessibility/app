@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Question } from '../../models/Question';
@@ -7,13 +7,14 @@ import Button from '../generic/Button';
 const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   return (
     <>
       {questions?.map((question, index) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
-              finished={getAnsweredQuestion(question)}
+              finished={isFocused && isAnswered(question)}
               title={question.title}
               onButtonPress={() => {
                 // @ts-ignore next-line
@@ -30,17 +31,20 @@ const QuestionList = (props: { questions: Question[] }) => {
   );
 };
 
-function getAnsweredQuestion(question: Question): boolean {
-  let answeredQuestions = 0;
-  question.questionOptions?.forEach((questionOption) => {
-    questionOption.answers?.forEach((answer) => {
-      answer.answer ? answeredQuestions++ : null;
+function isAnswered(question: Question): boolean {
+  let finished = false;
+  if (!question.questionOptions) return finished;
+
+  question.questionOptions.forEach((questionOption) => {
+    if (!questionOption.answers) return finished;
+
+    questionOption.answers.forEach((answer) => {
+      if (answer.answer && answer.answer[0] !== '') {
+        finished = true;
+      }
     });
   });
-
-  let totalQuestions = question.questionOptions?.length as number;
-
-  return totalQuestions <= answeredQuestions;
+  return finished;
 }
 
 const styles = StyleSheet.create({
