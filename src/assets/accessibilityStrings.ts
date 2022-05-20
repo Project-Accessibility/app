@@ -32,9 +32,14 @@ const ACCESSIBILITY_STRINGS = {
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar',
 
+  saveButton: 'Antwoord opgeslagen',
+
   questionnaireTitle: 'Vragenlijst pagina',
 
   sectionTitle: 'Onderdeel pagina',
+
+  questionTitle: 'Vraag pagina',
+  questionOpenPlaceHolder: 'Vul hier uw antwoord in',
 
   street: 'Straat',
   postalCode: 'Postcode',
