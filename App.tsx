@@ -9,6 +9,7 @@ import ACCESSIBILITY_STRINGS from './src/assets/accessibilityStrings';
 import QuestionnaireScreen from './src/screens/QuestionnaireScreen';
 import { navigationRef } from './src/helpers/rootNavigation';
 import SectionScreen from './src/screens/SectionScreen';
+import QuestionScreen from './src/screens/QuestionScreen';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
@@ -73,6 +74,18 @@ const App = () => {
           options={{
             header: () => (
               <Header title={ACCESSIBILITY_STRINGS.sectionTitle} hasBackButton hasHelpButton />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Question"
+          component={QuestionScreen}
+          initialParams={{
+            backRouteName: ACCESSIBILITY_STRINGS.sectionTitle,
+          }}
+          options={{
+            header: () => (
+              <Header title={ACCESSIBILITY_STRINGS.questionTitle} hasBackButton hasHelpButton />
             ),
           }}
         />

@@ -9,6 +9,7 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
 import Radar, { Event, Result } from '../data/location/Radar';
 
 const QuestionnaireScreen = () => {
@@ -25,6 +26,7 @@ const QuestionnaireScreen = () => {
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
+    ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
 
     function setNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {

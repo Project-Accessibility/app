@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -6,9 +6,14 @@ import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import AudioRecorder from '../components/questions/AudioRecorder';
+import Queue from '../data/localStorage/Queue';
 import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
+  useEffect(() => {
+    Queue.getInstance();
+  }, []);
+
   return (
     <>
       <CodeInput />
