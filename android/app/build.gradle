@@ -213,7 +213,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    compile project(':react-native-audio-recorder-player')
     implementation 'io.radar:sdk:3.3.+'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
