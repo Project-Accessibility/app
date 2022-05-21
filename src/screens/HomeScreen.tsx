@@ -5,7 +5,6 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
-import AudioRecorder from '../components/questions/AudioRecorder';
 import Queue from '../data/localStorage/Queue';
 import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
@@ -19,11 +18,6 @@ const HomeScreen = () => {
       <CodeInput />
       <MasterContainer>
         <View>
-          <AudioRecorder
-            onAudioRecorded={function (recordUri: string): void {
-              console.log(recordUri);
-            }}
-          />
           <Text style={styles.title}>Vragenlijsten</Text>
           <QuestionnaireList questionnaires={[getQuestionnaireMock(), getQuestionnaireMock()]} />
         </View>
