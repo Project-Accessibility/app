@@ -38,7 +38,7 @@ function isAnswered(question: Question): boolean {
   question.questionOptions.forEach((questionOption) => {
     if (!questionOption.answer) return finished;
 
-    if (questionOption.answer && questionOption.answer?.values.length > 0) {
+    if (questionOption.answer.values.length > 0) {
       finished = true;
     }
   });
