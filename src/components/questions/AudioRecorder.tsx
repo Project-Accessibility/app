@@ -62,7 +62,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setIsDisabled(true);
 
     audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      setDuration(audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 60)));
+      setDuration(audioRecorderPlayer.mmss(Math.floor(e.currentPosition / 1000)));
       setPlayTime(nullTime);
     });
   };
@@ -87,10 +87,10 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
       setPlayTime(
         audioRecorderPlayer.mmss(
-          Math.floor(e.currentPosition / 60 > 0 ? e.currentPosition / 60 : 0)
+          Math.floor(e.currentPosition / 1000 > 0 ? e.currentPosition / 1000 : 0)
         )
       );
-      setDuration(audioRecorderPlayer.mmss(Math.floor(e.duration / 60)));
+      setDuration(audioRecorderPlayer.mmss(Math.floor(e.duration / 1000)));
       if (e.currentPosition === e.duration) {
         onStopPlay();
       }
