@@ -4,6 +4,7 @@ export enum QuestionOptionType {
   VIDEO = 'VIDEO',
   VOICE = 'VOICE',
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  RANGE = 'RANGE',
   DATE = 'DATE',
   DATETIME = 'DATETIME',
 }
