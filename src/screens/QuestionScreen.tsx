@@ -14,6 +14,7 @@ import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
+import AudioRecorder from '../components/questions/AudioRecorder';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -77,7 +78,13 @@ function GetElement(questionOption: QuestionOption, index: number) {
     case QuestionOptionType.VIDEO:
       break;
     case QuestionOptionType.VOICE:
-      break;
+      return (
+        <AudioRecorder
+          onAudioRecorded={function (recordUri: string): void {
+            console.log(recordUri);
+          }}
+        />
+      );
     case QuestionOptionType.MULTIPLE_CHOICE:
       break;
     case QuestionOptionType.RANGE:

@@ -7,7 +7,7 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) => {
+const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
   const checkResponse = (response: ImagePickerResponse) => {
@@ -81,7 +81,6 @@ const ImageUpload = (props: { onImageSelected: (base64Image: string) => void }) 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: '#fff',
     alignItems: 'flex-end',
   },
   rowContainer: {
@@ -105,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageUpload;
+export default ImageSelector;
