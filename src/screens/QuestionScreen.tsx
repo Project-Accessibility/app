@@ -5,7 +5,7 @@ import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
-import ImageUpload from '../components/questions/ImageUpload';
+import ImageSelector from '../components/questions/ImageSelector';
 import MultipleChoiceList from '../components/questions/MultipleChoiceList';
 import { Question } from '../models/Question';
 import { QuestionOption } from '../models/QuestionOption';
@@ -63,13 +63,21 @@ const QuestionScreen = () => {
   );
 };
 
+function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
+  try {
+    return questionOption.answers?.[0].id ?? 1;
+  } catch (_) {
+    return 1;
+  }
+}
+
 function getElement(questionOption: QuestionOption) {
-  const answerId = questionOption.answers?.[0].id ?? 1;
+  const answerId = getAnswerIdFromQuestionOption(questionOption);
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answers?.[0].answer?.[0]}
+          defaultValue={questionOption.answers?.[0].answer?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answers = [
               {
@@ -82,11 +90,11 @@ function getElement(questionOption: QuestionOption) {
       );
     case QuestionOptionType.IMAGE:
       return (
-        <ImageUpload
+        <ImageSelector
           onImageSelected={(imagePath: string) => {
             questionOption.answers = [
               {
-                id: 1,
+                id: answerId,
                 answer: [imagePath],
               } as Answer,
             ];
@@ -99,7 +107,12 @@ function getElement(questionOption: QuestionOption) {
       return (
         <AudioRecorder
           onAudioRecorded={function (recordUri: string): void {
-            console.log(recordUri);
+            questionOption.answers = [
+              {
+                id: answerId,
+                answer: [recordUri],
+              } as Answer,
+            ];
           }}
         />
       );
