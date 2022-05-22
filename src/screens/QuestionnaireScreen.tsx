@@ -1,6 +1,14 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -17,18 +25,19 @@ const QuestionnaireScreen = () => {
   const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
   const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
+  const [lastCountOfNearbySections, setLastCountOfNearbySections] = useState<number>(0);
 
   const route = useRoute();
 
   useEffect(() => {
-    Radar.on(setNearBySections);
+    Radar.on(configureNearBySections);
     Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
     ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
 
-    function setNearBySections(result: Result) {
+    function configureNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {
         return event.type === 'entered';
       });
@@ -42,8 +51,26 @@ const QuestionnaireScreen = () => {
         console.log(nearbyGeofenceIds);
       }
       setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
+      checkIfShowToast();
     }
-  }, [route.params, questionnaire]);
+
+    function checkIfShowToast() {
+      console.log(lastCountOfNearbySections);
+      console.log(nearbySections.length);
+      if (lastCountOfNearbySections < nearbySections.length) {
+        showToast('Er is een nieuwe onderdeel bij u in de buurt');
+      }
+      setLastCountOfNearbySections(nearbySections.length);
+    }
+
+    function showToast(msg: string) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(msg, ToastAndroid.LONG);
+      } else {
+        Alert.alert(msg);
+      }
+    }
+  }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
 
   return (
     <MasterContainer>
