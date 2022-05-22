@@ -7,7 +7,7 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageUpload = (props: { onImageSelected: (imagePath: string) => void }) => {
+const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
   const checkResponse = (response: ImagePickerResponse) => {
@@ -20,19 +20,19 @@ const ImageUpload = (props: { onImageSelected: (imagePath: string) => void }) =>
       console.log(response.errorMessage);
     } else {
       if (response.assets && response.assets[0]) {
-        const source = response.assets[0].uri;
+        const source = response.assets[0].base64;
         props.onImageSelected(source ?? '');
         SetImage(source);
       }
     }
   };
   const UseCamera = () => {
-    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
+    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
       checkResponse(response);
     });
   };
   const PickImageFromGallery = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
+    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
       checkResponse(response);
     });
   };
@@ -56,7 +56,7 @@ const ImageUpload = (props: { onImageSelected: (imagePath: string) => void }) =>
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: image,
+                  uri: 'data:image/jpeg;base64,' + image,
                 }}
               />
             </View>
@@ -81,7 +81,6 @@ const ImageUpload = (props: { onImageSelected: (imagePath: string) => void }) =>
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: '#fff',
     alignItems: 'flex-end',
   },
   rowContainer: {
@@ -105,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageUpload;
+export default ImageSelector;

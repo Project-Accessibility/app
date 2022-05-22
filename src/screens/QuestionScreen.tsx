@@ -15,6 +15,7 @@ import OpenTextArea from '../components/questions/OpenTextArea';
 import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
+import AudioRecorder from '../components/questions/AudioRecorder';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -95,7 +96,13 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VIDEO:
       break;
     case QuestionOptionType.VOICE:
-      break;
+      return (
+        <AudioRecorder
+          onAudioRecorded={function (recordUri: string): void {
+            console.log(recordUri);
+          }}
+        />
+      );
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList

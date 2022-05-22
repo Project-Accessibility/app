@@ -58,6 +58,15 @@
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answers": []
+            },
+            {
+              "id": 3,
+              "question_id": 1,
+              "type": "VOICE",
+              "extra_data": [],
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answers": []
             }
           ]
         },
