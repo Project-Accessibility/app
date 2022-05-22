@@ -23,8 +23,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontFamily: FONTS.regular,
     fontSize: 20,
-    color: COLORS.black,
+    height: 5 * 32,
     maxHeight: 5 * 32, //32 is one line
+    color: COLORS.black,
   },
 });
 

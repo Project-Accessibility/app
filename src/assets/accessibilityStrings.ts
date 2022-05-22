@@ -38,14 +38,13 @@ const ACCESSIBILITY_STRINGS = {
 
   sectionTitle: 'Onderdeel pagina',
 
-  questionTitle: 'Vraag pagina',
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
-
   street: 'Straat',
   postalCode: 'Postcode',
   city: 'Plaats',
   phone: 'Telefoon',
   email: 'E-mail',
+  questionTitle: 'Vraag pagina',
 };
 
 export default ACCESSIBILITY_STRINGS;
