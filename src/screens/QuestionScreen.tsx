@@ -5,6 +5,8 @@ import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
+import ImageSelector from '../components/questions/ImageSelector';
+import MultipleChoiceList from '../components/questions/MultipleChoiceList';
 import { Question } from '../models/Question';
 import { QuestionOption } from '../models/QuestionOption';
 import { QuestionOptionType } from '../enums/QuestionOptionType';
@@ -46,9 +48,13 @@ const QuestionScreen = () => {
             </View>
             <Divider width="100%" height={3} margin={20} />
             {question.questionOptions &&
-              question.questionOptions.map((questionOption, index) =>
-                GetElement(questionOption, index)
-              )}
+              question.questionOptions.map((questionOption, index) => {
+                return (
+                  <View key={index} style={styles.questionItem}>
+                    {getElement(questionOption)}
+                  </View>
+                );
+              })}
           </>
         )}
         <SaveButton question={question} />
@@ -57,17 +63,25 @@ const QuestionScreen = () => {
   );
 };
 
-function GetElement(questionOption: QuestionOption, index: number) {
+function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
+  try {
+    return questionOption.answers?.[0].id ?? 1;
+  } catch (_) {
+    return 1;
+  }
+}
+
+function getElement(questionOption: QuestionOption) {
+  const answerId = getAnswerIdFromQuestionOption(questionOption);
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answers?.[0].answer?.[0]}
-          key={index}
+          defaultValue={questionOption.answers?.[0].answer?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answers = [
               {
-                id: questionOption.answers?.[0].id ?? 1,
+                id: answerId,
                 answer: [value],
               } as Answer,
             ];
@@ -75,19 +89,47 @@ function GetElement(questionOption: QuestionOption, index: number) {
         />
       );
     case QuestionOptionType.IMAGE:
-      break;
+      return (
+        <ImageSelector
+          onImageSelected={(imagePath: string) => {
+            questionOption.answers = [
+              {
+                id: answerId,
+                answer: [imagePath],
+              } as Answer,
+            ];
+          }}
+        />
+      );
     case QuestionOptionType.VIDEO:
       break;
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
           onAudioRecorded={function (recordUri: string): void {
-            console.log(recordUri);
+            questionOption.answers = [
+              {
+                id: answerId,
+                answer: [recordUri],
+              } as Answer,
+            ];
           }}
         />
       );
     case QuestionOptionType.MULTIPLE_CHOICE:
-      break;
+      return (
+        <MultipleChoiceList
+          questionOption={questionOption}
+          onClicked={(label: string) => {
+            questionOption.answers = [
+              {
+                id: answerId,
+                answer: [label],
+              } as Answer,
+            ];
+          }}
+        />
+      );
     case QuestionOptionType.DATE:
       break;
     case QuestionOptionType.DATETIME:
@@ -110,6 +152,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 35,
     color: COLORS.black,
+  },
+  questionItem: {
+    marginBottom: 10,
   },
 });
 
