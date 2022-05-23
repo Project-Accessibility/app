@@ -62,7 +62,6 @@ jobs:
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
           cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
-          zip -d android/app/build/outputs/bundle/release/app-release.aab META-INF/\*
 
       - name: Sign AAB
         id: sign
