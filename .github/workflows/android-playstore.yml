@@ -82,7 +82,7 @@ jobs:
           path: android/app/build/outputs/bundle/release/app-release.aab
     
       - name: Deploy to Play Store (BETA)
-        id: deploy
+        id: deploy-beta
         uses: r0adkll/upload-google-play@v1.0.16
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
@@ -95,7 +95,7 @@ jobs:
       
       - name: Deploy to Play Store (Production)
         if: github.ref == 'refs/heads/main'
-        id: deploy
+        id: deploy-production
         uses: r0adkll/upload-google-play@v1.0.16
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
