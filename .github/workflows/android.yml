@@ -52,11 +52,11 @@ jobs:
           envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
           envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
-      # Create react-native app Bundle
-      - name: Building bundle
-        run: |
-          mkdir -p ./android/app/src/main/assets/
-          yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+      # # Create react-native app Bundle
+      # - name: Building bundle
+      #   run: |
+      #     mkdir -p ./android/app/src/main/assets/
+      #     yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
 
       # Build Android app
       - name: Build Android
@@ -68,8 +68,7 @@ jobs:
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
           echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
-          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
-          ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
+          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
 
       # Upload app as Artifact
       - name: Upload Artifact
