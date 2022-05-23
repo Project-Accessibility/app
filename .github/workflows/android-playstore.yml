@@ -1,4 +1,4 @@
-name: Build Android
+name: Build Android App PlayStore
 
 on:
   push:
@@ -74,7 +74,7 @@ jobs:
     
       - name: Deploy to Play Store (BETA)
         id: deploy
-        uses: r0adkll/upload-google-play@latest
+        uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.projectaccessibility
