@@ -54,14 +54,13 @@ jobs:
 
       # Build Android app
       - name: Build Android
-        env:
-          KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
-          KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
-          KEYSTORE_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
+        # env:
+        #   KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
+        #   KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
+        #   KEYSTORE_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
         run: |
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
-          echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
           cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
 
       - name: Sign AAB
