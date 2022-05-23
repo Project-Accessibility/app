@@ -69,7 +69,7 @@ jobs:
           export VERSION_NAME=1.0.${{ github.run_number }}
           echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
           cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
-          ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleRelease
+          ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleDebug
 
       # Upload app as Artifact
       - name: Upload Artifact
