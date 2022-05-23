@@ -88,7 +88,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.projectaccessibility
           releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
-          track: beta
+          track: alpha
           whatsNewDirectory: app-patchnotes/Android
           inAppUpdatePriority: 2
           status: completed
