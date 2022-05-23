@@ -91,3 +91,4 @@ jobs:
           track: beta
           whatsNewDirectory: app-patchnotes/Android
           inAppUpdatePriority: 2
+          status: completed
