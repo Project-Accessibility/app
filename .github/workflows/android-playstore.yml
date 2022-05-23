@@ -76,7 +76,7 @@ jobs:
           name: android-app
           path: android/app/build/outputs/bundle/release/app-release.aab
     
-      - name: Deploy to Play Store (BETA)
+      - name: Deploy to Play Store (Alpha - Closed Testing)
         id: deploy-beta
         uses: r0adkll/upload-google-play@v1.0.16
         with:
