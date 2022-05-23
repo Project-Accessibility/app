@@ -5,7 +5,6 @@ on:
     branches:
     - main
     - develop
-  pull_request:
 
 jobs:
   build-android-adhoc:
@@ -54,10 +53,6 @@ jobs:
 
       # Build Android app
       - name: Build Android
-        # env:
-        #   KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
-        #   KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
-        #   KEYSTORE_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
         run: |
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
