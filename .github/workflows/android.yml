@@ -79,4 +79,4 @@ jobs:
           name: android-app-apk
           path: |
             android/app/build/outputs/apk/debug/app-debug.apk
-            android/app/build/outputs/bundle/release/app-release.aab
+            android/app/build/outputs/bundle/debug/app-debug.aab
