@@ -52,12 +52,6 @@ jobs:
           envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
           envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
-      # # Create react-native app Bundle
-      # - name: Building bundle
-      #   run: |
-      #     mkdir -p ./android/app/src/main/assets/
-      #     yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
-
       # Build Android app
       - name: Build Android
         env:
@@ -76,6 +70,15 @@ jobs:
         with:
           retention-days: 2
           name: android-app
-          path: |
-            android/app/build/outputs/apk/debug/app-debug.apk
-            android/app/build/outputs/bundle/release/app-release.aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+    
+      - name: Deploy to Play Store (BETA)
+        id: deploy
+        uses: r0adkll/upload-google-play@latest
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.projectaccessibility
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: beta
+          whatsNewDirectory: app-patchnotes/Android
+          inAppUpdatePriority: 2
