@@ -83,10 +83,10 @@ jobs:
     
       - name: Deploy to Play Store (BETA)
         id: deploy
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.0.16
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.*
+          packageName: com.projectaccessibility
           releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
           track: beta
           whatsNewDirectory: app-patchnotes/Android
