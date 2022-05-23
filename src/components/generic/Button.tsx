@@ -26,6 +26,7 @@ const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished 
 
   return (
     <TouchableOpacity
+      accessible={true}
       style={[styles.buttonContainer, { backgroundColor: getCurrentColor() }]}
       onPress={onButtonPress}
     >
@@ -40,16 +41,28 @@ const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished 
           />
         </View>
       )}
-      <Text numberOfLines={1} style={[styles.buttonText, getButtonTextWidth()]}>
+      <Text
+        accessibilityLabel={'Onderdeel ' + title}
+        numberOfLines={1}
+        style={[styles.buttonText, getButtonTextWidth()]}
+      >
         {title}
       </Text>
       {maxAnswers && !finished ? (
         answered ? (
-          <Text numberOfLines={1} style={styles.buttonNumbers}>
+          <Text
+            accessibilityLabel={answered + ' van de ' + maxAnswers + ' vragen beantwoord'}
+            numberOfLines={1}
+            style={styles.buttonNumbers}
+          >
             {answered}/{maxAnswers}
           </Text>
         ) : (
-          <Text numberOfLines={1} style={styles.buttonNumbers}>
+          <Text
+            accessibilityLabel={'Nog geen vragen beantwoord'}
+            numberOfLines={1}
+            style={styles.buttonNumbers}
+          >
             0/{maxAnswers}
           </Text>
         )

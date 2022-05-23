@@ -39,7 +39,9 @@ async function getQuestionByIdAndCode(code: string, questionId: number): Promise
     apiEndpoints.questions.getQuestionByIdAndCode,
     { code: code, questionId: questionId }
   );
-  return response.data;
+  const data = response.data;
+  data.participantCode = code;
+  return data;
 }
 
 async function saveQuestionByIdAndCode(code: string, question: Question) {

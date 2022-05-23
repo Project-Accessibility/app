@@ -1,6 +1,14 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -9,6 +17,7 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
 import Radar, { Event, Result } from '../data/location/Radar';
 
 const QuestionnaireScreen = () => {
@@ -16,17 +25,19 @@ const QuestionnaireScreen = () => {
   const [sectionsIcon, setSectionsIcon] = useState<string>('angle-down');
   const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
+  const [lastCountOfNearbySections, setLastCountOfNearbySections] = useState<number>(0);
 
   const route = useRoute();
 
   useEffect(() => {
-    Radar.on(setNearBySections);
+    Radar.on(configureNearBySections);
     Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
+    ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
 
-    function setNearBySections(result: Result) {
+    function configureNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {
         return event.type === 'entered';
       });
@@ -40,8 +51,26 @@ const QuestionnaireScreen = () => {
         console.log(nearbyGeofenceIds);
       }
       setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
+      checkIfShowToast();
     }
-  }, [route.params, questionnaire]);
+
+    function checkIfShowToast() {
+      console.log(lastCountOfNearbySections);
+      console.log(nearbySections.length);
+      if (lastCountOfNearbySections < nearbySections.length) {
+        showToast('Er is een nieuwe onderdeel bij u in de buurt');
+      }
+      setLastCountOfNearbySections(nearbySections.length);
+    }
+
+    function showToast(msg: string) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(msg, ToastAndroid.LONG);
+      } else {
+        Alert.alert(msg);
+      }
+    }
+  }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
 
   return (
     <MasterContainer>
@@ -75,15 +104,18 @@ const QuestionnaireScreen = () => {
           </View>
           <Divider width="100%" height={3} margin={20} />
           <View>
-            <Text
-              style={styles.sectionTitle}
+            <TouchableOpacity
+              accessibilityLabel={'Alle onderdelen'}
+              accessibilityHint={'Inklapbaar, ' + (sectionsVisible ? 'open' : 'dicht')}
               onPress={() => {
                 setSectionsVisible(!sectionsVisible);
                 setSectionsIcon(sectionsVisible ? 'angle-up' : 'angle-down');
               }}
             >
-              Alle onderdelen <Icon name={sectionsIcon} size={30} />
-            </Text>
+              <Text style={styles.sectionTitle}>
+                Alle onderdelen <Icon name={sectionsIcon} size={30} />
+              </Text>
+            </TouchableOpacity>
             <Divider width="33%" height={2} margin={0} />
             {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 
@@ -16,13 +17,22 @@ const CodeInput = () => {
     <View style={styles.codeForm}>
       <TextInput
         style={styles.codeInput}
-        placeholder="Code invoeren..."
+        placeholder={ACCESSIBILITY_STRINGS.codeInputField}
         placeholderTextColor={COLORS.black}
         maxLength={5}
         autoCapitalize="characters"
         onChangeText={(value: String) => setCode(value.toUpperCase())}
       />
-      <TouchableOpacity style={styles.codeButton} onPress={handleCodeEntered}>
+      <TouchableOpacity
+        style={styles.codeButton}
+        onPress={handleCodeEntered}
+        accessible={true}
+        accessibilityLabel={ACCESSIBILITY_STRINGS.codeInputButton}
+        accessibilityHint={ACCESSIBILITY_STRINGS.codeInputButtonHint}
+        accessibilityActions={[
+          { name: 'activate', label: ACCESSIBILITY_STRINGS.codeInputButtonAction },
+        ]}
+      >
         <Icon name="chevron-right" size={60} color={COLORS.black} />
       </TouchableOpacity>
     </View>

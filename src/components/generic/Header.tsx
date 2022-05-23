@@ -44,6 +44,7 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
         <View style={styles.headerTop}>
           {hasHomeButton ? (
             <TouchableOpacity
+              accessible={true}
               accessibilityLabel={ACCESSIBILITY_STRINGS.homeButton}
               accessibilityHint={ACCESSIBILITY_STRINGS.homeButtonHint}
               onPress={() => handleHomeButton(navigation)}
@@ -54,7 +55,10 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
             hasBackButton && (
               <TouchableOpacity
                 accessibilityLabel={ACCESSIBILITY_STRINGS.backButton}
-                accessibilityHint={ACCESSIBILITY_STRINGS.backButtonHint + getBackRouteName()}
+                accessibilityHint={
+                  ACCESSIBILITY_STRINGS.backButtonHint +
+                  (getBackRouteName() !== '' ? getBackRouteName() : 'vorige pagina')
+                }
                 onPress={() => handleBackButton(navigation)}
               >
                 <Icon

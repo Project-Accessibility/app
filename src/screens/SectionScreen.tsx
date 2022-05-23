@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useIsFocused, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
@@ -7,10 +7,11 @@ import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
 import QuestionList from '../components/question/QuestionList';
 import { Section } from '../models/Section';
+import { Question } from '../models/Question';
 
 const SectionScreen = () => {
   const [section, setSection] = useState<Section>();
-
+  const isFocused = useIsFocused();
   const route = useRoute();
 
   useEffect(() => {
@@ -46,6 +47,12 @@ const SectionScreen = () => {
         <>
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
+            <Text style={styles.questionsAnswered}>
+              Beantwoord:{' '}
+              {isFocused
+                ? `${determineProgress(section.questions)} / ${section.questions.length}`
+                : ''}
+            </Text>
             <QuestionList questions={section.questions} />
           </View>
         </>
@@ -53,6 +60,26 @@ const SectionScreen = () => {
     </MasterContainer>
   );
 };
+
+function determineProgress(questions: Question[]): number {
+  let amountAnswers = 0;
+
+  for (let question of questions) {
+    if (!question.questionOptions) continue;
+
+    for (let option of question.questionOptions) {
+      if (!option.answers) continue;
+      if (option.answers.length < 1) continue;
+
+      let answer = option.answers[0].answer;
+
+      if (answer === undefined || answer[0] === '') continue;
+      amountAnswers++;
+    }
+  }
+
+  return amountAnswers;
+}
 
 const styles = StyleSheet.create({
   questionTitle: {
@@ -68,6 +95,11 @@ const styles = StyleSheet.create({
   questionsTitle: {
     fontFamily: FONTS.regular,
     fontSize: 35,
+    color: COLORS.black,
+  },
+  questionsAnswered: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
     color: COLORS.black,
   },
 });
