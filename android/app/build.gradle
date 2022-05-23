@@ -144,8 +144,8 @@ android {
         applicationId "com.projectaccessibility"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+        versionCode versCode as Integer
         resValue "string", "build_config_package", "com.projectaccessibility"
         configurations.all {
           resolutionStrategy {
