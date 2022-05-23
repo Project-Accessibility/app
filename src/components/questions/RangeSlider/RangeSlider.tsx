@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { ToastAndroid, Platform, Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { QuestionOption } from '../../../models/QuestionOption';
 import RangeSlider from 'rn-range-slider';
 import Thumb from './Thumb';
@@ -34,9 +34,11 @@ const Range = (props: {
         if (Number.isNaN(value)) {
           value = currentValue;
         } else if (value < range.min) {
+          showToast('Minimum waarde is ' + range.min);
           value = range.min;
           setTextValue(String(value));
         } else if (value > range.max) {
+          showToast('Maximum waarde is ' + range.max);
           value = range.max;
           setTextValue(String(value));
         }
@@ -50,10 +52,22 @@ const Range = (props: {
     [currentValue, props, range.max, range.min]
   );
 
+  function showToast(msg: string) {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.LONG);
+    } else {
+      Alert.alert(msg);
+    }
+  }
+
   return (
     <View style={styles.root}>
       <View style={styles.row}>
-        <View style={styles.slider}>
+        <View
+          style={styles.slider}
+          accessibilityLabel={'Slider'}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}`}
+        >
           <RangeSlider
             min={range.min}
             max={range.max}
@@ -79,6 +93,7 @@ const Range = (props: {
           keyboardType="numeric"
           onChangeText={handleValueChange}
           value={String(textValue)}
+          accessible={true}
         />
       </View>
     </View>

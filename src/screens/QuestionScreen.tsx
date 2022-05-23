@@ -5,6 +5,8 @@ import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
 import MasterContainer from '../components/generic/MasterContainer';
+import ImageSelector from '../components/questions/ImageSelector';
+import MultipleChoiceList from '../components/questions/MultipleChoiceList';
 import { Question } from '../models/Question';
 import { QuestionOption } from '../models/QuestionOption';
 import { QuestionOptionType } from '../enums/QuestionOptionType';
@@ -14,6 +16,7 @@ import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
+import AudioRecorder from '../components/questions/AudioRecorder';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -46,9 +49,13 @@ const QuestionScreen = () => {
             </View>
             <Divider width="100%" height={3} margin={20} />
             {question.questionOptions &&
-              question.questionOptions.map((questionOption, index) =>
-                GetElement(questionOption, index)
-              )}
+              question.questionOptions.map((questionOption, index) => {
+                return (
+                  <View key={index} style={styles.questionItem}>
+                    {getElement(questionOption)}
+                  </View>
+                );
+              })}
           </>
         )}
         <SaveButton question={question} />
@@ -57,13 +64,21 @@ const QuestionScreen = () => {
   );
 };
 
-function GetElement(questionOption: QuestionOption, index: number) {
+function getAnswerIdFromQuestionOption(questionOption: QuestionOption): number {
+  try {
+    return questionOption.answer?.id ?? 1;
+  } catch (_) {
+    return 1;
+  }
+}
+
+function getElement(questionOption: QuestionOption) {
+  const answerId = getAnswerIdFromQuestionOption(questionOption);
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answer?.values[0]}
-          key={index}
+          defaultValue={questionOption.answer?.values?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answer = {
               id: questionOption.answer?.id ?? 1,
@@ -73,13 +88,41 @@ function GetElement(questionOption: QuestionOption, index: number) {
         />
       );
     case QuestionOptionType.IMAGE:
-      break;
+      return (
+        <ImageSelector
+          onImageSelected={(imagePath: string) => {
+            questionOption.answer = {
+              id: answerId,
+              values: [imagePath],
+            };
+          }}
+        />
+      );
     case QuestionOptionType.VIDEO:
       break;
     case QuestionOptionType.VOICE:
-      break;
+      return (
+        <AudioRecorder
+          onAudioRecorded={(recordUri: string) => {
+            questionOption.answer = {
+              id: answerId,
+              values: [recordUri],
+            } as Answer;
+          }}
+        />
+      );
     case QuestionOptionType.MULTIPLE_CHOICE:
-      break;
+      return (
+        <MultipleChoiceList
+          questionOption={questionOption}
+          onClicked={(label: string) => {
+            questionOption.answer = {
+              id: answerId,
+              values: [label],
+            } as Answer;
+          }}
+        />
+      );
     case QuestionOptionType.RANGE:
       return (
         <RangeSlider
@@ -87,7 +130,7 @@ function GetElement(questionOption: QuestionOption, index: number) {
           questionOption={questionOption}
           onChange={(value: number) => {
             questionOption.answer = {
-              id: questionOption.answer?.id ?? 1,
+              id: answerId,
               values: [value],
             } as Answer;
           }}
@@ -115,6 +158,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 35,
     color: COLORS.black,
+  },
+  questionItem: {
+    marginBottom: 10,
   },
 });
 
