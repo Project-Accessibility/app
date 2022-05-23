@@ -69,7 +69,7 @@ jobs:
           export VERSION_NAME=1.0.${{ github.run_number }}
           echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
           cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
-          ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleDebug
+          ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
 
       # Upload app as Artifact
       - name: Upload Artifact
@@ -79,4 +79,4 @@ jobs:
           name: android-app
           path: |
             android/app/build/outputs/apk/debug/app-debug.apk
-            android/app/build/outputs/bundle/debug/app-debug.aab
+            android/app/build/outputs/bundle/release/app-release.aab
