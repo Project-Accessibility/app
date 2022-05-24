@@ -14,6 +14,7 @@ const SectionList = (props: { sections: Section[] }) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
+              accLabel={`Onderdeel ${section.title}`}
               title={section.title}
               onButtonPress={() =>
                 // @ts-ignore next-line

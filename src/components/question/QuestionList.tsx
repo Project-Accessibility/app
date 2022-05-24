@@ -12,8 +12,11 @@ const QuestionList = (props: { questions: Question[] }) => {
     <>
       {questions?.map((question, index) => {
         return (
-          <View key={index} style={styles.buttonView}>
+          <View key={index} style={styles.buttonView}
+
+          >
             <Button
+              accLabel={`vragen over ${question.title}`}
               finished={isFocused && isAnswered(question)}
               title={question.title}
               onButtonPress={() => {

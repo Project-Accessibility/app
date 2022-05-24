@@ -10,9 +10,10 @@ interface buttonProps {
   maxAnswers?: number;
   answered?: number;
   finished?: boolean;
+  accLabel: string;
 }
 
-const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished }: buttonProps) => {
+const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished, accLabel }: buttonProps) => {
   const getCurrentColor = () => {
     if (finished) return COLORS.white;
     if (!maxAnswers || !answered) return COLORS.white;
@@ -42,7 +43,7 @@ const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished 
         </View>
       )}
       <Text
-        accessibilityLabel={'Onderdeel ' + title}
+        accessibilityLabel={accLabel}
         numberOfLines={1}
         style={[styles.buttonText, getButtonTextWidth()]}
       >
