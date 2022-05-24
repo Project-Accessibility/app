@@ -80,4 +80,4 @@ jobs:
         with:
           retention-days: 2
           name: android-app
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/release/app-release-unsigned-signed.apk
