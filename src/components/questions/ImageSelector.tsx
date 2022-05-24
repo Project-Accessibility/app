@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -7,8 +7,16 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }) => {
+const ImageSelector = (props: {
+  defaultValue: string | undefined;
+  onImageSelected: (base64Image: string) => void;
+  onImageRemoved: () => void;
+}) => {
   const [image, SetImage] = React.useState<string | undefined>('');
+
+  useEffect(() => {
+    if (props.defaultValue) SetImage(props.defaultValue);
+  }, [props.defaultValue]);
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
@@ -37,6 +45,11 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
     });
   };
 
+  const RemoveImage = () => {
+    SetImage('');
+    props.onImageRemoved();
+  };
+
   const RequestCameraPermission = async () => {
     //check ios camera
     permissionCheck.checkPermission(PERMISSIONS.IOS.CAMERA);
@@ -60,7 +73,7 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
                 }}
               />
             </View>
-            <Icon onPress={() => SetImage('')} name="remove" style={styles.icon} size={48} />
+            <Icon onPress={() => RemoveImage()} name="remove" style={styles.icon} size={48} />
           </>
         ) : (
           <Text />

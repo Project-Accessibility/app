@@ -91,12 +91,21 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
+          defaultValue={questionOption.answers?.[0] ? questionOption.answers?.[0].answer?.[0] : ''}
           onImageSelected={(imagePath: string) => {
             questionOption.answers = [
               {
                 id: answerId,
                 answer: [imagePath],
               } as Answer,
+            ];
+          }}
+          onImageRemoved={() => {
+            questionOption.answers = [
+              {
+                id: answerId,
+                answer: [],
+              } as unknown as Answer,
             ];
           }}
         />
