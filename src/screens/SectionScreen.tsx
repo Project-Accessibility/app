@@ -27,29 +27,32 @@ const SectionScreen = () => {
         <>
           <View>
             <Text style={styles.questionTitle}>Beschrijving</Text>
-            <Divider width='33%' height={2} margin={0} />
+            <Divider width="33%" height={2} margin={0} />
             <Text style={styles.questionText}>{section?.description}</Text>
           </View>
-          <Divider width='100%' height={3} margin={20} />
+          <Divider width="100%" height={3} margin={20} />
         </>
       )}
       {section?.locationDescription && (
         <>
           <View>
             <Text style={styles.questionTitle}>Locatie beschrijving</Text>
-            <Divider width='33%' height={2} margin={0} />
+            <Divider width="33%" height={2} margin={0} />
             <Text style={styles.questionText}>{section?.locationDescription}</Text>
           </View>
-          <Divider width='100%' height={3} margin={20} />
+          <Divider width="100%" height={3} margin={20} />
         </>
       )}
       {section?.questions && (
         <>
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
-            <Text style={styles.questionsAnswered}
-                  accessible={true}
-                  accessibilityLabel={`${determineProgress(section.questions)} van de ${section.questions.length} beantwoord.`}
+            <Text
+              style={styles.questionsAnswered}
+              accessible={true}
+              accessibilityLabel={`${determineProgress(section.questions)} van de ${
+                section.questions.length
+              } beantwoord.`}
             >
               Beantwoord:{' '}
               {isFocused

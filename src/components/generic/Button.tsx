@@ -13,7 +13,14 @@ interface buttonProps {
   accLabel: string;
 }
 
-const MasterContainer = ({ title, onButtonPress, maxAnswers, answered, finished, accLabel }: buttonProps) => {
+const MasterContainer = ({
+  title,
+  onButtonPress,
+  maxAnswers,
+  answered,
+  finished,
+  accLabel,
+}: buttonProps) => {
   const getCurrentColor = () => {
     if (finished) return COLORS.white;
     if (!maxAnswers || !answered) return COLORS.white;
