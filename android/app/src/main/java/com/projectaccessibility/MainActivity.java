@@ -1,6 +1,11 @@
 package com.projectaccessibility;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import android.os.Bundle;
+import android.os.getActivity;
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +17,10 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ProjectAccessibility";
   }
+
+   @Override
+   protected void onCreate(Bundle savedInstanceState) {
+     // React Native Bootsplash
+     RNBootSplash.init(getActivity());
+   }
 }
