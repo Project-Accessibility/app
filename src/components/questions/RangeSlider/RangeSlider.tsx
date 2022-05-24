@@ -66,7 +66,7 @@ const Range = (props: {
         <View
           style={styles.slider}
           accessibilityLabel={'Slider'}
-          accessibilityHint={`Tussen ${range.min} en ${range.max}`}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
           <RangeSlider
             min={range.min}
