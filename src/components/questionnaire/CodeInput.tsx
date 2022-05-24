@@ -4,11 +4,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
+import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 
 const CodeInput = () => {
   const [code, setCode] = useState<String>('');
 
   const handleCodeEntered = () => {
+    getAllQuestionnaireDataByCode(code);
     //* TODO: make code entered function
     return code;
   };
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 20,
     fontFamily: FONTS.semiBold,
+    color: COLORS.black,
     fontSize: 20,
   },
   codeButton: {
