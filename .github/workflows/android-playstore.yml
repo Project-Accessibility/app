@@ -1,11 +1,10 @@
-name: Build Android
+name: Build Android App PlayStore
 
 on:
   push:
     branches:
     - main
     - develop
-  pull_request:
 
 jobs:
   build-android-adhoc:
@@ -52,28 +51,52 @@ jobs:
           envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
           envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
-      # Create react-native app Bundle
-      - name: Building bundle
-        run: |
-          mkdir -p ./android/app/src/main/assets/
-          yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
-
       # Build Android app
       - name: Build Android
-        env:
-          KEYSTORE_ALIAS_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
-          KEYSTORE_ALIAS: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
-          KEYSTORE_PASSPHRASE: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
         run: |
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
-          echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
-          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
+          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
+
+      - name: Sign AAB
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.STAGING_KEYSTORE }}
+          alias: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
+          keyPassword: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
 
       # Upload app as Artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           retention-days: 2
-          name: android-app-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: android-app
+          path: android/app/build/outputs/bundle/release/app-release.aab
+    
+      - name: Deploy to Play Store (Alpha - Closed Testing)
+        id: deploy-beta
+        uses: r0adkll/upload-google-play@v1.0.16
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.projectaccessibility
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: alpha
+          whatsNewDirectory: app-patchnotes/Android
+          inAppUpdatePriority: 2
+          status: completed
+      
+      - name: Deploy to Play Store (Production)
+        if: github.ref == 'refs/heads/main'
+        id: deploy-production
+        uses: r0adkll/upload-google-play@v1.0.16
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.projectaccessibility
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: production
+          whatsNewDirectory: app-patchnotes/Android
+          inAppUpdatePriority: 2
+          status: completed
