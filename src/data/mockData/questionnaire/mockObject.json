@@ -43,9 +43,7 @@
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
                 "id": 1,
-                "values": [
-                  "Prachtig, precies de juiste hoogte"
-                ],
+                "values": ["Prachtig, precies de juiste hoogte"],
                 "createdAt": "2022-04-03T19:17:30.000000Z",
                 "updatedAt": "2022-04-03T19:17:30.000000Z"
               }
@@ -100,9 +98,7 @@
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
                 "id": 2,
-                "values": [
-                  "Veel te fel."
-                ],
+                "values": ["Veel te fel."],
                 "createdAt": "2022-04-03T19:17:30.000000Z",
                 "updatedAt": "2022-04-03T19:17:30.000000Z"
               }
@@ -121,11 +117,7 @@
               "type": "MULTIPLE_CHOICE",
               "extraData": {
                 "multiple": true,
-                "values": [
-                  "Te fel",
-                  "Precies goed",
-                  "Niet fel genoeg"
-                ]
+                "values": ["Te fel", "Precies goed", "Niet fel genoeg"]
               },
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
