@@ -5,8 +5,8 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
-import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
 const HomeScreen = () => {
   useEffect(() => {
@@ -19,7 +19,7 @@ const HomeScreen = () => {
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={[getQuestionnaireMock(), getQuestionnaireMock()]} />
+          <QuestionnaireList questionnaires={ParticipantCode.getQuestionnairesFromLocalStorage} />
         </View>
       </MasterContainer>
     </>
