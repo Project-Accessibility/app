@@ -10,7 +10,6 @@ import ImageModal from 'react-native-image-modal';
 const ImageSelector = (props: {
   defaultValue: string | undefined;
   onImageSelected: (base64Image: string) => void;
-  onImageRemoved: () => void;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
@@ -47,7 +46,7 @@ const ImageSelector = (props: {
 
   const RemoveImage = () => {
     SetImage('');
-    props.onImageRemoved();
+    props.onImageSelected('');
   };
 
   const RequestCameraPermission = async () => {
