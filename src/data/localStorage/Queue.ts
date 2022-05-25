@@ -40,7 +40,7 @@ class TempStorage {
 
   public async addObjectToQueue(action: QueueAction, object: Object) {
     console.log(object);
-    const participantCode = await ParticipantCode.loadParticipantCodeFromLocalStorage();
+    const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
     if (!participantCode) return;
 
     let newQueueObject: QueueObjectType = {
