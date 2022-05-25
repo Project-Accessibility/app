@@ -6,12 +6,12 @@ import Config from 'react-native-config';
 function ActiveApiEndpoint(): String {
   if (IsDev) {
     if (Config.FORCE_CERTAIN_ENDPOINT) {
-      return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.devApi;
+      return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.localApi;
     }
-    return Routes.hosts.devApi;
+    return Routes.hosts.localApi;
   }
 
-  return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.devApi;
+  return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.accApi;
 }
 
 export default ActiveApiEndpoint;
