@@ -14,6 +14,7 @@ const QuestionList = (props: { questions: Question[] }) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
+              accLabel={`vragen over ${question.title}`}
               finished={isFocused && isAnswered(question)}
               title={question.title}
               onButtonPress={() => {
