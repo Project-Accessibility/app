@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
-import ParticipantCode from '../data/localStorage/ParticipantCode';
+import ParticipantCode, { questionnaire } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
 
 const HomeScreen = () => {
+  const [questionnaires, setQuestionnaires] = useState<questionnaire[]>([]);
+
   useEffect(() => {
     Queue.getInstance();
+
+    initQuestionnaires();
   }, []);
+
+  const initQuestionnaires = async () => {
+    const result = await ParticipantCode.getQuestionnairesFromLocalStorage();
+    if (!result) return setQuestionnaires([]);
+    setQuestionnaires(result);
+  };
 
   return (
     <>
@@ -19,7 +29,7 @@ const HomeScreen = () => {
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={ParticipantCode.getQuestionnairesFromLocalStorage} />
+          <QuestionnaireList questionnaires={questionnaires} />
         </View>
       </MasterContainer>
     </>
