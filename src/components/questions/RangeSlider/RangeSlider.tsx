@@ -12,9 +12,13 @@ import FONTS from '../../../assets/fonts';
 const sliderWidth = '80%';
 const inputFieldWidth = '15%';
 
-const Range = (props: { questionOption: QuestionOption; onChange: (label: number) => void }) => {
+const Range = (props: {
+  questionOption: QuestionOption;
+  defaultValue: number;
+  onChange: (label: number) => void;
+}) => {
   const range = props.questionOption.extraData as any;
-  const [currentValue, setCurrentValue] = useState(range.min);
+  const [currentValue, setCurrentValue] = useState(props.defaultValue ?? range.min);
   const [textValue, setTextValue] = useState(String(range.min));
 
   const renderThumb = useCallback(() => <Thumb />, []);
@@ -62,7 +66,7 @@ const Range = (props: { questionOption: QuestionOption; onChange: (label: number
         <View
           style={styles.slider}
           accessibilityLabel={'Slider'}
-          accessibilityHint={`Tussen ${range.min} en ${range.max}`}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
           <RangeSlider
             min={range.min}
