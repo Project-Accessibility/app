@@ -29,8 +29,6 @@ target 'ProjectAccessibility' do
   pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
   pod 'RadarSDK', '~> 3.2.3'
 
-  pod 'RNAudioRecorderPlayer', :path => '../node_modules/react-native-audio-recorder-player'
-
   target 'ProjectAccessibilityTests' do
     inherit! :complete
     # Pods for testing
