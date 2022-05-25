@@ -13,7 +13,7 @@ interface QuestionnaireListProps {
 const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
   const navigation = useNavigation();
 
-  const handleCodeEntered = async (code: string) => {
+  const handleQuestionnaireSelected = async (code: string) => {
     let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
     if (questionnaireResponse.status === 200) {
       const questionnaireData: Questionnaire = questionnaireResponse.data;
@@ -38,7 +38,7 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
           <View key={index} style={styles.buttonView}>
             <Button
               title={questionnaireItem.name}
-              onButtonPress={() => handleCodeEntered(questionnaireItem.code)}
+              onButtonPress={() => handleQuestionnaireSelected(questionnaireItem.code)}
             />
           </View>
         );
