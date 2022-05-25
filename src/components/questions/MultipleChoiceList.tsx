@@ -18,7 +18,7 @@ const MasterContainer = (props: {
 
   return (
     <RadioButtonRN
-      data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
+      data={multipleChoiceQuestions ? stringArrayToRadioButtonData(multipleChoiceQuestions) : []}
       selectedBtn={(selected: RadioButtonData) => {
         props.onClicked(selected.label);
       }}

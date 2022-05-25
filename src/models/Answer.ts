@@ -1,17 +1,13 @@
 export default class Answer {
   id: number;
-  answer?: [string];
+  values?: string[];
   createdAt?: Date;
   updatedAt?: Date;
 
-  constructor(id: number, answer?: [string], createdAt?: Date, updatedAt?: Date) {
+  constructor(id: number, values?: string[], createdAt?: Date, updatedAt?: Date) {
     this.id = id;
-    this.answer = answer;
+    this.values = values;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
-
-  // hasAnswer() {
-  //   return this.answer !== undefined && this.answer !== "";
-  // }
 }

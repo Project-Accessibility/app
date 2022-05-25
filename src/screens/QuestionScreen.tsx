@@ -47,11 +47,11 @@ const QuestionScreen = () => {
               <Text style={styles.questionText}>{question.question}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />
-            {question.questionOptions &&
-              question.questionOptions.map((questionOption, index) => {
+            {question.options &&
+              question.options.map((option, index) => {
                 return (
                   <View key={index} style={styles.questionItem}>
-                    {getElement(questionOption)}
+                    {getElement(option)}
                   </View>
                 );
               })}
@@ -63,7 +63,7 @@ const QuestionScreen = () => {
   );
 };
 
-function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
+function getAnswerIdFromQuestionOption(questionOption: QuestionOption): number {
   try {
     return questionOption.answers?.[0].id ?? 1;
   } catch (_) {
@@ -77,7 +77,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answers?.[0].answer?.[0] ?? ''}
+          defaultValue={questionOption.answers?.[0].values?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answers = [
               {
