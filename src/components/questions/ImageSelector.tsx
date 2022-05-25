@@ -20,9 +20,9 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
       console.log(response.errorMessage);
     } else {
       if (response.assets && response.assets[0]) {
-        const source = response.assets[0].base64;
-        props.onImageSelected(source ?? '');
-        SetImage(source);
+        const source = response.assets[0];
+        props.onImageSelected(source.uri ?? '');
+        SetImage(source.base64);
       }
     }
   };
