@@ -78,7 +78,7 @@ declare module 'react-native-radar' {
 }
 
 declare module 'rn-range-slider' {
-  import * as React from 'react';
+  import React from 'react';
   import { ViewStyle } from 'react-native';
 
   interface RangeSliderProps {

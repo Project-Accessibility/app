@@ -14,6 +14,7 @@ const SectionList = (props: { sections: Section[] }) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
+              accLabel={`Onderdeel ${section.title}`}
               title={section.title}
               onButtonPress={() =>
                 // @ts-ignore next-line
@@ -36,9 +37,9 @@ function getAnsweredQuestions(section: Section): number {
   let answeredQuestions = 0;
   section.questions?.forEach((question) => {
     question.questionOptions?.forEach((questionOption) => {
-      questionOption.answers?.forEach((answer) => {
-        answer.answer ? answeredQuestions++ : null;
-      });
+      if (questionOption.answer) {
+        answeredQuestions++;
+      }
     });
   });
   return answeredQuestions;
