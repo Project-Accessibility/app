@@ -35,6 +35,8 @@ const AudioRecorder = (props: {
   const [isDisabled, setIsDisabled] = React.useState(true);
   const [playTime, setPlayTime] = React.useState(nullTime);
   const [duration, setDuration] = React.useState(nullTime);
+  const [voiceFriendlyDuration, setVoiceFriendlyDuration] =
+    React.useState('0 minuten en 0 seconden');
 
   useEffect(() => {
     if (!props.defaultValue) return;
@@ -85,6 +87,10 @@ const AudioRecorder = (props: {
     await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
 
+    let mins = duration.slice(undefined, duration.indexOf(':'));
+    let secs = duration.slice(duration.indexOf(':'), duration.length);
+    setVoiceFriendlyDuration(`${mins} minuten en ${secs} seconden`);
+
     setIsRecording(false);
     setIsDisabled(false);
 
@@ -105,6 +111,7 @@ const AudioRecorder = (props: {
         )
       );
       setDuration(audioRecorderPlayer.mmss(Math.floor(e.duration / 1000)));
+
       if (e.currentPosition === e.duration) {
         onStopPlay();
       }
@@ -145,28 +152,68 @@ const AudioRecorder = (props: {
       <View style={styles.container}>
         <View style={styles.rowContainer}>
           {isRecording ? (
-            <Icon name="stop" size={48} style={styles.icon} onPress={onStopRecord} />
+            <Icon
+              name="stop"
+              size={48}
+              accessibilityLabel={'Stop spraakopname knop'}
+              style={styles.icon}
+              onPress={onStopRecord}
+            />
           ) : (
-            <Icon name="microphone" size={48} style={styles.icon} onPress={onStartRecord} />
+            <Icon
+              name="microphone"
+              accessibilityLabel={'Opnameknop'}
+              accessibilityHint={'Start spraakopname knop'}
+              size={48}
+              style={styles.icon}
+              onPress={onStartRecord}
+            />
           )}
           {isPlaying ? (
-            <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onPausePlay}>
+            <TouchableOpacity
+              disabled={isDisabled}
+              accessible={true}
+              accessibilityLabel={'Pauzeer spraakopname knop'}
+              activeOpacity={0.5}
+              onPress={onPausePlay}
+            >
               <Icon name="pause" size={48} style={isDisabled ? styles.disabled : styles.icon} />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onStartPlay}>
+            <TouchableOpacity
+              disabled={isDisabled}
+              activeOpacity={0.5}
+              accessible={true}
+              accessibilityLabel={'Spraakopname afspelen knop'}
+              onPress={onStartPlay}
+            >
               <Icon name="play" size={48} style={isDisabled ? styles.disabled : styles.icon} />
             </TouchableOpacity>
           )}
-          <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onStopPlay}>
+          <TouchableOpacity
+            disabled={isDisabled}
+            activeOpacity={0.5}
+            onPress={onStopPlay}
+            accessibilityLabel={'Spraakopname starten vanaf het begin knop'}
+            accessibilityHint={'Ga terug naar begin opname'}
+          >
             <Icon name="backward" size={48} style={isDisabled ? styles.disabled : styles.icon} />
           </TouchableOpacity>
 
-          <TouchableOpacity disabled={isDisabled} activeOpacity={0.5} onPress={onRemoveRecord}>
+          <TouchableOpacity
+            disabled={isDisabled}
+            activeOpacity={0.5}
+            accessibilityLabel={'Verwijder spraakopname knop'}
+            accessibilityHint={'Verwijderd opname'}
+            onPress={onRemoveRecord}
+          >
             <Icon name="trash" size={48} style={isDisabled ? styles.disabled : styles.icon} />
           </TouchableOpacity>
         </View>
-        <Text style={styles.txtCounter}>
+        <Text
+          style={styles.txtCounter}
+          accessibilityLabel={`Totale afspeelduur is ${voiceFriendlyDuration}`}
+        >
           {playTime} / {duration}
         </Text>
       </View>
