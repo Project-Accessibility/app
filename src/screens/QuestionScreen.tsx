@@ -15,6 +15,7 @@ import OpenTextArea from '../components/questions/OpenTextArea';
 import Answer from '../models/Answer';
 import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
+import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
 
 const QuestionScreen = () => {
@@ -63,9 +64,9 @@ const QuestionScreen = () => {
   );
 };
 
-function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
+function getAnswerIdFromQuestionOption(questionOption: QuestionOption): number {
   try {
-    return questionOption.answers?.[0].id ?? 1;
+    return questionOption.answer?.id ?? 1;
   } catch (_) {
     return 1;
   }
@@ -77,14 +78,12 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answers?.[0].answer?.[0] ?? ''}
+          defaultValue={questionOption.answer?.values?.[0] ?? ''}
           onChangeText={(value: string) => {
-            questionOption.answers = [
-              {
-                id: answerId,
-                answer: [value],
-              } as Answer,
-            ];
+            questionOption.answer = {
+              id: questionOption.answer?.id ?? 1,
+              values: [value],
+            } as Answer;
           }}
         />
       );
@@ -92,12 +91,10 @@ function getElement(questionOption: QuestionOption) {
       return (
         <ImageSelector
           onImageSelected={(imagePath: string) => {
-            questionOption.answers = [
-              {
-                id: answerId,
-                answer: [imagePath],
-              } as Answer,
-            ];
+            questionOption.answer = {
+              id: answerId,
+              values: [imagePath],
+            };
           }}
         />
       );
@@ -106,13 +103,11 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          onAudioRecorded={function (recordUri: string): void {
-            questionOption.answers = [
-              {
-                id: answerId,
-                answer: [recordUri],
-              } as Answer,
-            ];
+          onAudioRecorded={(recordUri: string) => {
+            questionOption.answer = {
+              id: answerId,
+              values: [recordUri],
+            } as Answer;
           }}
         />
       );
@@ -121,12 +116,23 @@ function getElement(questionOption: QuestionOption) {
         <MultipleChoiceList
           questionOption={questionOption}
           onClicked={(label: string) => {
-            questionOption.answers = [
-              {
-                id: answerId,
-                answer: [label],
-              } as Answer,
-            ];
+            questionOption.answer = {
+              id: answerId,
+              values: [label],
+            } as Answer;
+          }}
+        />
+      );
+    case QuestionOptionType.RANGE:
+      return (
+        <RangeSlider
+          defaultValue={questionOption.answer?.values[0]}
+          questionOption={questionOption}
+          onChange={(value: number) => {
+            questionOption.answer = {
+              id: answerId,
+              values: [value],
+            } as Answer;
           }}
         />
       );

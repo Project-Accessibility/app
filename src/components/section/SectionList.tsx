@@ -37,9 +37,9 @@ function getAnsweredQuestions(section: Section): number {
   let answeredQuestions = 0;
   section.questions?.forEach((question) => {
     question.questionOptions?.forEach((questionOption) => {
-      questionOption.answers?.forEach((answer) => {
-        answer.answer ? answeredQuestions++ : null;
-      });
+      if (questionOption.answer) {
+        answeredQuestions++;
+      }
     });
   });
   return answeredQuestions;

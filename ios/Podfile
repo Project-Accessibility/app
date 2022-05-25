@@ -13,9 +13,7 @@ target 'ProjectAccessibility' do
   )
 
 
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
     # …
-  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
@@ -29,7 +27,6 @@ target 'ProjectAccessibility' do
   pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition"
   pod 'RadarSDK', '~> 3.2.3'
 
-  pod 'RNAudioRecorderPlayer', :path => '../node_modules/react-native-audio-recorder-player'
 
   target 'ProjectAccessibilityTests' do
     inherit! :complete
