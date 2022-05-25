@@ -215,6 +215,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-audio-recorder-player')
     implementation 'io.radar:sdk:3.3.+'
+    implementation "androidx.core:core-splashscreen:1.0.0-beta01" // Add this line
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation project(':react-native-permissions')

@@ -13,6 +13,7 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import "ReactNativeConfig.h"
 @import RadarSDK;
+#import "RNBootSplash.h"
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -31,6 +32,7 @@ static void InitializeFlipper(UIApplication *application) {
 {
 NSString *publishableKey = [ReactNativeConfig envFor:@"RADAR_PUBLISHABLE_KEY"];
 [Radar initializeWithPublishableKey:publishableKey];
+[RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif

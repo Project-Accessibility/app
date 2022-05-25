@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, TextInputProps } from 'react-native';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
