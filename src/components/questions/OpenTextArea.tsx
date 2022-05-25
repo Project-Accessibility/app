@@ -4,7 +4,7 @@ import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 
 const OpenTextArea = (props: {
-  value: string;
+  value?: string;
   placeholder?: string;
   onChangeText: (value: string) => void;
 }) => {
