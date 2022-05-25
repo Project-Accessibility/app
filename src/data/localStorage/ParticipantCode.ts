@@ -1,5 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface questionnaire {
+  code: string;
+  name: string;
+}
+
 class ParticipantCode {
   public static async saveCurrentParticipantCodeToLocalStorage(code: string) {
     await AsyncStorage.setItem('ParticipantCode', code);
@@ -9,17 +14,17 @@ class ParticipantCode {
     return await AsyncStorage.getItem('ParticipantCode');
   }
 
-  public static async addParticipantCodeToCodesInLocalStorage(code: string) {
-    let codes = await this.getParticipantCodesFromLocalStorage();
-    if (codes == null) {
-      codes = [];
+  public static async addQuestionnaireInLocalStorage(questionnaire: questionnaire) {
+    let questionnaires = await this.getQuestionnairesFromLocalStorage();
+    if (questionnaires == null) {
+      questionnaires = [];
     }
-    codes.push(code);
-    await AsyncStorage.setItem('codes', JSON.stringify(codes));
+    questionnaires.push(questionnaire);
+    await AsyncStorage.setItem('codes', JSON.stringify(questionnaires));
   }
 
-  public static async getParticipantCodesFromLocalStorage(): Promise<string[] | null> {
-    return JSON.parse(<string>await AsyncStorage.getItem('codes'));
+  public static async getQuestionnairesFromLocalStorage(): Promise<questionnaire[] | null> {
+    return JSON.parse(<string>await AsyncStorage.getItem('questionnaires'));
   }
 }
 
