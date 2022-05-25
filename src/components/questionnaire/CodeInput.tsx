@@ -25,8 +25,11 @@ const CodeInput = () => {
     let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
     if (questionnaireResponse.status === 200) {
       const questionnaire: Questionnaire = questionnaireResponse.data;
-      ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
-      ParticipantCode.addQuestionnaireInLocalStorage({ code: code, name: questionnaire.title });
+      await ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
+      await ParticipantCode.addQuestionnaireInLocalStorage({
+        code: code,
+        name: questionnaire.title,
+      });
       // @ts-ignore next-line
       navigation.navigate('Questionnaire', {
         title: questionnaire.title,

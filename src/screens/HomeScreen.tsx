@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
@@ -13,9 +14,13 @@ const HomeScreen = () => {
 
   useEffect(() => {
     Queue.getInstance();
-
-    initQuestionnaires();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      initQuestionnaires();
+    }, [])
+  );
 
   const initQuestionnaires = async () => {
     const result = await ParticipantCode.getQuestionnairesFromLocalStorage();

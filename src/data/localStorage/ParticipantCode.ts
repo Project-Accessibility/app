@@ -14,17 +14,30 @@ class ParticipantCode {
     return await AsyncStorage.getItem('ParticipantCode');
   }
 
+  private static codeAppearsInQuestionnaires(questionnaires: questionnaire[], code: string) {
+    let codeAppears = false;
+    questionnaires.forEach((q) => {
+      if (q.code === code) {
+        codeAppears = true;
+      }
+    });
+    return codeAppears;
+  }
+
   public static async addQuestionnaireInLocalStorage(questionnaire: questionnaire) {
     let questionnaires = await this.getQuestionnairesFromLocalStorage();
-    if (questionnaires == null) {
+    if (questionnaires === null) {
       questionnaires = [];
     }
-    questionnaires.push(questionnaire);
-    await AsyncStorage.setItem('codes', JSON.stringify(questionnaires));
+    if (!this.codeAppearsInQuestionnaires(questionnaires, questionnaire.code)) {
+      questionnaires.push(questionnaire);
+    }
+    await AsyncStorage.setItem('questionnaires', JSON.stringify(questionnaires));
   }
 
   public static async getQuestionnairesFromLocalStorage(): Promise<questionnaire[] | null> {
-    return JSON.parse(<string>await AsyncStorage.getItem('questionnaires'));
+    const result = await AsyncStorage.getItem('questionnaires');
+    return result ? JSON.parse(result) : null;
   }
 }
 
