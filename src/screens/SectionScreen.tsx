@@ -52,7 +52,7 @@ const SectionScreen = () => {
               accessible={true}
               accessibilityLabel={`${determineProgress(section.questions)} van de ${
                 section.questions.length
-              } beantwoord.`}
+              } vragen beantwoord.`}
             >
               Beantwoord:{' '}
               {isFocused

@@ -141,7 +141,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
             <Icon
               name="stop"
               size={48}
-              accessibilityLabel={'Stop opname knop'}
+              accessibilityLabel={'Stop spraakopname knop'}
               style={styles.icon}
               onPress={onStopRecord}
             />
@@ -149,7 +149,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
             <Icon
               name="microphone"
               accessibilityLabel={'Opnameknop'}
-              accessibilityHint={'Spreek uw antwoord in na het activeren van de knop'}
+              accessibilityHint={'Start spraakopname knop'}
               size={48}
               style={styles.icon}
               onPress={onStartRecord}
@@ -159,7 +159,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
             <TouchableOpacity
               disabled={isDisabled}
               accessible={true}
-              accessibilityLabel={'Pauzeer knop'}
+              accessibilityLabel={'Pauzeer spraakopname knop'}
               activeOpacity={0.5}
               onPress={onPausePlay}
             >
@@ -170,7 +170,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
               disabled={isDisabled}
               activeOpacity={0.5}
               accessible={true}
-              accessibilityLabel={'Afspeel knop'}
+              accessibilityLabel={'Spraakopname afspelen knop'}
               onPress={onStartPlay}
             >
               <Icon name="play" size={48} style={isDisabled ? styles.disabled : styles.icon} />
@@ -180,7 +180,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
             disabled={isDisabled}
             activeOpacity={0.5}
             onPress={onStopPlay}
-            accessibilityLabel={'Terugspoelknop'}
+            accessibilityLabel={'Spraakopname starten vanaf het begin knop'}
             accessibilityHint={'Ga terug naar begin opname'}
           >
             <Icon name="backward" size={48} style={isDisabled ? styles.disabled : styles.icon} />
@@ -189,7 +189,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
           <TouchableOpacity
             disabled={isDisabled}
             activeOpacity={0.5}
-            accessibilityLabel={'Verwijderknop'}
+            accessibilityLabel={'Verwijder spraakopname knop'}
             accessibilityHint={'Verwijderd opname'}
             onPress={onRemoveRecord}
           >
