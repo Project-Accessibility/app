@@ -73,7 +73,6 @@ function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
 
 function getElement(questionOption: QuestionOption) {
   const answerId = getAnswerIdFromQuestionOption(questionOption);
-  console.log(questionOption.answers?.[0] && questionOption.answers?.[0].answer?.[0]);
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
