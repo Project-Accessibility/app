@@ -11,6 +11,7 @@ interface RadioButtonData {
 }
 
 const MasterContainer = (props: {
+  defaultValue: string | undefined;
   questionOption: QuestionOption;
   onClicked: (label: string) => void;
 }) => {
@@ -18,6 +19,7 @@ const MasterContainer = (props: {
 
   return (
     <RadioButtonRN
+      initial={props.defaultValue ? multipleChoiceQuestions.indexOf(props.defaultValue) + 1 : -1}
       data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
       selectedBtn={(selected: RadioButtonData) => {
         props.onClicked(selected.label);

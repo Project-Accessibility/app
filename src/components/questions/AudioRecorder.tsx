@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
@@ -24,7 +24,10 @@ const nullTime = '00:00';
 let audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) => {
+const AudioRecorder = (props: {
+  defaultValue: string | undefined;
+  onAudioRecorded: (recordUri: string) => void;
+}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(false);
   const [isRecording, setIsRecording] = React.useState(false);
@@ -32,6 +35,17 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
   const [isDisabled, setIsDisabled] = React.useState(true);
   const [playTime, setPlayTime] = React.useState(nullTime);
   const [duration, setDuration] = React.useState(nullTime);
+
+  useEffect(() => {
+    if (!props.defaultValue) return;
+    setRecordUri(props.defaultValue);
+    setIsDisabled(false);
+    onStartPlay();
+    setTimeout(() => {
+      onStopPlay();
+    }, 10);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.defaultValue]);
 
   const onStartRecord = async () => {
     onStopPlay();

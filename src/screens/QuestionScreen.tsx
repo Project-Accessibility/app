@@ -73,6 +73,7 @@ function getAnswerIdFromQuestionOption(questionOption: QuestionOption): Number {
 
 function getElement(questionOption: QuestionOption) {
   const answerId = getAnswerIdFromQuestionOption(questionOption);
+  console.log(questionOption.answers?.[0] && questionOption.answers?.[0].answer?.[0]);
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
@@ -100,14 +101,6 @@ function getElement(questionOption: QuestionOption) {
               } as Answer,
             ];
           }}
-          onImageRemoved={() => {
-            questionOption.answers = [
-              {
-                id: answerId,
-                answer: [],
-              } as unknown as Answer,
-            ];
-          }}
         />
       );
     case QuestionOptionType.VIDEO:
@@ -115,6 +108,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
+          defaultValue={questionOption.answers?.[0] ? questionOption.answers?.[0].answer?.[0] : ''}
           onAudioRecorded={function (recordUri: string): void {
             questionOption.answers = [
               {
@@ -128,6 +122,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList
+          defaultValue={questionOption.answers?.[0] ? questionOption.answers?.[0].answer?.[0] : ''}
           questionOption={questionOption}
           onClicked={(label: string) => {
             questionOption.answers = [
