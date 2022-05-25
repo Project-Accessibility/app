@@ -3,6 +3,7 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
+import { AxiosResponse } from 'axios';
 
 async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[]> {
   const response = await ApiRequest.postRequest(
@@ -14,13 +15,13 @@ async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[
   return response.data;
 }
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire> {
+async function getAllQuestionnaireDataByCode(code: string): Promise<AxiosResponse> {
   const response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
   );
-  return response.data;
+  return response;
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {

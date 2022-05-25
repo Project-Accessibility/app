@@ -1,11 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
+import ParticipantCode from '../../data/localStorage/ParticipantCode';
+import { Questionnaire } from '../../models/Questionnaire';
 
 const CodeInput = () => {
   const [code, setCode] = useState<string>('');
@@ -14,14 +24,21 @@ const CodeInput = () => {
   const handleCodeEntered = async () => {
     let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
     if (questionnaireResponse.status === 200) {
-      
+      const questionnaire: Questionnaire = questionnaireResponse.data;
+      ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
+      ParticipantCode.addQuestionnaireInLocalStorage({ code: code, name: questionnaire.title });
       // @ts-ignore next-line
       navigation.navigate('Questionnaire', {
-        title: questionnaireResponse.data.title,
-        questionnaire: questionnaireResponse.data,
+        title: questionnaire.title,
+        questionnaire: questionnaire,
       });
     } else {
-      ToastAndroid.show('Vragenlijst niet gelukt op te halen', ToastAndroid.SHORT);
+      const msg = 'Vragenlijst niet gelukt op te halen';
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(msg, ToastAndroid.LONG);
+      } else {
+        Alert.alert(msg);
+      }
     }
   };
 

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface questionnaire {
+export interface questionnaire {
   code: string;
   name: string;
 }
