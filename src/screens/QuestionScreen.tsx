@@ -78,7 +78,8 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answer?.values?[0] ?? ''}
+          value={questionOption.answer?.values[0]}
+          placeholder={questionOption.extraData.placeholder}
           onChangeText={(value: string) => {
             questionOption.answer = {
               id: questionOption.answer?.id ?? 1,
@@ -90,7 +91,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          defaultValue={questionOption.answer?.values?[0] ? questionOption.answer?.values?[0] : ''}
+          value={questionOption.answer?.values[0]}
           onImageSelected={(imagePath: string) => {
             questionOption.answer = {
               id: answerId,
@@ -104,9 +105,9 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          defaultValue={questionOption.answer?.values?[0] ? questionOption.answer?.values?[0] : ''}
+          value={questionOption.answer?.values[0]}
           onAudioRecorded={function (recordUri: string): void {
-             questionOption.answer = {
+            questionOption.answer = {
               id: answerId,
               values: [recordUri],
             } as Answer;
@@ -116,7 +117,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList
-          defaultValue={questionOption.answer?.values}
+          values={questionOption.answer?.values}
           questionOption={questionOption}
           onClicked={(label: string) => {
             questionOption.answer = {
@@ -129,7 +130,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <RangeSlider
-          defaultValue={questionOption.answer?.values?[0]}
+          defaultValue={questionOption.answer?.values[0]}
           questionOption={questionOption}
           onChange={(value: number) => {
             questionOption.answer = {

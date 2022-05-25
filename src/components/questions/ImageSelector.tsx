@@ -8,14 +8,14 @@ import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
 const ImageSelector = (props: {
-  defaultValue: string | undefined;
+  value: string | undefined;
   onImageSelected: (base64Image: string) => void;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
 
   useEffect(() => {
-    if (props.defaultValue) SetImage(props.defaultValue);
-  }, [props.defaultValue]);
+    if (props.value) SetImage(props.value);
+  }, [props.value]);
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors

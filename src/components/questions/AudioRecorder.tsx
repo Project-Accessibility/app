@@ -25,7 +25,7 @@ let audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 const AudioRecorder = (props: {
-  defaultValue: string | undefined;
+  value: string | undefined;
   onAudioRecorded: (recordUri: string) => void;
 }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -39,15 +39,15 @@ const AudioRecorder = (props: {
     React.useState('0 minuten en 0 seconden');
 
   useEffect(() => {
-    if (!props.defaultValue) return;
-    setRecordUri(props.defaultValue);
+    if (!props.value) return;
+    setRecordUri(props.value);
     setIsDisabled(false);
     onStartPlay();
     setTimeout(() => {
       onStopPlay();
     }, 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.defaultValue]);
+  }, [props.value]);
 
   const onStartRecord = async () => {
     onStopPlay();
