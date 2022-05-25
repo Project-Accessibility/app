@@ -72,7 +72,14 @@ const ImageSelector = (props: {
                 }}
               />
             </View>
-            <Icon onPress={() => RemoveImage()} name="remove" style={styles.icon} size={48} />
+            <Icon
+              onPress={() => RemoveImage()}
+              name="remove"
+              style={styles.icon}
+              size={48}
+              accessible={true}
+              accessibilityLabel="Verwijder afbeelding knop"
+            />
           </>
         ) : (
           <Text />

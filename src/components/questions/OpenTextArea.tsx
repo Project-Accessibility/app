@@ -17,6 +17,8 @@ const OpenTextArea = (props: {
       numberOfLines={5}
       textAlignVertical="top"
       style={styles.openTextArea}
+      accessible={true}
+      accessibilityLabel="Open antwoord veld"
     />
   );
 };
