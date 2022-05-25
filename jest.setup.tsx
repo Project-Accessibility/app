@@ -28,3 +28,9 @@ const mockedNetinfo = netinfo as jest.Mocked<typeof netinfo>;
 jest.mock('@react-native-community/netinfo', () => {
   return mockedNetinfo;
 });
+jest.mock('react-native-bootsplash', () => {
+  return {
+    show: jest.fn().mockResolvedValueOnce(),
+    getVisibilityStatus: jest.fn().mockResolvedValue('hidden'),
+  };
+});
