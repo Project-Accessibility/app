@@ -24,6 +24,8 @@ static void InitializeFlipper(UIApplication *application) {
   [client start];
 }
 #endif
+#import "RNBootSplash.h"
+
 
 @implementation AppDelegate
 
@@ -51,6 +53,8 @@ NSString *publishableKey = [ReactNativeConfig envFor:@"RADAR_PUBLISHABLE_KEY"];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
   return YES;
 }
 
