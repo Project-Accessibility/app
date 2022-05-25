@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
@@ -7,12 +8,21 @@ import FONTS from '../../assets/fonts';
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 
 const CodeInput = () => {
-  const [code, setCode] = useState<String>('');
+  const [code, setCode] = useState<string>('');
+  const navigation = useNavigation();
 
-  const handleCodeEntered = () => {
-    getAllQuestionnaireDataByCode(code);
-    //* TODO: make code entered function
-    return code;
+  const handleCodeEntered = async () => {
+    let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
+    if (questionnaireResponse.status === 200) {
+      
+      // @ts-ignore next-line
+      navigation.navigate('Questionnaire', {
+        title: questionnaireResponse.data.title,
+        questionnaire: questionnaireResponse.data,
+      });
+    } else {
+      ToastAndroid.show('Vragenlijst niet gelukt op te halen', ToastAndroid.SHORT);
+    }
   };
 
   return (
@@ -23,7 +33,7 @@ const CodeInput = () => {
         placeholderTextColor={COLORS.black}
         maxLength={5}
         autoCapitalize="characters"
-        onChangeText={(value: String) => setCode(value.toUpperCase())}
+        onChangeText={(value: string) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity
         style={styles.codeButton}

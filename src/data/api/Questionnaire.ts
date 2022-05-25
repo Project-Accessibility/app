@@ -4,7 +4,7 @@ import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
 
-async function getQuestionnairesByCodes(codes: String[]): Promise<Questionnaire[]> {
+async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[]> {
   const response = await ApiRequest.postRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getQuestionnaireById,
@@ -14,7 +14,7 @@ async function getQuestionnairesByCodes(codes: String[]): Promise<Questionnaire[
   return response.data;
 }
 
-async function getAllQuestionnaireDataByCode(code: String): Promise<Questionnaire> {
+async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire> {
   const response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
@@ -23,7 +23,7 @@ async function getAllQuestionnaireDataByCode(code: String): Promise<Questionnair
   return response.data;
 }
 
-async function saveQuestionnaireByCode(code: String, questionnaire: Questionnaire) {
+async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
   const response = await ApiRequest.postRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.saveQuestionnaireByCode,
@@ -33,7 +33,7 @@ async function saveQuestionnaireByCode(code: String, questionnaire: Questionnair
   return response.data;
 }
 
-async function getQuestionByIdAndCode(code: String, questionId: number): Promise<Question> {
+async function getQuestionByIdAndCode(code: string, questionId: number): Promise<Question> {
   const response = await ApiRequest.getRequest(
     apiEndpoints.questions.base_endpoint,
     apiEndpoints.questions.getQuestionByIdAndCode,
@@ -44,7 +44,7 @@ async function getQuestionByIdAndCode(code: String, questionId: number): Promise
   return data;
 }
 
-async function saveQuestionByIdAndCode(code: String, question: Question) {
+async function saveQuestionByIdAndCode(code: string, question: Question) {
   const response = await ApiRequest.postRequest(
     apiEndpoints.questions.base_endpoint,
     apiEndpoints.questions.saveQuestionByIdAndCode,
