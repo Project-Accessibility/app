@@ -32,7 +32,6 @@ async function postRequest(
     'Content-Type': `multipart/form-data`,
     Accept: 'application/json',
   };
-  console.log(postData);
 
   return await fetch(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
     method: 'post',

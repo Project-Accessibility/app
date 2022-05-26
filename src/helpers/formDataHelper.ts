@@ -16,7 +16,9 @@ export function generateFormDataByQuestion(question: Question): FormData {
 
 function getFormDataKey(type: QuestionOptionType): string {
   switch (type) {
-    case QuestionOptionType.IMAGE || QuestionOptionType.VIDEO || QuestionOptionType.VOICE:
+    case QuestionOptionType.IMAGE:
+    case QuestionOptionType.VIDEO:
+    case QuestionOptionType.VOICE:
       return `${type.toUpperCase()}[]`;
     default:
       return type.toUpperCase();

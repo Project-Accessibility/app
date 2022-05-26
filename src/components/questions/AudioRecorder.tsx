@@ -95,13 +95,16 @@ const AudioRecorder = (props: {
     setIsRecording(false);
     setIsDisabled(false);
 
+    const type = Platform.OS === 'android' ? 'mp4' : 'm4a';
+    const name =
+      Platform.OS === 'android'
+        ? DEFAULT_RECORDED_FILE_NAME_ANDROID
+        : DEFAULT_RECORDED_FILE_NAME_IOS;
+
     const formDataAudio = {
       uri: recordUri,
-      type: Platform.OS === 'android' ? 'mp4' : 'm4a',
-      name:
-        Platform.OS === 'android'
-          ? DEFAULT_RECORDED_FILE_NAME_ANDROID
-          : DEFAULT_RECORDED_FILE_NAME_IOS,
+      type: 'audio/' + type,
+      name: name,
     } as FileSelectedData;
     props.onAudioRecorded(formDataAudio);
   };
