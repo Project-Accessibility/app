@@ -6,11 +6,11 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
-import ParticipantCode, { questionnaire } from '../data/localStorage/ParticipantCode';
+import ParticipantCode, { QuestionnaireDisplay } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
 
 const HomeScreen = () => {
-  const [questionnaires, setQuestionnaires] = useState<questionnaire[]>([]);
+  const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
 
   useEffect(() => {
     Queue.getInstance();

@@ -3,12 +3,12 @@ import React from 'react';
 import { Alert, Platform, StyleSheet, ToastAndroid, View } from 'react-native';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
-import { questionnaire } from '../../data/localStorage/ParticipantCode';
+import { QuestionnaireDisplay } from '../../data/localStorage/ParticipantCode';
 import { Questionnaire } from '../../models/Questionnaire';
 import Button from '../generic/Button';
 
 interface QuestionnaireListProps {
-  questionnaires: questionnaire[];
+  questionnaires: QuestionnaireDisplay[];
 }
 
 const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {

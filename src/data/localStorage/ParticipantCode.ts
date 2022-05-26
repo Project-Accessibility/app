@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export interface questionnaire {
+export interface QuestionnaireDisplay {
   code: string;
   name: string;
 }
@@ -14,7 +14,7 @@ class ParticipantCode {
     return await AsyncStorage.getItem('ParticipantCode');
   }
 
-  private static codeAppearsInQuestionnaires(questionnaires: questionnaire[], code: string) {
+  private static codeAppearsInQuestionnaires(questionnaires: QuestionnaireDisplay[], code: string) {
     let codeAppears = false;
     questionnaires.forEach((q) => {
       if (q.code === code) {
@@ -24,7 +24,7 @@ class ParticipantCode {
     return codeAppears;
   }
 
-  public static async addQuestionnaireInLocalStorage(questionnaire: questionnaire) {
+  public static async addQuestionnaireInLocalStorage(questionnaire: QuestionnaireDisplay) {
     let questionnaires = await this.getQuestionnairesFromLocalStorage();
     if (questionnaires === null) {
       questionnaires = [];
@@ -35,7 +35,7 @@ class ParticipantCode {
     await AsyncStorage.setItem('questionnaires', JSON.stringify(questionnaires));
   }
 
-  public static async getQuestionnairesFromLocalStorage(): Promise<questionnaire[] | null> {
+  public static async getQuestionnairesFromLocalStorage(): Promise<QuestionnaireDisplay[] | null> {
     const result = await AsyncStorage.getItem('questionnaires');
     return result ? JSON.parse(result) : null;
   }

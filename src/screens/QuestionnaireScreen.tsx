@@ -18,6 +18,7 @@ import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -30,7 +31,7 @@ const QuestionnaireScreen = () => {
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
+    Radar.start().then(() => 'Radar started');
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
