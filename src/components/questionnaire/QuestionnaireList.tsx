@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Alert, Platform, StyleSheet, ToastAndroid, View } from 'react-native';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import { questionnaire } from '../../data/localStorage/ParticipantCode';
 import { Questionnaire } from '../../models/Questionnaire';
@@ -25,11 +26,10 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
         });
       }
     } catch (e) {
-      const msg = 'Vragenlijst niet gelukt op te halen';
       if (Platform.OS === 'android') {
-        ToastAndroid.show(msg, ToastAndroid.LONG);
+        ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
       } else {
-        Alert.alert(msg);
+        Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
       }
     }
   };

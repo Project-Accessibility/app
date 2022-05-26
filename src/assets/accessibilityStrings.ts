@@ -45,6 +45,8 @@ const ACCESSIBILITY_STRINGS = {
   phone: 'Telefoon',
   email: 'E-mail',
   questionTitle: 'Vraag pagina',
+
+  failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
 };
 
 export default ACCESSIBILITY_STRINGS;

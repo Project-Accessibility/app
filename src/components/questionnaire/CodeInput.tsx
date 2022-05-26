@@ -38,11 +38,10 @@ const CodeInput = () => {
         });
       }
     } catch (e) {
-      const msg = 'Vragenlijst niet gelukt op te halen';
       if (Platform.OS === 'android') {
-        ToastAndroid.show(msg, ToastAndroid.LONG);
+        ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
       } else {
-        Alert.alert(msg);
+        Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
       }
     }
   };
