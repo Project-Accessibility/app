@@ -17,7 +17,6 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
-import ParticipantCode from '../data/localStorage/ParticipantCode';
 import Radar, { Event, Result } from '../data/location/Radar';
 
 const QuestionnaireScreen = () => {
@@ -35,8 +34,6 @@ const QuestionnaireScreen = () => {
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
-    ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
-
     function configureNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {
         return event.type === 'entered';
@@ -73,56 +70,59 @@ const QuestionnaireScreen = () => {
   }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
 
   return (
-    <MasterContainer>
-      {!questionnaire && <Text>Geen vragenlijst gevonden.</Text>}
-      {questionnaire?.instructions && (
-        <>
-          <View>
-            <Text style={styles.sectionTitle}>Instructies</Text>
-            <Divider width="33%" height={2} margin={0} />
-            <Text style={styles.sectionText}>{questionnaire?.instructions}</Text>
-          </View>
-          <Divider width="100%" height={3} margin={20} />
-        </>
-      )}
-      {questionnaire?.description && (
-        <>
-          <View>
-            <Text style={styles.sectionTitle}>Beschrijving</Text>
-            <Divider width="33%" height={2} margin={0} />
-            <Text style={styles.sectionText}>{questionnaire?.description}</Text>
-          </View>
-          <Divider width="100%" height={3} margin={20} />
-        </>
-      )}
-      {questionnaire?.sections && (
-        <>
-          <View>
-            <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
-            <Divider width="33%" height={2} margin={0} />
-            <SectionList sections={nearbySections} />
-          </View>
-          <Divider width="100%" height={3} margin={20} />
-          <View>
-            <TouchableOpacity
-              accessibilityLabel={'Alle onderdelen'}
-              accessibilityHint={'Inklapbaar, ' + (sectionsVisible ? 'open' : 'dicht')}
-              onPress={() => {
-                setSectionsVisible(!sectionsVisible);
-                setSectionsIcon(sectionsVisible ? 'angle-up' : 'angle-down');
-              }}
-            >
-              <Text style={styles.sectionTitle}>
-                Alle onderdelen <Icon name={sectionsIcon} size={30} />
-              </Text>
-            </TouchableOpacity>
-            <Divider width="33%" height={2} margin={0} />
-            {sectionsVisible && <SectionList sections={questionnaire.sections} />}
-          </View>
-          <Divider width="100%" height={3} margin={20} />
-        </>
-      )}
-    </MasterContainer>
+    <>
+      <View style={styles.progressBar} />
+      <MasterContainer>
+        {!questionnaire && <Text>Geen vragenlijst gevonden.</Text>}
+        {questionnaire?.instructions && (
+          <>
+            <View>
+              <Text style={styles.sectionTitle}>Instructies</Text>
+              <Divider width="33%" height={2} margin={0} />
+              <Text style={styles.sectionText}>{questionnaire?.instructions}</Text>
+            </View>
+            <Divider width="100%" height={3} margin={20} />
+          </>
+        )}
+        {questionnaire?.description && (
+          <>
+            <View>
+              <Text style={styles.sectionTitle}>Beschrijving</Text>
+              <Divider width="33%" height={2} margin={0} />
+              <Text style={styles.sectionText}>{questionnaire?.description}</Text>
+            </View>
+            <Divider width="100%" height={3} margin={20} />
+          </>
+        )}
+        {questionnaire?.sections && (
+          <>
+            <View>
+              <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
+              <Divider width="33%" height={2} margin={0} />
+              <SectionList sections={nearbySections} />
+            </View>
+            <Divider width="100%" height={3} margin={20} />
+            <View>
+              <TouchableOpacity
+                accessibilityLabel={'Alle onderdelen'}
+                accessibilityHint={'Inklapbaar, ' + (sectionsVisible ? 'open' : 'dicht')}
+                onPress={() => {
+                  setSectionsVisible(!sectionsVisible);
+                  setSectionsIcon(sectionsVisible ? 'angle-up' : 'angle-down');
+                }}
+              >
+                <Text style={styles.sectionTitle}>
+                  Alle onderdelen <Icon name={sectionsIcon} size={30} />
+                </Text>
+              </TouchableOpacity>
+              <Divider width="33%" height={2} margin={0} />
+              {sectionsVisible && <SectionList sections={questionnaire.sections} />}
+            </View>
+            <Divider width="100%" height={3} margin={20} />
+          </>
+        )}
+      </MasterContainer>
+    </>
   );
 };
 
@@ -153,6 +153,15 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 20,
     color: COLORS.black,
+  },
+  progressBar: {
+    height: 20,
+    flexDirection: 'row',
+    width: '100%',
+    backgroundColor: COLORS.black,
+    borderColor: COLORS.black,
+    borderWidth: 2,
+    borderRadius: 5,
   },
 });
 
