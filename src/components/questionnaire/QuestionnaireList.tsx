@@ -14,15 +14,17 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
   const navigation = useNavigation();
 
   const handleQuestionnaireSelected = async (code: string) => {
-    let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
-    if (questionnaireResponse.status === 200) {
-      const questionnaireData: Questionnaire = questionnaireResponse.data;
-      // @ts-ignore next-line
-      navigation.navigate('Questionnaire', {
-        title: questionnaireData.title,
-        questionnaire: questionnaireData,
-      });
-    } else {
+    try {
+      let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
+      if (questionnaireResponse.status === 200) {
+        const questionnaireData: Questionnaire = questionnaireResponse.data;
+        // @ts-ignore next-line
+        navigation.navigate('Questionnaire', {
+          title: questionnaireData.title,
+          questionnaire: questionnaireData,
+        });
+      }
+    } catch (e) {
       const msg = 'Vragenlijst niet gelukt op te halen';
       if (Platform.OS === 'android') {
         ToastAndroid.show(msg, ToastAndroid.LONG);

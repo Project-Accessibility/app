@@ -22,20 +22,22 @@ const CodeInput = () => {
   const navigation = useNavigation();
 
   const handleCodeEntered = async () => {
-    let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
-    if (questionnaireResponse.status === 200) {
-      const questionnaire: Questionnaire = questionnaireResponse.data;
-      await ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
-      await ParticipantCode.addQuestionnaireInLocalStorage({
-        code: code,
-        name: questionnaire.title,
-      });
-      // @ts-ignore next-line
-      navigation.navigate('Questionnaire', {
-        title: questionnaire.title,
-        questionnaire: questionnaire,
-      });
-    } else {
+    try {
+      let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
+      if (questionnaireResponse.status === 200) {
+        const questionnaire: Questionnaire = questionnaireResponse.data;
+        await ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
+        await ParticipantCode.addQuestionnaireInLocalStorage({
+          code: code,
+          name: questionnaire.title,
+        });
+        // @ts-ignore next-line
+        navigation.navigate('Questionnaire', {
+          title: questionnaire.title,
+          questionnaire: questionnaire,
+        });
+      }
+    } catch (e) {
       const msg = 'Vragenlijst niet gelukt op te halen';
       if (Platform.OS === 'android') {
         ToastAndroid.show(msg, ToastAndroid.LONG);
