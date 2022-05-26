@@ -5,6 +5,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import { QuestionOption } from '../../models/QuestionOption';
 import FONTS from '../../assets/fonts';
 import COLORS from '../../assets/colors';
+import { MultipleChoiceExtraData } from '../../models/questionOptionExtraData/MultipleChoiceExtraData';
 
 interface RadioButtonData {
   label: string;
@@ -14,11 +15,12 @@ const MasterContainer = (props: {
   questionOption: QuestionOption;
   onClicked: (label: string) => void;
 }) => {
-  const multipleChoiceQuestions = props.questionOption.extraData as unknown as string[];
+  const multipleChoiceQuestions = (props.questionOption.extra_data as MultipleChoiceExtraData)
+    .values;
 
   return (
     <RadioButtonRN
-      data={multipleChoiceQuestions ? stringArrayToRadioButtonData(multipleChoiceQuestions) : []}
+      data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
       selectedBtn={(selected: RadioButtonData) => {
         props.onClicked(selected.label);
       }}
