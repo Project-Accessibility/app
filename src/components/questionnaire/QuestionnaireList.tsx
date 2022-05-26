@@ -37,6 +37,7 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
         return (
           <View key={index} style={styles.buttonView}>
             <Button
+              accLabel={questionnaireItem.name}
               title={questionnaireItem.name}
               onButtonPress={() => handleQuestionnaireSelected(questionnaireItem.code)}
             />

@@ -20,19 +20,23 @@ function getRequest(
   });
 }
 
-function postRequest(
+async function postRequest(
   baseEndpoint: string,
   endpoint: string,
   endpointParams: Object = {},
-  postData: Object
-): Promise<AxiosResponse> {
+  postData: FormData
+): Promise<Response> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
-  return axios.post(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, postData, {
-    headers: {
-      [api.headers.authKey.key]: Config.API_KEY,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+  const headers = {
+    [api.headers.authKey.key]: Config.API_KEY,
+    'Content-Type': `multipart/form-data`,
+    Accept: 'application/json',
+  };
+
+  return await fetch(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
+    method: 'post',
+    headers,
+    body: postData,
   });
 }
 

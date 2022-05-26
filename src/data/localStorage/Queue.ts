@@ -91,6 +91,7 @@ class TempStorage {
       const queueObject = this.objectQueue[i];
       switch (queueObject.action) {
         case QueueAction.SaveQuestion:
+          console.log('saving');
           saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question).then(
             () => this.removeObjectFromQueue(queueObject)
           );

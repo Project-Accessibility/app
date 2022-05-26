@@ -7,8 +7,8 @@ import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 
-const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }) => {
-  const [image, SetImage] = React.useState<string | undefined>('');
+const ImageSelector = (props: { onImageSelected: (image: any) => void }) => {
+  const [image, SetImage] = React.useState<string | undefined>(undefined);
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
@@ -21,7 +21,12 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
     } else {
       if (response.assets && response.assets[0]) {
         const source = response.assets[0];
-        props.onImageSelected(source.uri ?? '');
+        const formDataImage = {
+          uri: source.uri,
+          type: source.type,
+          name: source.fileName,
+        };
+        props.onImageSelected(formDataImage);
         SetImage(source.base64);
       }
     }

@@ -34,12 +34,12 @@ const QuestionList = (props: { questions: Question[] }) => {
 
 function isAnswered(question: Question): boolean {
   let finished = false;
-  if (!question.questionOptions) return finished;
+  if (!question.options) return finished;
 
-  question.questionOptions.forEach((questionOption) => {
-    if (!questionOption.answer) return finished;
+  question.options.forEach((option) => {
+    if (!option.answer) return finished;
 
-    if (questionOption.answer.values.length > 0) {
+    if (option.answer.values.length > 0) {
       finished = true;
     }
   });

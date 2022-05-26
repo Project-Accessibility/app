@@ -90,10 +90,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          onImageSelected={(imagePath: string) => {
+          onImageSelected={(image: any) => {
             questionOption.answer = {
               id: answerId,
-              values: [imagePath],
+              values: [image],
             };
           }}
         />

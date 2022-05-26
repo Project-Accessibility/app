@@ -5,44 +5,24 @@ import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
 import { AxiosResponse } from 'axios';
 
-async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[]> {
-  const response = await ApiRequest.postRequest(
-    apiEndpoints.questionnaire.base_endpoint,
-    apiEndpoints.questionnaire.getQuestionnaireById,
-    {},
-    { codes: codes }
-  );
-  return response.data;
-}
-
 async function getAllQuestionnaireDataByCode(code: string): Promise<AxiosResponse> {
-  const response = await ApiRequest.getRequest(
+  return await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
   );
-  return response;
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
+  const formData = new FormData();
+  formData.append('questionnaire', questionnaire);
   const response = await ApiRequest.postRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.saveQuestionnaireByCode,
     { code: code },
-    questionnaire
+    formData
   );
-  return response.data;
-}
-
-async function getQuestionByIdAndCode(code: string, questionId: number): Promise<Question> {
-  const response = await ApiRequest.getRequest(
-    apiEndpoints.questions.base_endpoint,
-    apiEndpoints.questions.getQuestionByIdAndCode,
-    { code: code, questionId: questionId }
-  );
-  const data = response.data;
-  data.participantCode = code;
-  return data;
+  return response.json();
 }
 
 async function saveQuestionByIdAndCode(code: string, question: Question) {
@@ -52,13 +32,7 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     { code: code, questionId: question.id },
     generateFormDataByQuestion(question)
   );
-  return response.data;
+  return response.json();
 }
 
-export {
-  getQuestionnairesByCodes,
-  getAllQuestionnaireDataByCode,
-  saveQuestionByIdAndCode,
-  saveQuestionnaireByCode,
-  getQuestionByIdAndCode,
-};
+export { getAllQuestionnaireDataByCode, saveQuestionByIdAndCode, saveQuestionnaireByCode };
