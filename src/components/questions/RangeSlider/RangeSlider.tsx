@@ -14,11 +14,11 @@ const inputFieldWidth = '15%';
 
 const Range = (props: {
   questionOption: QuestionOption;
-  defaultValue: number;
+  value: number;
   onChange: (label: number) => void;
 }) => {
   const range = props.questionOption.extra_data as any;
-  const [currentValue, setCurrentValue] = useState(props.defaultValue ?? range.min);
+  const [currentValue, setCurrentValue] = useState(props.value ?? range.min);
   const [textValue, setTextValue] = useState(String(range.min));
 
   const renderThumb = useCallback(() => <Thumb />, []);

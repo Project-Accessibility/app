@@ -12,14 +12,21 @@ interface RadioButtonData {
 }
 
 const MasterContainer = (props: {
+  values?: string[];
   questionOption: QuestionOption;
   onClicked: (label: string) => void;
 }) => {
   const multipleChoiceQuestions = (props.questionOption.extra_data as MultipleChoiceExtraData)
     .values;
+  console.log('values' + props.values);
 
   return (
     <RadioButtonRN
+      initial={
+        props.values && props.values.length > 0
+          ? multipleChoiceQuestions.indexOf(props.values[0]) + 1
+          : -1
+      }
       data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
       selectedBtn={(selected: RadioButtonData) => {
         props.onClicked(selected.label);

@@ -79,7 +79,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answer?.values?.[0] ?? ''}
+          value={questionOption.answer?.values?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answer = {
               id: questionOption.answer?.id ?? 1,
@@ -91,12 +91,12 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          defaultValue={getImageURI(questionOption)}
-          onImageSelected={(image: FileSelectedData) => {
+          value={getImageURI(questionOption)}
+          onImageSelected={(image: FileSelectedData | null) => {
             questionOption.answer = {
               id: answerId,
-              values: [image],
-            };
+              values: image ? [image] : image,
+            } as Answer;
           }}
         />
       );
@@ -116,6 +116,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList
+          values={questionOption.answer?.values}
           questionOption={questionOption}
           onClicked={(label: string) => {
             questionOption.answer = {
@@ -128,7 +129,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <RangeSlider
-          defaultValue={questionOption.answer?.values?.[0]}
+          value={questionOption.answer?.values?.[0]}
           questionOption={questionOption}
           onChange={(value: number) => {
             questionOption.answer = {

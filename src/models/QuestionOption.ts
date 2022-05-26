@@ -4,10 +4,10 @@ import Answer from './Answer';
 export class QuestionOption {
   id: number;
   type: QuestionOptionType;
-  extra_data?: object;
+  extra_data: any;
   answer?: Answer;
 
-  constructor(id: number, type: QuestionOptionType, extra_data?: object, answer?: Answer) {
+  constructor(id: number, type: QuestionOptionType, extra_data: any, answer?: Answer) {
     this.id = id;
     this.type = type;
     this.extra_data = extra_data;
