@@ -17,31 +17,45 @@ import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import ParticipantCode from '../../data/localStorage/ParticipantCode';
 import { Questionnaire } from '../../models/Questionnaire';
 
+var isFetching = false;
+
 const CodeInput = () => {
   const [code, setCode] = useState<string>('');
   const navigation = useNavigation();
 
   const handleCodeEntered = async () => {
-    try {
-      let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
-      if (questionnaireResponse.status === 200) {
-        const questionnaire: Questionnaire = questionnaireResponse.data;
-        await ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
-        await ParticipantCode.addQuestionnaireInLocalStorage({
-          code: code,
-          name: questionnaire.title,
-        });
-        // @ts-ignore next-line
-        navigation.navigate('Questionnaire', {
-          title: questionnaire.title,
-          questionnaire: questionnaire,
-        });
+    if (!isFetching) {
+      isFetching = true;
+
+      try {
+        let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
+        if (questionnaireResponse.status === 200) {
+          const questionnaire: Questionnaire = questionnaireResponse.data;
+          await ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code);
+          await ParticipantCode.addQuestionnaireInLocalStorage({
+            code: code,
+            name: questionnaire.title,
+          });
+          // @ts-ignore next-line
+          navigation.navigate('Questionnaire', {
+            title: questionnaire.title,
+            questionnaire: questionnaire,
+          });
+        }
+      } catch (e) {
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
+        } else {
+          Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
+        }
       }
-    } catch (e) {
+
+      isFetching = false;
+    } else {
       if (Platform.OS === 'android') {
-        ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
+        ToastAndroid.show(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire, ToastAndroid.LONG);
       } else {
-        Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
+        Alert.alert(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire);
       }
     }
   };

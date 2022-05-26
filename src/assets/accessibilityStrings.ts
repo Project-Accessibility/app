@@ -47,6 +47,8 @@ const ACCESSIBILITY_STRINGS = {
   questionTitle: 'Vraag pagina',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
+  isFetchingQuestionnaire:
+    'Er wordt op dit moment al een vragnlijst opgehaald. Een ogenblik geduld.',
 };
 
 export default ACCESSIBILITY_STRINGS;
