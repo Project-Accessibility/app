@@ -14,14 +14,14 @@ class ParticipantCode {
     return await AsyncStorage.getItem('ParticipantCode');
   }
 
-  private static codeAppearsInQuestionnaires(questionnaires: QuestionnaireDisplay[], code: string) {
-    let codeAppears = false;
+  private static questionnaireExists(questionnaires: QuestionnaireDisplay[], code: string) {
+    let exists = false;
     questionnaires.forEach((q) => {
       if (q.code === code) {
-        codeAppears = true;
+        exists = true;
       }
     });
-    return codeAppears;
+    return exists;
   }
 
   public static async addQuestionnaireInLocalStorage(questionnaire: QuestionnaireDisplay) {
@@ -29,15 +29,15 @@ class ParticipantCode {
     if (questionnaires === null) {
       questionnaires = [];
     }
-    if (!this.codeAppearsInQuestionnaires(questionnaires, questionnaire.code)) {
+    if (!this.questionnaireExists(questionnaires, questionnaire.code)) {
       questionnaires.push(questionnaire);
     }
     await AsyncStorage.setItem('questionnaires', JSON.stringify(questionnaires));
   }
 
-  public static async getQuestionnairesFromLocalStorage(): Promise<QuestionnaireDisplay[] | null> {
+  public static async getQuestionnairesFromLocalStorage(): Promise<QuestionnaireDisplay[]> {
     const result = await AsyncStorage.getItem('questionnaires');
-    return result ? JSON.parse(result) : null;
+    return result ? JSON.parse(result) : [];
   }
 }
 

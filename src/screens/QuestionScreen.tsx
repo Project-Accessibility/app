@@ -149,7 +149,7 @@ function getElement(questionOption: QuestionOption) {
 function getImageURI(questionOption: QuestionOption): string {
   console.log(questionOption.answer?.values?.[0], 'value for ImageURL');
   if (questionOption.answer?.values?.[0]?.uri !== undefined) {
-    return (questionOption.answer?.values?.[0] as ImageSelectedData).uri;
+    return (questionOption.answer.values[0] as ImageSelectedData).uri;
   }
   return questionOption.answer?.values?.[0] ?? '';
 }
