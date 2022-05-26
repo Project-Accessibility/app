@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
@@ -27,7 +27,10 @@ const DEFAULT_RECORDED_FILE_NAME_ANDROID = 'sound.mp4';
 let audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-const AudioRecorder = (props: { onAudioRecorded: (audio: FileSelectedData | null) => void }) => {
+const AudioRecorder = (props: {
+  value: string;
+  onAudioRecorded: (audio: FileSelectedData | null) => void;
+}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(false);
   const [isRecording, setIsRecording] = React.useState(false);
@@ -37,6 +40,15 @@ const AudioRecorder = (props: { onAudioRecorded: (audio: FileSelectedData | null
   const [duration, setDuration] = React.useState(nullTime);
   const [voiceFriendlyDuration, setVoiceFriendlyDuration] =
     React.useState('0 minuten en 0 seconden');
+  console.log('audio_link' + props.value);
+
+  useEffect(() => {
+    const uri = props.value;
+    if (uri) {
+      setIsDisabled(false);
+      setRecordUri(uri);
+    }
+  }, [props.value]);
 
   const onStartRecord = async () => {
     onStopPlay();
@@ -85,7 +97,7 @@ const AudioRecorder = (props: { onAudioRecorded: (audio: FileSelectedData | null
 
     const formDataAudio = {
       uri: recordUri,
-      type: 'audio/m4a',
+      type: Platform.OS === 'android' ? 'mp4' : 'm4a',
       name:
         Platform.OS === 'android'
           ? DEFAULT_RECORDED_FILE_NAME_ANDROID
@@ -98,7 +110,7 @@ const AudioRecorder = (props: { onAudioRecorded: (audio: FileSelectedData | null
     if (recordUri && isPaused) {
       await audioRecorderPlayer.resumePlayer();
     } else {
-      await audioRecorderPlayer.startPlayer();
+      await audioRecorderPlayer.startPlayer(recordUri);
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {

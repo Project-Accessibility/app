@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Question } from '../../models/Question';
 import Button from '../generic/Button';
+import { QuestionOption } from '../../models/QuestionOption';
 
 const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
@@ -36,7 +37,7 @@ function isAnswered(question: Question): boolean {
   let finished = false;
   if (!question.options) return finished;
 
-  question.options.forEach((option) => {
+  question.options.forEach((option: QuestionOption) => {
     if (!option.answer) return finished;
 
     if (option.answer.values.length > 0) {

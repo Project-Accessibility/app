@@ -105,6 +105,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
+          value={questionOption.answer?.values?.[0]}
           onAudioRecorded={(audio: FileSelectedData | null) => {
             questionOption.answer = {
               id: answerId,

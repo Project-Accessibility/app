@@ -18,7 +18,6 @@ const MasterContainer = (props: {
 }) => {
   const multipleChoiceQuestions = (props.questionOption.extra_data as MultipleChoiceExtraData)
     .values;
-  console.log('values' + props.values);
 
   return (
     <RadioButtonRN
