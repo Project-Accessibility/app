@@ -40,7 +40,8 @@ function isAnswered(question: Question): boolean {
   question.options.forEach((option: QuestionOption) => {
     if (!option.answer) return finished;
 
-    if (option.answer.values.length > 0) {
+    const length: number = option.answer?.values?.length ?? 0;
+    if (length > 0) {
       finished = true;
     }
   });

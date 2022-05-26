@@ -95,7 +95,7 @@ function getElement(questionOption: QuestionOption) {
           onImageSelected={(image: FileSelectedData | null) => {
             questionOption.answer = {
               id: answerId,
-              values: image ? [image] : image,
+              values: image ? [image] : [[]],
             } as Answer;
           }}
         />
@@ -109,7 +109,7 @@ function getElement(questionOption: QuestionOption) {
           onAudioRecorded={(audio: FileSelectedData | null) => {
             questionOption.answer = {
               id: answerId,
-              values: audio ? [audio] : audio,
+              values: audio ? [audio] : [[]],
             } as Answer;
           }}
         />
