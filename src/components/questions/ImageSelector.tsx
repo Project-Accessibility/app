@@ -6,11 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
-import { ImageSelectedData } from '../../models/questionOptionExtraData/ImageSelectedData';
+import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 
 const ImageSelector = (props: {
-  onImageSelected: (selectedImageData: ImageSelectedData) => void;
+  onImageSelected: (selectedImageData: FileSelectedData) => void;
   defaultValue: string | undefined;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>(props.defaultValue);
@@ -40,7 +40,7 @@ const ImageSelector = (props: {
           uri: source.uri,
           type: source.type,
           name: source.fileName,
-        } as ImageSelectedData;
+        } as FileSelectedData;
         props.onImageSelected(formDataImage);
         SetImage(source.uri);
       }

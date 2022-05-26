@@ -1,4 +1,4 @@
-export class ImageSelectedData {
+export class FileSelectedData {
   uri: string;
   type: string;
   name: string;

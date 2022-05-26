@@ -19,12 +19,15 @@ import React from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
+import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 
 const nullTime = '00:00';
+const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
+const DEFAULT_RECORDED_FILE_NAME_ANDROID = 'sound.mp4';
 let audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) => {
+const AudioRecorder = (props: { onAudioRecorded: (audio: FileSelectedData | null) => void }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(false);
   const [isRecording, setIsRecording] = React.useState(false);
@@ -80,7 +83,15 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setIsRecording(false);
     setIsDisabled(false);
 
-    props.onAudioRecorded(recordUri);
+    const formDataAudio = {
+      uri: recordUri,
+      type: 'audio/m4a',
+      name:
+        Platform.OS === 'android'
+          ? DEFAULT_RECORDED_FILE_NAME_ANDROID
+          : DEFAULT_RECORDED_FILE_NAME_IOS,
+    } as FileSelectedData;
+    props.onAudioRecorded(formDataAudio);
   };
 
   const onStartPlay = async () => {
@@ -128,7 +139,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setPlayTime(nullTime);
     setDuration(nullTime);
 
-    props.onAudioRecorded('');
+    props.onAudioRecorded(null);
 
     onStopPlay();
   };

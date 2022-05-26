@@ -17,7 +17,7 @@ import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
-import { ImageSelectedData } from '../models/questionOptionExtraData/ImageSelectedData';
+import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -92,8 +92,7 @@ function getElement(questionOption: QuestionOption) {
       return (
         <ImageSelector
           defaultValue={getImageURI(questionOption)}
-          onImageSelected={(image: ImageSelectedData) => {
-            console.log(image);
+          onImageSelected={(image: FileSelectedData) => {
             questionOption.answer = {
               id: answerId,
               values: [image],
@@ -106,10 +105,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          onAudioRecorded={(recordUri: string) => {
+          onAudioRecorded={(audio: FileSelectedData | null) => {
             questionOption.answer = {
               id: answerId,
-              values: [recordUri],
+              values: audio ? [audio] : audio,
             } as Answer;
           }}
         />
@@ -129,7 +128,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <RangeSlider
-          defaultValue={questionOption.answer?.values[0]}
+          defaultValue={questionOption.answer?.values?.[0]}
           questionOption={questionOption}
           onChange={(value: number) => {
             questionOption.answer = {
@@ -149,7 +148,7 @@ function getElement(questionOption: QuestionOption) {
 function getImageURI(questionOption: QuestionOption): string {
   console.log(questionOption.answer?.values?.[0], 'value for ImageURL');
   if (questionOption.answer?.values?.[0]?.uri !== undefined) {
-    return (questionOption.answer.values[0] as ImageSelectedData).uri;
+    return (questionOption.answer.values[0] as FileSelectedData).uri;
   }
   return questionOption.answer?.values?.[0] ?? '';
 }

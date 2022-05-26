@@ -25,7 +25,7 @@ function getFormDataKey(type: QuestionOptionType): string {
 
 function getFormDataValue(
   type: QuestionOptionType,
-  values: any[]
+  values: any[] = []
 ): string[] | number[] | string | number {
   switch (type) {
     case QuestionOptionType.MULTIPLE_CHOICE:
