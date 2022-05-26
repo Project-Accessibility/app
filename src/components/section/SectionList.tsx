@@ -36,8 +36,8 @@ const SectionList = (props: { sections: Section[] }) => {
 function getAnsweredQuestions(section: Section): number {
   let answeredQuestions = 0;
   section.questions?.forEach((question) => {
-    question.questionOptions?.forEach((questionOption) => {
-      if (questionOption.answer) {
+    question.options?.forEach((option) => {
+      if (option.answer) {
         answeredQuestions++;
       }
     });
@@ -48,7 +48,7 @@ function getAnsweredQuestions(section: Section): number {
 function getTotalQuestions(section: Section): number {
   let totalQuestions = 0;
   section.questions?.forEach((question) => {
-    totalQuestions += question.questionOptions?.length ?? 0;
+    totalQuestions += question.options?.length ?? 0;
   });
   return totalQuestions;
 }

@@ -17,7 +17,7 @@ const Range = (props: {
   defaultValue: number;
   onChange: (label: number) => void;
 }) => {
-  const range = props.questionOption.extraData as any;
+  const range = props.questionOption.extra_data as any;
   const [currentValue, setCurrentValue] = useState(props.defaultValue ?? range.min);
   const [textValue, setTextValue] = useState(String(range.min));
 
