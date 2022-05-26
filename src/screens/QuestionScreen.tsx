@@ -79,7 +79,8 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answer?.values?.[0] ?? ''}
+          value={questionOption.answer?.values[0]}
+          placeholder={questionOption.extraData.placeholder}
           onChangeText={(value: string) => {
             questionOption.answer = {
               id: questionOption.answer?.id ?? 1,
@@ -106,7 +107,8 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          onAudioRecorded={(recordUri: string) => {
+          value={questionOption.answer?.values[0]}
+          onAudioRecorded={function (recordUri: string): void {
             questionOption.answer = {
               id: answerId,
               values: [recordUri],
@@ -117,6 +119,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList
+          values={questionOption.answer?.values}
           questionOption={questionOption}
           onClicked={(label: string) => {
             questionOption.answer = {

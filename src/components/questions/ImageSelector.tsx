@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -24,6 +24,10 @@ const ImageSelector = (props: {
       });
     }
   } catch (_) {}
+
+  useEffect(() => {
+    if (props.value) SetImage(props.value);
+  }, [props.value]);
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
@@ -57,6 +61,11 @@ const ImageSelector = (props: {
     });
   };
 
+  const RemoveImage = () => {
+    SetImage('');
+    props.onImageSelected('');
+  };
+
   const RequestCameraPermission = async () => {
     //check ios camera
     permissionCheck.checkPermission(PERMISSIONS.IOS.CAMERA);
@@ -80,7 +89,14 @@ const ImageSelector = (props: {
                 }}
               />
             </View>
-            <Icon onPress={() => SetImage('')} name="remove" style={styles.icon} size={48} />
+            <Icon
+              onPress={() => RemoveImage()}
+              name="remove"
+              style={styles.icon}
+              size={48}
+              accessible={true}
+              accessibilityLabel="Verwijder afbeelding knop"
+            />
           </>
         ) : (
           <Text />
