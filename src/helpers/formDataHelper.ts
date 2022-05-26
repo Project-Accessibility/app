@@ -29,7 +29,7 @@ function getFormDataValue(
 ): string[] | number[] | string | number {
   switch (type) {
     case QuestionOptionType.MULTIPLE_CHOICE:
-      return values;
+      return JSON.stringify(values);
     default:
       return values[0];
   }

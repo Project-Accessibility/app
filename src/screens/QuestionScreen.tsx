@@ -17,6 +17,7 @@ import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
+import { ImageSelectedData } from '../models/questionOptionExtraData/ImageSelectedData';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -90,7 +91,9 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          onImageSelected={(image: any) => {
+          defaultValue={getImageURI(questionOption)}
+          onImageSelected={(image: ImageSelectedData) => {
+            console.log(image);
             questionOption.answer = {
               id: answerId,
               values: [image],
@@ -141,6 +144,14 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.DATETIME:
       break;
   }
+}
+
+function getImageURI(questionOption: QuestionOption): string {
+  console.log(questionOption.answer?.values?.[0], 'value for ImageURL');
+  if (questionOption.answer?.values?.[0]?.uri !== undefined) {
+    return (questionOption.answer?.values?.[0] as ImageSelectedData).uri;
+  }
+  return questionOption.answer?.values?.[0] ?? '';
 }
 
 const styles = StyleSheet.create({

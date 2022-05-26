@@ -6,9 +6,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
+import { ImageSelectedData } from '../../models/questionOptionExtraData/ImageSelectedData';
+import getLastItemFromSplit from '../../helpers/splitHelper';
 
-const ImageSelector = (props: { onImageSelected: (image: any) => void }) => {
-  const [image, SetImage] = React.useState<string | undefined>(undefined);
+const ImageSelector = (props: {
+  onImageSelected: (selectedImageData: ImageSelectedData) => void;
+  defaultValue: string | undefined;
+}) => {
+  const [image, SetImage] = React.useState<string | undefined>(props.defaultValue);
+  //Check if image already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  try {
+    if (image) {
+      props.onImageSelected({
+        uri: image,
+        type: `image/${getLastItemFromSplit(image, '.')}`,
+        name: getLastItemFromSplit(image, '/'),
+      });
+    }
+  } catch (_) {}
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
@@ -25,19 +40,19 @@ const ImageSelector = (props: { onImageSelected: (image: any) => void }) => {
           uri: source.uri,
           type: source.type,
           name: source.fileName,
-        };
+        } as ImageSelectedData;
         props.onImageSelected(formDataImage);
-        SetImage(source.base64);
+        SetImage(source.uri);
       }
     }
   };
   const UseCamera = () => {
-    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
   const PickImageFromGallery = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
@@ -61,7 +76,7 @@ const ImageSelector = (props: { onImageSelected: (image: any) => void }) => {
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: 'data:image/jpeg;base64,' + image,
+                  uri: image,
                 }}
               />
             </View>
