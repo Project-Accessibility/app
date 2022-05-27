@@ -48,9 +48,6 @@ const CodeInput = () => {
         accessible={true}
         accessibilityLabel={ACCESSIBILITY_STRINGS.codeInputButton}
         accessibilityHint={ACCESSIBILITY_STRINGS.codeInputButtonHint}
-        accessibilityActions={[
-          { name: 'activate', label: ACCESSIBILITY_STRINGS.codeInputButtonAction },
-        ]}
       >
         <Icon name="chevron-right" size={60} color={COLORS.black} />
       </TouchableOpacity>
