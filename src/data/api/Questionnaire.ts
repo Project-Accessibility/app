@@ -3,14 +3,15 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
-import { AxiosResponse } from 'axios';
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<AxiosResponse> {
-  return await ApiRequest.getRequest(
+async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | null> {
+  let response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
   );
+
+  return response ? (response.data as Questionnaire) : null;
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
@@ -22,7 +23,8 @@ async function saveQuestionnaireByCode(code: string, questionnaire: Questionnair
     { code: code },
     formData
   );
-  return response.json();
+
+  return response ? response.json() : null;
 }
 
 async function saveQuestionByIdAndCode(code: string, question: Question) {
@@ -32,7 +34,8 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     { code: code, questionId: question.id },
     generateFormDataByQuestion(question)
   );
-  return response.json();
+
+  return response ? response.json() : null;
 }
 
 export { getAllQuestionnaireDataByCode, saveQuestionByIdAndCode, saveQuestionnaireByCode };

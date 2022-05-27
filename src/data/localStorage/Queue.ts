@@ -39,7 +39,6 @@ class TempStorage {
   }
 
   public async addObjectToQueue(action: QueueAction, object: Object) {
-    console.log(object);
     const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
     if (!participantCode) return;
 
@@ -89,6 +88,7 @@ class TempStorage {
     if (!this.isConnected) return;
     for (let i = this.objectQueue.length - 1; i >= 0; i--) {
       const queueObject = this.objectQueue[i];
+
       switch (queueObject.action) {
         case QueueAction.SaveQuestion:
           saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question).then(

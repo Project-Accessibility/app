@@ -6,6 +6,7 @@ import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import { QuestionnaireDisplay } from '../../data/localStorage/ParticipantCode';
 import { Questionnaire } from '../../models/Questionnaire';
 import Button from '../generic/Button';
+import { handleQuestionnaire } from './HandleQuestionnaire';
 
 interface QuestionnaireListProps {
   questionnaires: QuestionnaireDisplay[];
@@ -15,24 +16,9 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
   const navigation = useNavigation();
 
   const handleQuestionnaireSelected = async (code: string) => {
-    try {
-      let questionnaireResponse = await getAllQuestionnaireDataByCode(code);
-      if (questionnaireResponse.status === 200) {
-        const questionnaireData: Questionnaire = questionnaireResponse.data;
-        // @ts-ignore next-line
-        navigation.navigate('Questionnaire', {
-          title: questionnaireData.title,
-          questionnaire: questionnaireData,
-        });
-      }
-    } catch (e) {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
-      } else {
-        Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
-      }
-    }
+    handleQuestionnaire(code, navigation);
   };
+
   return (
     <>
       {questionnaires?.map((questionnaireItem, index) => {

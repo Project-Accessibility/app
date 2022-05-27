@@ -93,10 +93,14 @@ function getElement(questionOption: QuestionOption) {
         <ImageSelector
           value={getImageURI(questionOption)}
           onImageSelected={(image: FileSelectedData | null) => {
-            questionOption.answer = {
-              id: answerId,
-              values: image ? [image] : [[]],
-            } as Answer;
+            if (image) {
+              questionOption.answer = {
+                id: answerId,
+                values: [image],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
           }}
         />
       );
@@ -107,10 +111,14 @@ function getElement(questionOption: QuestionOption) {
         <AudioRecorder
           value={questionOption.answer?.values?.[0]}
           onAudioRecorded={(audio: FileSelectedData | null) => {
-            questionOption.answer = {
-              id: answerId,
-              values: audio ? [audio] : [[]],
-            } as Answer;
+            if (audio) {
+              questionOption.answer = {
+                id: answerId,
+                values: [audio],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
           }}
         />
       );
@@ -148,7 +156,6 @@ function getElement(questionOption: QuestionOption) {
 }
 
 function getImageURI(questionOption: QuestionOption): string {
-  console.log(questionOption.answer?.values?.[0], 'value for ImageURL');
   if (questionOption.answer?.values?.[0]?.uri !== undefined) {
     return (questionOption.answer.values[0] as FileSelectedData).uri;
   }

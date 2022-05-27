@@ -113,7 +113,7 @@ const AudioRecorder = (props: {
     if (recordUri && isPaused) {
       await audioRecorderPlayer.resumePlayer();
     } else {
-      await audioRecorderPlayer.startPlayer(recordUri);
+      await audioRecorderPlayer.startPlayer(recordUri.replace('localhost', '10.0.2.2'));
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {

@@ -4,20 +4,29 @@ import ActiveApiEndpoint from '../ActiveApiEndpoint';
 import Config from 'react-native-config';
 import { api } from '../consts.json';
 
-function getRequest(
+async function getRequest(
   baseEndpoint: string,
   endpoint: string,
   endpointParams: Object = {},
   body: Object = {}
-): Promise<AxiosResponse> {
+): Promise<AxiosResponse | null> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
-  return axios.get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
-    headers: {
-      [api.headers.authKey.key]: Config.API_KEY,
-      'Content-Type': 'application/json',
-    },
-    data: body,
-  });
+
+  return await axios
+    .get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
+      headers: {
+        [api.headers.authKey.key]: Config.API_KEY,
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log('Error with fetching data: ' + error);
+      return null;
+    });
 }
 
 async function postRequest(
@@ -25,7 +34,7 @@ async function postRequest(
   endpoint: string,
   endpointParams: Object = {},
   postData: FormData
-): Promise<Response> {
+): Promise<Response | null> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
   const headers = {
     [api.headers.authKey.key]: Config.API_KEY,
@@ -37,7 +46,14 @@ async function postRequest(
     method: 'post',
     headers,
     body: postData,
-  });
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log('Error met het verzenden: ' + error);
+      return null;
+    });
 }
 
 export { getRequest, postRequest };

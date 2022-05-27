@@ -14,6 +14,7 @@ const ImageSelector = (props: {
   onImageSelected: (selectedImageData: FileSelectedData | null) => void;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>(props.value);
+
   //Check if image already exists (this is when image is already uplaoded to DB), if so, set correct metadata
   try {
     if (image) {
@@ -85,7 +86,7 @@ const ImageSelector = (props: {
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: image,
+                  uri: image.replace('localhost', '10.0.2.2'),
                 }}
               />
             </View>
