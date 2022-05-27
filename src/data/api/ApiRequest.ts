@@ -51,7 +51,7 @@ async function postRequest(
       return response;
     })
     .catch((error) => {
-      console.log('Error met het verzenden: ' + error);
+      console.log('Error with posting data: ' + error);
       return null;
     });
 }
