@@ -1,10 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Alert, Platform, StyleSheet, ToastAndroid, View } from 'react-native';
-import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
+import { StyleSheet, View } from 'react-native';
 import { QuestionnaireDisplay } from '../../data/localStorage/ParticipantCode';
-import { Questionnaire } from '../../models/Questionnaire';
 import Button from '../generic/Button';
 import { handleQuestionnaire } from './HandleQuestionnaire';
 
