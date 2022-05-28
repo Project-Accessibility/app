@@ -20,6 +20,7 @@ import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
+import fixMediaUri from '../../helpers/mediaUriHelper';
 
 const nullTime = '00:00';
 const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
@@ -113,7 +114,7 @@ const AudioRecorder = (props: {
     if (recordUri && isPaused) {
       await audioRecorderPlayer.resumePlayer();
     } else {
-      await audioRecorderPlayer.startPlayer(recordUri.replace('localhost', '10.0.2.2'));
+      await audioRecorderPlayer.startPlayer(fixMediaUri(recordUri));
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {

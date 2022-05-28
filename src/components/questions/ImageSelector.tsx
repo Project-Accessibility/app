@@ -8,6 +8,7 @@ import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
+import fixMediaUri from '../../helpers/mediaUriHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -86,7 +87,7 @@ const ImageSelector = (props: {
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: image.replace('localhost', '10.0.2.2'),
+                  uri: fixMediaUri(image),
                 }}
               />
             </View>
