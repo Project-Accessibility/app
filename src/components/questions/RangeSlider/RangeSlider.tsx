@@ -9,8 +9,10 @@ import Label from './Label';
 import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
-const sliderWidth = '80%';
-const inputFieldWidth = '15%';
+const sliderWidthBig = '80%';
+const sliderWidthSmall = '77.5%';
+const inputWidthSmall = '15%';
+const inputWidthBig = '17.5%';
 
 const Range = (props: {
   questionOption: QuestionOption;
@@ -64,7 +66,7 @@ const Range = (props: {
     <View style={styles.root}>
       <View style={styles.row}>
         <View
-          style={styles.slider}
+          style={[styles.slider, textValue.length === 1 ? styles.sliderBig : styles.sliderSmall]}
           accessibilityLabel={'Slider'}
           accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
@@ -88,7 +90,10 @@ const Range = (props: {
           </View>
         </View>
         <TextInput
-          style={styles.rangeInput}
+          style={[
+            styles.input,
+            textValue.length === 1 ? styles.rangeInputSmall : styles.rangeInputBig,
+          ]}
           placeholderTextColor={COLORS.black}
           keyboardType="numeric"
           onChangeText={handleValueChange}
@@ -113,8 +118,13 @@ const styles = StyleSheet.create({
     alignItems: 'center', //Centered vertically
   },
   slider: {
-    width: sliderWidth,
     marginRight: 10,
+  },
+  sliderBig: {
+    width: sliderWidthBig,
+  },
+  sliderSmall: {
+    width: sliderWidthSmall,
   },
   horizontalContainer: {
     flexDirection: 'row',
@@ -126,9 +136,8 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     fontSize: 20,
   },
-  rangeInput: {
+  input: {
     backgroundColor: COLORS.white,
-    width: inputFieldWidth,
     borderWidth: 2,
     borderRadius: 20,
     flexGrow: 1,
@@ -137,6 +146,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontFamily: FONTS.semiBold,
     fontSize: 20,
+  },
+  rangeInputBig: {
+    width: inputWidthBig,
+  },
+  rangeInputSmall: {
+    width: inputWidthSmall,
   },
 });
 
