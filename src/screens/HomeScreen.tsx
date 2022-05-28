@@ -5,6 +5,7 @@ import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
 import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
+import VideoSelector from '../components/questions/VideoSelector';
 import Queue from '../data/localStorage/Queue';
 import { getQuestionnaireMock } from '../data/mockData/MockDataRetriever';
 
@@ -16,6 +17,7 @@ const HomeScreen = () => {
   return (
     <>
       <CodeInput />
+      <VideoSelector onVideoSelected={(ad: any) => console.log(ad)} value={''} />
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
