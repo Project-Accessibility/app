@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QuestionnaireDisplay } from '../../data/localStorage/ParticipantCode';
 import Button from '../generic/Button';
-import { handleQuestionnaire } from './HandleQuestionnaire';
+import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
 
 interface QuestionnaireListProps {
   questionnaires: QuestionnaireDisplay[];
@@ -13,7 +13,7 @@ const QuestionnaireList = ({ questionnaires }: QuestionnaireListProps) => {
   const navigation = useNavigation();
 
   const handleQuestionnaireSelected = async (code: string) => {
-    handleQuestionnaire(code, navigation);
+    fetchQuestionnaire(code, navigation);
   };
 
   return (

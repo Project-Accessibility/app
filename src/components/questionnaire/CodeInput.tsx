@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
-import { handleQuestionnaire } from './HandleQuestionnaire';
+import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
 
 const CodeInput = () => {
   const [code, setCode] = useState<string>('');
@@ -22,7 +22,7 @@ const CodeInput = () => {
 
   const handleCodeEntered = () => {
     if (code && code.length === 5) {
-      handleQuestionnaire(code, navigation);
+      fetchQuestionnaire(code, navigation);
     } else {
       if (Platform.OS === 'android') {
         ToastAndroid.show(ACCESSIBILITY_STRINGS.codeNotCorrect, ToastAndroid.LONG);
