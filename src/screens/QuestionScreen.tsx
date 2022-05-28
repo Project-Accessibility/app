@@ -91,7 +91,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          value={getImageURI(questionOption)}
+          value={getMediaURI(questionOption)}
           onImageSelected={(image: FileSelectedData | null) => {
             if (image) {
               questionOption.answer = {
@@ -109,7 +109,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          value={questionOption.answer?.values?.[0]}
+          value={getMediaURI(questionOption)}
           onAudioRecorded={(audio: FileSelectedData | null) => {
             if (audio) {
               questionOption.answer = {
@@ -155,7 +155,7 @@ function getElement(questionOption: QuestionOption) {
   }
 }
 
-function getImageURI(questionOption: QuestionOption): string {
+function getMediaURI(questionOption: QuestionOption): string {
   if (questionOption.answer?.values?.[0]?.uri !== undefined) {
     return (questionOption.answer.values[0] as FileSelectedData).uri;
   }

@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import getLastItemFromSplit from '../../helpers/splitHelper';
 
 const nullTime = '00:00';
 const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
@@ -50,6 +51,16 @@ const AudioRecorder = (props: {
       setRecordUri(uri);
     }
   }, [props.value]);
+
+  try {
+    if (recordUri) {
+      props.onAudioRecorded({
+        uri: recordUri,
+        type: `audio/${getLastItemFromSplit(recordUri, '.')}`,
+        name: getLastItemFromSplit(recordUri, '/'),
+      });
+    }
+  } catch (_) {}
 
   const onStartRecord = async () => {
     onStopPlay();
