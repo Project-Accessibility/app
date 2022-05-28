@@ -18,8 +18,8 @@ const Range = (props: {
   onChange: (label: number) => void;
 }) => {
   const range = props.questionOption.extra_data as any;
-  const [currentValue, setCurrentValue] = useState(props.value ?? range.min);
-  const [textValue, setTextValue] = useState(String(range.min));
+  const [currentValue, setCurrentValue] = useState(props.value ?? parseInt(range.min));
+  const [textValue, setTextValue] = useState(String(currentValue ?? range.min));
 
   const renderThumb = useCallback(() => <Thumb />, []);
   const renderRail = useCallback(() => <Rail />, []);
@@ -33,13 +33,13 @@ const Range = (props: {
         value = Number.parseInt(value, 10);
         if (Number.isNaN(value)) {
           value = currentValue;
-        } else if (value < range.min) {
+        } else if (value < parseInt(range.min)) {
           showToast('Minimum waarde is ' + range.min);
-          value = range.min;
+          value = parseInt(range.min);
           setTextValue(String(value));
-        } else if (value > range.max) {
+        } else if (value > parseInt(range.max)) {
           showToast('Maximum waarde is ' + range.max);
-          value = range.max;
+          value = parseInt(range.max);
           setTextValue(String(value));
         }
       }
@@ -69,11 +69,11 @@ const Range = (props: {
           accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
           <RangeSlider
-            min={range.min}
-            max={range.max}
+            min={parseInt(range.min)}
+            max={parseInt(range.max)}
             low={currentValue}
             disableRange={true}
-            step={range.step}
+            step={parseInt(range.step)}
             floatingLabel={true}
             renderThumb={renderThumb}
             renderRail={renderRail}

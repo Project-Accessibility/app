@@ -8,15 +8,16 @@ async function getRequest(
   baseEndpoint: string,
   endpoint: string,
   endpointParams: Object = {},
-  body: Object = {}
+  body: Object | undefined = undefined
 ): Promise<AxiosResponse | null> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
-
+  console.log(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`);
   return await axios
     .get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
       headers: {
         [api.headers.authKey.key]: Config.API_KEY,
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       data: body,
     })

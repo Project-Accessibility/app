@@ -34,8 +34,18 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     { code: code, questionId: question.id },
     generateFormDataByQuestion(question)
   );
-
-  return response ? response.json() : null;
+  if (response) {
+    response
+      .json()
+      .catch((e) => {
+        console.log('Error while trying to decode json', e);
+        return null;
+      })
+      .then((data) => {
+        return data;
+      });
+  }
+  return null;
 }
 
 export { getAllQuestionnaireDataByCode, saveQuestionByIdAndCode, saveQuestionnaireByCode };
