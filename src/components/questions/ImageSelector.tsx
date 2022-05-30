@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
+import accessibilityStrings from '../../assets/accessibilityStrings';
 
 const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }) => {
   const [image, SetImage] = React.useState<string | undefined>('');
@@ -53,6 +54,8 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
           <>
             <View style={styles.imgStyle}>
               <ImageModal
+                accessible={true}
+                accessibilityLabel={accessibilityStrings.photoAddedImage}
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
@@ -60,16 +63,23 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
                 }}
               />
             </View>
-            <Icon onPress={() => SetImage('')} name="remove" style={styles.icon} size={48} />
+            <Icon accessibilityLabel={accessibilityStrings.photoRemoveImage}
+                  onPress={() => SetImage('')} name="remove" style={styles.icon} size={48} />
           </>
         ) : (
           <Text />
         )}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={accessibilityStrings.photoCameraIcon}
+            activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={accessibilityStrings.photoGaleryIcon}
+            activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
