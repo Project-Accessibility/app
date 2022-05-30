@@ -6,10 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import Video from 'react-native-video';
+import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 
 const VideoSelector = (props: {
   value: string | undefined;
-  onVideoSelected: (base64Video: string) => void;
+  onVideoSelected: (base64Video: FileSelectedData| undefined) => void;
 }) => {
   const [video, setVideo] = React.useState<string | undefined>('');
 
@@ -28,10 +29,14 @@ const VideoSelector = (props: {
       console.log(response.errorMessage);
     } else {
       if (response.assets && response.assets[0]) {
-        const source = response.assets[0].uri;
-        console.log(source);
-        props.onVideoSelected(source ?? '');
-        setVideo(source);
+        const source = response.assets[0];
+        const formDataVideo = {
+          uri: source.uri,
+          type: source.type,
+          name: source.fileName,
+        } as FileSelectedData;
+        props.onVideoSelected(formDataVideo ?? null);
+        setVideo(source.uri);
       }
     }
   };
@@ -48,7 +53,7 @@ const VideoSelector = (props: {
 
   const removeVideo = () => {
     setVideo('');
-    props.onVideoSelected('');
+    props.onVideoSelected(undefined);
   };
 
   const requestCameraPermission = async () => {
@@ -65,7 +70,10 @@ const VideoSelector = (props: {
       <View style={styles.container}>
         {video ? (
           <>
-            <Video source={{ uri: video }} />
+            <Video source={{uri: video}}   // Can be a URL or a local file.                                     // Store reference
+       onBuffer={this.onBuffer}                // Callback when remote video is buffering
+       onError={this.videoError}               // Callback when video cannot be loaded
+       style={styles.backgroundVideo} />
             <Icon
               onPress={() => removeVideo()}
               name="remove"
