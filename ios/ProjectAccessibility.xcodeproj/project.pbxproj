@@ -136,6 +136,7 @@
 				B7E8F1892175DCF8962DB987 /* Pods-ProjectAccessibility-ProjectAccessibilityTests.debug.xcconfig */,
 				02F602DD29E5A74B2B228A7E /* Pods-ProjectAccessibility-ProjectAccessibilityTests.release.xcconfig */,
 			);
+			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -513,7 +514,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = TFC5Z9SPUL;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ProjectAccessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -525,7 +525,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ProjectAccessibility2;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ProjectAccessibility;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -541,7 +541,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = TFC5Z9SPUL;
 				INFOPLIST_FILE = ProjectAccessibility/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -552,7 +551,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ProjectAccessibility2;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ProjectAccessibility;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
