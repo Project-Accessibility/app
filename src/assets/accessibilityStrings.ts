@@ -49,7 +49,7 @@ const ACCESSIBILITY_STRINGS = {
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
   codeNotCorrect: 'Voer een code in van vijf karakters',
   isFetchingQuestionnaire:
-    'Er wordt op dit moment al een vragnlijst opgehaald. Een ogenblik geduld.',
+    'Er wordt op dit moment al een vragenlijst opgehaald. Een ogenblik geduld.',
 };
 
 export default ACCESSIBILITY_STRINGS;

@@ -82,7 +82,7 @@ function determineProgress(questions: Question[]): number {
 
       return answer === undefined || answer[0] === '';
     });
-    if (!isAnswered) {
+    if (isAnswered) {
       amountAnswers++;
     }
   }
