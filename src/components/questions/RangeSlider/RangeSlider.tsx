@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontFamily: FONTS.semiBold,
     fontSize: 20,
-    color: COLORS.black
+    color: COLORS.black,
   },
   rangeInputBig: {
     width: inputWidthBig,
