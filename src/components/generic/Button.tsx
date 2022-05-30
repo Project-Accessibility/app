@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    minHeight: 80,
     width: '100%',
     backgroundColor: COLORS.white,
     borderWidth: 2,
