@@ -11,7 +11,7 @@ function getQuestionOptionMock(): QuestionOption {
   return {
     id: 1,
     type: QuestionOptionType.MULTIPLE_CHOICE,
-    extraData: {
+    extra_data: {
       values: ['Te fel licht', 'Precies goed', 'Te weinig licht'],
       multiple: 0,
     } as object,

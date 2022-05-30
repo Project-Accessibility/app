@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Radar from 'react-native-radar';
+import ParticipantCode from '../localStorage/ParticipantCode';
 
 export class Result {
   user: User;
@@ -60,9 +61,12 @@ export class Geofence {
 
 class RadarLocation {
   private callback: Function | undefined;
+  private backupUserId: string = 'cd66931c-a623-11ec-b909-0242ac120002';
 
-  start(uniqueUserId: string) {
-    this.configureRadar(uniqueUserId);
+  async start() {
+    const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
+    const userId: string = participantCode ?? this.backupUserId;
+    this.configureRadar(userId);
     this.handleLocationPermission().then(async (granted) => {
       if (granted) {
         console.log('Location is granted!');
@@ -85,11 +89,11 @@ class RadarLocation {
   /**
    * Configure Radar
    *
-   * @param uniqueUserId
+   * @param userId
    * @private
    */
-  private configureRadar(uniqueUserId: string) {
-    Radar.setUserId(uniqueUserId);
+  private configureRadar(userId: string) {
+    Radar.setUserId(userId);
     Radar.on('events', (result: any) => {
       radarLocation.trigger(true, result);
     });

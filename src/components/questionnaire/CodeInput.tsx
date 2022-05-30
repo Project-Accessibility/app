@@ -1,16 +1,35 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
+import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
 
 const CodeInput = () => {
-  const [code, setCode] = useState<String>('');
+  const [code, setCode] = useState<string>('');
+
+  const navigation = useNavigation();
 
   const handleCodeEntered = () => {
-    //* TODO: make code entered function
-    return code;
+    if (code && code.length === 5) {
+      fetchQuestionnaire(code, navigation);
+    } else {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(ACCESSIBILITY_STRINGS.codeNotCorrect, ToastAndroid.LONG);
+      } else {
+        Alert.alert(ACCESSIBILITY_STRINGS.codeNotCorrect);
+      }
+    }
   };
 
   return (
@@ -19,7 +38,9 @@ const CodeInput = () => {
         style={styles.codeInput}
         placeholder={ACCESSIBILITY_STRINGS.codeInputField}
         placeholderTextColor={COLORS.black}
-        onChangeText={(value: String) => setCode(value)}
+        maxLength={5}
+        autoCapitalize="characters"
+        onChangeText={(value: string) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity
         style={styles.codeButton}
@@ -27,9 +48,6 @@ const CodeInput = () => {
         accessible={true}
         accessibilityLabel={ACCESSIBILITY_STRINGS.codeInputButton}
         accessibilityHint={ACCESSIBILITY_STRINGS.codeInputButtonHint}
-        accessibilityActions={[
-          { name: 'activate', label: ACCESSIBILITY_STRINGS.codeInputButtonAction },
-        ]}
       >
         <Icon name="chevron-right" size={60} color={COLORS.black} />
       </TouchableOpacity>
@@ -54,6 +72,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 20,
     fontFamily: FONTS.semiBold,
+    color: COLORS.black,
     fontSize: 20,
   },
   codeButton: {

@@ -17,6 +17,7 @@ import Queue from '../data/localStorage/Queue';
 import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
+import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -48,11 +49,11 @@ const QuestionScreen = () => {
               <Text style={styles.questionText}>{question.question}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />
-            {question.questionOptions &&
-              question.questionOptions.map((questionOption, index) => {
+            {question.options &&
+              question.options.map((option, index) => {
                 return (
                   <View key={index} style={styles.questionItem}>
-                    {getElement(questionOption)}
+                    {getElement(option)}
                   </View>
                 );
               })}
@@ -78,7 +79,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
-          defaultValue={questionOption.answer?.values?.[0] ?? ''}
+          value={questionOption.answer?.values?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answer = {
               id: questionOption.answer?.id ?? 1,
@@ -90,11 +91,16 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <ImageSelector
-          onImageSelected={(imagePath: string) => {
-            questionOption.answer = {
-              id: answerId,
-              values: [imagePath],
-            };
+          value={getMediaURI(questionOption)}
+          onImageSelected={(image: FileSelectedData | null) => {
+            if (image) {
+              questionOption.answer = {
+                id: answerId,
+                values: [image],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
           }}
         />
       );
@@ -103,17 +109,23 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
-          onAudioRecorded={(recordUri: string) => {
-            questionOption.answer = {
-              id: answerId,
-              values: [recordUri],
-            } as Answer;
+          value={getMediaURI(questionOption)}
+          onAudioRecorded={(audio: FileSelectedData | null) => {
+            if (audio) {
+              questionOption.answer = {
+                id: answerId,
+                values: [audio],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
           }}
         />
       );
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <MultipleChoiceList
+          values={questionOption.answer?.values}
           questionOption={questionOption}
           onClicked={(label: string) => {
             questionOption.answer = {
@@ -126,7 +138,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <RangeSlider
-          defaultValue={questionOption.answer?.values[0]}
+          value={questionOption.answer?.values?.[0]}
           questionOption={questionOption}
           onChange={(value: number) => {
             questionOption.answer = {
@@ -141,6 +153,13 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.DATETIME:
       break;
   }
+}
+
+function getMediaURI(questionOption: QuestionOption): string {
+  if (questionOption.answer?.values?.[0]?.uri !== undefined) {
+    return (questionOption.answer.values[0] as FileSelectedData).uri;
+  }
+  return questionOption.answer?.values?.[0] ?? '';
 }
 
 const styles = StyleSheet.create({

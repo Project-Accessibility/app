@@ -38,7 +38,7 @@
               "id": 1,
               "question_id": 1,
               "type": "OPEN",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
@@ -52,7 +52,7 @@
               "id": 2,
               "question_id": 1,
               "type": "RANGE",
-              "extraData": {
+              "extra_data": {
                 "min": 0,
                 "max": 8,
                 "step": 2
@@ -65,7 +65,7 @@
               "id": 3,
               "question_id": 1,
               "type": "IMAGE",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": null
@@ -93,7 +93,7 @@
               "id": 3,
               "question_id": 2,
               "type": "OPEN",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
@@ -107,7 +107,7 @@
               "id": 4,
               "question_id": 2,
               "type": "VOICE",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             },
@@ -115,7 +115,7 @@
               "id": 5,
               "question_id": 2,
               "type": "MULTIPLE_CHOICE",
-              "extraData": {
+              "extra_data": {
                 "multiple": true,
                 "values": ["Te fel", "Precies goed", "Niet fel genoeg"]
               },
@@ -154,7 +154,7 @@
               "id": 5,
               "question_id": 2,
               "type": "OPEN",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
@@ -170,7 +170,7 @@
               "id": 6,
               "question_id": 2,
               "type": "IMAGE",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": null
@@ -189,7 +189,7 @@
               "id": 7,
               "question_id": 4,
               "type": "OPEN",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z",
               "answer": {
@@ -205,7 +205,7 @@
               "id": 8,
               "question_id": 4,
               "type": "VOICE",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             },
@@ -213,7 +213,7 @@
               "id": 9,
               "question_id": 4,
               "type": "IMAGE",
-              "extraData": {},
+              "extra_data": {},
               "created_at": "2022-04-03T19:17:30.000000Z",
               "updated_at": "2022-04-03T19:17:30.000000Z"
             }

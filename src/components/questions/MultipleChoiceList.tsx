@@ -5,19 +5,27 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import { QuestionOption } from '../../models/QuestionOption';
 import FONTS from '../../assets/fonts';
 import COLORS from '../../assets/colors';
+import { MultipleChoiceExtraData } from '../../models/questionOptionExtraData/MultipleChoiceExtraData';
 
 interface RadioButtonData {
   label: string;
 }
 
 const MasterContainer = (props: {
+  values?: string[];
   questionOption: QuestionOption;
   onClicked: (label: string) => void;
 }) => {
-  const multipleChoiceQuestions = props.questionOption.extraData as unknown as string[];
+  const multipleChoiceQuestions = (props.questionOption.extra_data as MultipleChoiceExtraData)
+    .values;
 
   return (
     <RadioButtonRN
+      initial={
+        props.values && props.values.length > 0
+          ? multipleChoiceQuestions.indexOf(props.values[0]) + 1
+          : -1
+      }
       data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
       selectedBtn={(selected: RadioButtonData) => {
         props.onClicked(selected.label);

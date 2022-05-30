@@ -15,16 +15,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
+import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
+import fixMediaUri from '../../helpers/mediaUriHelper';
+import getLastItemFromSplit from '../../helpers/splitHelper';
 
 const nullTime = '00:00';
+const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
+const DEFAULT_RECORDED_FILE_NAME_ANDROID = 'sound.mp4';
 let audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
-const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) => {
+const AudioRecorder = (props: {
+  value: string;
+  onAudioRecorded: (audio: FileSelectedData | null) => void;
+}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isPaused, setIsPaused] = React.useState(false);
   const [isRecording, setIsRecording] = React.useState(false);
@@ -34,6 +42,25 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
   const [duration, setDuration] = React.useState(nullTime);
   const [voiceFriendlyDuration, setVoiceFriendlyDuration] =
     React.useState('0 minuten en 0 seconden');
+  console.log('audio_link' + props.value);
+
+  useEffect(() => {
+    const uri = props.value;
+    if (uri) {
+      setIsDisabled(false);
+      setRecordUri(uri);
+    }
+  }, [props.value]);
+
+  try {
+    if (recordUri) {
+      props.onAudioRecorded({
+        uri: recordUri,
+        type: `audio/${getLastItemFromSplit(recordUri, '.')}`,
+        name: getLastItemFromSplit(recordUri, '/'),
+      });
+    }
+  } catch (_) {}
 
   const onStartRecord = async () => {
     onStopPlay();
@@ -80,14 +107,25 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setIsRecording(false);
     setIsDisabled(false);
 
-    props.onAudioRecorded(recordUri);
+    const type = Platform.OS === 'android' ? 'mp4' : 'm4a';
+    const name =
+      Platform.OS === 'android'
+        ? DEFAULT_RECORDED_FILE_NAME_ANDROID
+        : DEFAULT_RECORDED_FILE_NAME_IOS;
+
+    const formDataAudio = {
+      uri: recordUri,
+      type: 'audio/' + type,
+      name: name,
+    } as FileSelectedData;
+    props.onAudioRecorded(formDataAudio);
   };
 
   const onStartPlay = async () => {
     if (recordUri && isPaused) {
       await audioRecorderPlayer.resumePlayer();
     } else {
-      await audioRecorderPlayer.startPlayer();
+      await audioRecorderPlayer.startPlayer(fixMediaUri(recordUri));
     }
 
     audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
@@ -128,7 +166,7 @@ const AudioRecorder = (props: { onAudioRecorded: (recordUri: string) => void }) 
     setPlayTime(nullTime);
     setDuration(nullTime);
 
-    props.onAudioRecorded('');
+    props.onAudioRecorded(null);
 
     onStopPlay();
   };

@@ -7,7 +7,7 @@ export class Question {
   section_id: number;
   title: string;
   question: string;
-  questionOptions?: [QuestionOption];
+  options?: QuestionOption[];
 
   constructor(
     id: number,
@@ -16,7 +16,7 @@ export class Question {
     section_id: number,
     title: string,
     question: string,
-    questionOptions?: [QuestionOption]
+    options?: QuestionOption[]
   ) {
     this.id = id;
     this.uuid = uuid;
@@ -24,6 +24,6 @@ export class Question {
     this.section_id = section_id;
     this.title = title;
     this.question = question;
-    this.questionOptions = questionOptions;
+    this.options = options;
   }
 }

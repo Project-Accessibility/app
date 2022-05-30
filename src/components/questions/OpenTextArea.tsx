@@ -1,16 +1,24 @@
 import React from 'react';
-import { StyleSheet, TextInput, TextInputProps } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 
-const OpenTextArea = (props: TextInputProps) => {
+const OpenTextArea = (props: {
+  value?: string;
+  placeholder?: string;
+  onChangeText: (value: string) => void;
+}) => {
   return (
     <TextInput
-      {...props}
+      defaultValue={props.value}
+      placeholder={props.placeholder}
+      onChangeText={props.onChangeText}
       multiline
       numberOfLines={5}
       textAlignVertical="top"
       style={styles.openTextArea}
+      accessible={true}
+      accessibilityLabel="Open antwoord veld"
     />
   );
 };
