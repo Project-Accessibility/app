@@ -1,18 +1,33 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
+//@ts-ignore next-line
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
+import getLastItemFromSplit from '../../helpers/splitHelper';
 
 const VideoSelector = (props: {
   value: string | undefined;
-  onVideoSelected: (base64Video: FileSelectedData | undefined) => void;
+  onVideoSelected: (videoPath: FileSelectedData | undefined) => void;
 }) => {
   const [video, setVideo] = React.useState<string | undefined>('');
+  const [paused, setPaused] = React.useState<boolean>();
+  const [fullScreen, setFullScreen] = React.useState(false);
+
+  //Check if video already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  try {
+    if (video) {
+      props.onVideoSelected({
+        uri: video,
+        type: `video/${getLastItemFromSplit(video, '.')}`,
+        name: getLastItemFromSplit(video, '/'),
+      });
+    }
+  } catch (_) {}
 
   useEffect(() => {
     if (props.value) setVideo(props.value);
@@ -20,7 +35,6 @@ const VideoSelector = (props: {
 
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
-    console.log(response);
     if (response.didCancel) {
       console.log('Geen video geselecteerd');
     } else if (response.errorCode === 'permission') {
@@ -65,34 +79,56 @@ const VideoSelector = (props: {
     openCamera();
   };
 
+  const toggleFullScreen = () => {
+    setFullScreen(!fullScreen);
+  };
+
   return (
     <>
       <View style={styles.container}>
         {video ? (
           <>
             <Video
-              resizeMode="contain" //Dit kun je aanpassen naar cover of contain
+              resizeMode={fullScreen ? 'contain' : 'contain'}
               source={{ uri: video }}
-              style={styles.backgroundVideo}
-            />
-            <Icon
-              onPress={() => removeVideo()}
-              name="remove"
-              style={styles.icon}
-              size={48}
+              style={fullScreen ? styles.fullScreenVideo : styles.normalVideo}
+              controls={true}
+              paused={paused}
+              onLoad={() => setPaused(true)}
               accessible={true}
-              accessibilityLabel="Verwijder video knop"
+              accessibilityLabel="Video"
             />
+            <View style={styles.videoButtons}>
+              <Icon
+                onPress={() => toggleFullScreen()}
+                name={fullScreen ? 'compress' : 'expand'}
+                color={COLORS.black}
+                size={48}
+                accessible={true}
+                accessibilityLabel="Verwijder video knop"
+              />
+              <Icon
+                onPress={() => removeVideo()}
+                name="remove"
+                color={COLORS.black}
+                size={48}
+                accessible={true}
+                accessibilityLabel={fullScreen ? 'Video verkleinen knop' : 'Video vergroten knop'}
+              />
+            </View>
           </>
-        ) : (
-          <Text />
-        )}
+        ) : null}
         <View style={styles.rowContainer}>
           <TouchableOpacity activeOpacity={0.5} onPress={() => requestCameraPermission()}>
-            <Icon name="video-camera" style={styles.imagePadding} size={48} color={COLORS.black} />
+            <Icon
+              name="video-camera"
+              style={styles.rowContainerChild}
+              size={48}
+              color={COLORS.black}
+            />
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}>
-            <Icon name="film" size={48} color={COLORS.black} />
+            <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
       </View>
@@ -101,30 +137,36 @@ const VideoSelector = (props: {
 };
 
 const styles = StyleSheet.create({
-  backgroundVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    height: 150,
-  },
   container: {
+    position: 'relative',
+  },
+  fullScreenVideo: {
+    height: 500,
+    width: '100%',
+  },
+  normalVideo: {
+    height: 250,
+    width: '100%',
+  },
+  videoButtons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+
+    position: 'absolute',
+    width: '100%',
     padding: 10,
-    alignItems: 'flex-end',
   },
   rowContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
     flexDirection: 'row',
-    marginTop: 10,
+
+    width: '100%',
+    padding: 5,
   },
-  imagePadding: {
-    paddingEnd: 15,
-  },
-  icon: {
-    position: 'absolute',
-    end: 0,
-    top: 0,
-    color: COLORS.black,
+  rowContainerChild: {
+    padding: 5,
   },
 });
 
