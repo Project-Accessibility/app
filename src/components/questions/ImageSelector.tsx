@@ -6,12 +6,26 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../../assets/colors';
 import permissionCheck from '../utility/PermissionCheck';
 import ImageModal from 'react-native-image-modal';
+import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
+import getLastItemFromSplit from '../../helpers/splitHelper';
+import fixMediaUri from '../../helpers/mediaUriHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
-  onImageSelected: (base64Image: string) => void;
+  onImageSelected: (selectedImageData: FileSelectedData | null) => void;
 }) => {
-  const [image, SetImage] = React.useState<string | undefined>('');
+  const [image, SetImage] = React.useState<string | undefined>(props.value);
+
+  //Check if image already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  try {
+    if (image) {
+      props.onImageSelected({
+        uri: image,
+        type: `image/${getLastItemFromSplit(image, '.')}`,
+        name: getLastItemFromSplit(image, '/'),
+      });
+    }
+  } catch (_) {}
 
   useEffect(() => {
     if (props.value) SetImage(props.value);
@@ -27,26 +41,31 @@ const ImageSelector = (props: {
       console.log(response.errorMessage);
     } else {
       if (response.assets && response.assets[0]) {
-        const source = response.assets[0].base64;
-        props.onImageSelected(source ?? '');
-        SetImage(source);
+        const source = response.assets[0];
+        const formDataImage = {
+          uri: source.uri,
+          type: source.type,
+          name: source.fileName,
+        } as FileSelectedData;
+        props.onImageSelected(formDataImage);
+        SetImage(source.uri);
       }
     }
   };
   const UseCamera = () => {
-    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchCamera({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
   const PickImageFromGallery = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: true }, (response) => {
+    launchImageLibrary({ mediaType: 'photo', quality: 1, includeBase64: false }, (response) => {
       checkResponse(response);
     });
   };
 
   const RemoveImage = () => {
     SetImage('');
-    props.onImageSelected('');
+    props.onImageSelected(null);
   };
 
   const RequestCameraPermission = async () => {
@@ -68,7 +87,7 @@ const ImageSelector = (props: {
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
-                  uri: 'data:image/jpeg;base64,' + image,
+                  uri: fixMediaUri(image),
                 }}
               />
             </View>

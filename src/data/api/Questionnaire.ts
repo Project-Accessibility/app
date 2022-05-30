@@ -4,44 +4,27 @@ import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
 
-async function getQuestionnairesByCodes(codes: string[]): Promise<Questionnaire[]> {
-  const response = await ApiRequest.postRequest(
-    apiEndpoints.questionnaire.base_endpoint,
-    apiEndpoints.questionnaire.getQuestionnaireById,
-    {},
-    { codes: codes }
-  );
-  return response.data;
-}
-
-async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire> {
-  const response = await ApiRequest.getRequest(
+async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | null> {
+  let response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
   );
-  return response.data;
+
+  return response ? (response.data as Questionnaire) : null;
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
+  const formData = new FormData();
+  formData.append('questionnaire', questionnaire);
   const response = await ApiRequest.postRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.saveQuestionnaireByCode,
     { code: code },
-    questionnaire
+    formData
   );
-  return response.data;
-}
 
-async function getQuestionByIdAndCode(code: string, questionId: number): Promise<Question> {
-  const response = await ApiRequest.getRequest(
-    apiEndpoints.questions.base_endpoint,
-    apiEndpoints.questions.getQuestionByIdAndCode,
-    { code: code, questionId: questionId }
-  );
-  const data = response.data;
-  data.participantCode = code;
-  return data;
+  return response ? response.json() : null;
 }
 
 async function saveQuestionByIdAndCode(code: string, question: Question) {
@@ -51,13 +34,18 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     { code: code, questionId: question.id },
     generateFormDataByQuestion(question)
   );
-  return response.data;
+  if (response) {
+    response
+      .json()
+      .catch((e) => {
+        console.log('Error while trying to decode json', e);
+        return null;
+      })
+      .then((data) => {
+        return data;
+      });
+  }
+  return null;
 }
 
-export {
-  getQuestionnairesByCodes,
-  getAllQuestionnaireDataByCode,
-  saveQuestionByIdAndCode,
-  saveQuestionnaireByCode,
-  getQuestionByIdAndCode,
-};
+export { getAllQuestionnaireDataByCode, saveQuestionByIdAndCode, saveQuestionnaireByCode };
