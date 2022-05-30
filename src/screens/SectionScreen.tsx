@@ -48,18 +48,20 @@ const SectionScreen = () => {
         <>
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
-            <Text
-              style={styles.questionsAnswered}
-              accessible={true}
-              accessibilityLabel={`${determineProgress(section.questions)} van de ${
-                section.questions.length
-              } vragen beantwoord.`}
-            >
-              Beantwoord:{' '}
-              {isFocused
-                ? `${determineProgress(section.questions)} / ${section.questions.length}`
-                : ''}
-            </Text>
+            {section.questions.length > 0 && (
+              <Text
+                style={styles.questionsAnswered}
+                accessible={true}
+                accessibilityLabel={`${determineProgress(section.questions)} van de ${
+                  section.questions.length
+                } vragen beantwoord.`}
+              >
+                Beantwoord:{' '}
+                {isFocused
+                  ? `${determineProgress(section.questions)} / ${section.questions.length}`
+                  : ''}
+              </Text>
+            )}
             <QuestionList questions={section.questions} />
           </View>
         </>

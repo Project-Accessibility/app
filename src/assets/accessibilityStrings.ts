@@ -45,6 +45,7 @@ const ACCESSIBILITY_STRINGS = {
   phone: 'Telefoon',
   email: 'E-mail',
   questionTitle: 'Vraag pagina',
+  noQuestions: 'Geen vragen gevonden',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
   codeNotCorrect: 'Voer een code in van vijf karakters',

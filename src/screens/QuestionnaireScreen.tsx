@@ -45,16 +45,12 @@ const QuestionnaireScreen = () => {
       let sections: Section[] = [];
       if (questionnaire && questionnaire.sections) {
         sections = questionnaire.sections;
-        console.log(sections);
-        console.log(nearbyGeofenceIds);
       }
       setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
       checkIfShowToast();
     }
 
     function checkIfShowToast() {
-      console.log(lastCountOfNearbySections);
-      console.log(nearbySections.length);
       if (lastCountOfNearbySections < nearbySections.length) {
         showToast('Er is een nieuwe onderdeel bij u in de buurt');
       }

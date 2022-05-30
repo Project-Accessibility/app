@@ -42,7 +42,6 @@ const AudioRecorder = (props: {
   const [duration, setDuration] = React.useState(nullTime);
   const [voiceFriendlyDuration, setVoiceFriendlyDuration] =
     React.useState('0 minuten en 0 seconden');
-  console.log('audio_link' + props.value);
 
   useEffect(() => {
     const uri = props.value;

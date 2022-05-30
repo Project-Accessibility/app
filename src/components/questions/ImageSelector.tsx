@@ -34,9 +34,9 @@ const ImageSelector = (props: {
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
     if (response.didCancel) {
-      console.log('Geen foto geselecteerd');
+      console.log('No photo selected');
     } else if (response.errorCode === 'permission') {
-      console.log('Permissie afgewezen');
+      console.log('Permission denied');
     } else if (response.errorCode === 'others') {
       console.log(response.errorMessage);
     } else {
