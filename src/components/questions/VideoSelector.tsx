@@ -10,7 +10,7 @@ import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelec
 
 const VideoSelector = (props: {
   value: string | undefined;
-  onVideoSelected: (base64Video: FileSelectedData| undefined) => void;
+  onVideoSelected: (base64Video: FileSelectedData | undefined) => void;
 }) => {
   const [video, setVideo] = React.useState<string | undefined>('');
 
@@ -70,10 +70,12 @@ const VideoSelector = (props: {
       <View style={styles.container}>
         {video ? (
           <>
-            <Video source={{uri: video}}   // Can be a URL or a local file.                                     // Store reference
-       onBuffer={this.onBuffer}                // Callback when remote video is buffering
-       onError={this.videoError}               // Callback when video cannot be loaded
-       style={styles.backgroundVideo} />
+            <Video
+              source={{ uri: video }} // Can be a URL or a local file.                                     // Store reference
+              onBuffer={this.onBuffer} // Callback when remote video is buffering
+              onError={this.videoError} // Callback when video cannot be loaded
+              style={styles.backgroundVideo}
+            />
             <Icon
               onPress={() => removeVideo()}
               name="remove"

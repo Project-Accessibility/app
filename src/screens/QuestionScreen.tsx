@@ -107,17 +107,20 @@ function getElement(questionOption: QuestionOption) {
       );
     case QuestionOptionType.VIDEO:
       return (
-        <VideoSelector value={''} onVideoSelected={function (base64Video: FileSelectedData): void {
-          if (base64Video) {
-            questionOption.answer = {
-              id: answerId,
-              values: [base64Video],
-            } as Answer;
-          } else {
-            questionOption.answer = undefined;
-          }
-        } }></VideoSelector>
-      )
+        <VideoSelector
+          value={''}
+          onVideoSelected={function (base64Video: FileSelectedData): void {
+            if (base64Video) {
+              questionOption.answer = {
+                id: answerId,
+                values: [base64Video],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
+          }}
+        ></VideoSelector>
+      );
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
