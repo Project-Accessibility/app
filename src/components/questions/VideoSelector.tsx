@@ -49,7 +49,7 @@ const VideoSelector = (props: {
           type: source.type,
           name: source.fileName,
         } as FileSelectedData;
-        props.onVideoSelected(formDataVideo ?? null);
+        props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
       }
     }
@@ -89,7 +89,7 @@ const VideoSelector = (props: {
         {video ? (
           <>
             <Video
-              resizeMode={fullScreen ? 'contain' : 'contain'}
+              resizeMode="contain"
               source={{ uri: video }}
               style={fullScreen ? styles.fullScreenVideo : styles.normalVideo}
               controls={true}
