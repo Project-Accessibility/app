@@ -71,9 +71,8 @@ const VideoSelector = (props: {
         {video ? (
           <>
             <Video
-              source={{ uri: video }} // Can be a URL or a local file.                                     // Store reference
-              onBuffer={this.onBuffer} // Callback when remote video is buffering
-              onError={this.videoError} // Callback when video cannot be loaded
+              resizeMode="contain" //Dit kun je aanpassen naar cover of contain
+              source={{ uri: video }}
               style={styles.backgroundVideo}
             />
             <Icon
@@ -102,6 +101,14 @@ const VideoSelector = (props: {
 };
 
 const styles = StyleSheet.create({
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: 150,
+  },
   container: {
     padding: 10,
     alignItems: 'flex-end',
@@ -118,12 +125,6 @@ const styles = StyleSheet.create({
     end: 0,
     top: 0,
     color: COLORS.black,
-  },
-  imgStyle: {
-    width: 150,
-    height: 150,
-    resizeMode: 'center',
-    alignSelf: 'center',
   },
 });
 
