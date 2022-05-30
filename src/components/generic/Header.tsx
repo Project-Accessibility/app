@@ -82,11 +82,9 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
           )}
         </View>
         <View style={styles.headerBottom}>
-          <Text 
-            style={styles.headerTitle}
-            ellipsizeMode={'tail'}
-            numberOfLines={1}
-          >{getHeaderTitle()}</Text>
+          <Text style={styles.headerTitle} ellipsizeMode={'tail'} numberOfLines={1}>
+            {getHeaderTitle()}
+          </Text>
         </View>
       </View>
     </SafeAreaView>
