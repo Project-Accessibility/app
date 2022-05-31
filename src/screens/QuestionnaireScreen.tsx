@@ -95,7 +95,7 @@ const QuestionnaireScreen = () => {
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
-            {nearbySections?.length === 0 && (
+            {nearbySections.length === 0 && (
               <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
             )}
             <SectionList sections={nearbySections} />
