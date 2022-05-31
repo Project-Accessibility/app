@@ -67,39 +67,42 @@ const MasterContainer = (props: {
   // };
 
   return (
-    <View style={styles.radioButton}>
+    <View style={styles.radioButton} accessibilityLabel={'Meerkeuze'} accessible={true}>
       {multipleChoiceOptions.map((value, index) => {
+        const isSelected = currentValues.includes(value);
         return (
           <TouchableOpacity
             key={index}
             style={[
               styles.productBox,
               {
-                backgroundColor: currentValues.includes(value) ? '#e1f5fe33' : '#fff',
-                borderColor: currentValues.includes(value) ? COLORS.green : COLORS.darkBlue,
+                backgroundColor: isSelected ? '#e1f5fe33' : '#fff',
+                borderColor: isSelected ? COLORS.green : COLORS.darkBlue,
               },
               styles.box,
             ]}
             activeOpacity={0.9}
             onPress={() => selectOption(value, index)}
+            accessibilityLabel={value + (isSelected ? ', geselecteerd' : '')}
+            accessible={true}
           >
             <View style={styles.leftProductBox}>
               <View
                 style={[
                   styles.icon,
                   {
-                    borderColor: currentValues.includes(value) ? COLORS.green : COLORS.darkBlue,
+                    borderColor: isSelected ? COLORS.green : COLORS.darkBlue,
                     width: 18 + 8,
                     height: 18 + 8,
                   },
                   {
-                    borderColor: currentValues.includes(value) ? 'transparent' : COLORS.darkBlue,
+                    borderColor: isSelected ? 'transparent' : COLORS.darkBlue,
                   },
                 ]}
               >
                 <View
                   style={{
-                    opacity: currentValues.includes(value) ? 1 : 0,
+                    opacity: isSelected ? 1 : 0,
                   }}
                 >
                   <Icon name="check-circle" size={25} color={COLORS.green} />
