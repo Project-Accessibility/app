@@ -11,7 +11,12 @@ const MasterContainer = (props: {
   questionOption: QuestionOption;
   onClicked: (values: string[]) => void;
 }) => {
-  const multipleChoiceOptions = (props.questionOption.extra_data as MultipleChoiceExtraData).values;
+  const multipleChoiceOptions: string[] = (
+    props.questionOption.extra_data as MultipleChoiceExtraData
+  ).values;
+  const multipleAnswersPossible: boolean = (
+    props.questionOption.extra_data as MultipleChoiceExtraData
+  ).multiple;
   const [currentValues, setCurrentValues] = useState(props.values ?? []);
   let fadeAnim = new Animated.Value(0);
 
@@ -23,7 +28,7 @@ const MasterContainer = (props: {
       });
       setCurrentValues(value);
       // fadeOutAnimation();
-    } else {
+    } else if (multipleAnswersPossible || currentValues.length === 0) {
       value = [...currentValues, value];
       setCurrentValues(value);
       // fadeInAnimation();
