@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  AccessibilityInfo,
+  findNodeHandle,
+} from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,6 +22,7 @@ const ImageSelector = (props: {
   onImageSelected: (selectedImageData: FileSelectedData | null) => void;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>(props.value);
+  const imageModal = useRef(null);
 
   //Check if image already exists (this is when image is already uploaded to DB), if so, set correct metadata
   try {
@@ -49,6 +57,14 @@ const ImageSelector = (props: {
         } as FileSelectedData;
         props.onImageSelected(formDataImage);
         SetImage(source.uri);
+        setTimeout(function () {
+          if (imageModal && imageModal.current) {
+            const reactTag = findNodeHandle(imageModal.current);
+            if (reactTag) {
+              AccessibilityInfo.setAccessibilityFocus(reactTag);
+            }
+          }
+        }, 1000);
       }
     }
   };
@@ -82,14 +98,18 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-            <View style={styles.imgStyle}>
+            <View
+              style={styles.imgStyle}
+              ref={imageModal}
+              accessible={true}
+              accessibilityLabel={'Gemaakte afbeelding'}
+            >
               <ImageModal
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
                   uri: fixMediaUri(image),
                 }}
-                accessibilityLabel={'Gemaakte afbeelding'}
               />
             </View>
             <TouchableOpacity
