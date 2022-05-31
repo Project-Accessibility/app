@@ -16,7 +16,7 @@ const ImageSelector = (props: {
 }) => {
   const [image, SetImage] = React.useState<string | undefined>(props.value);
 
-  //Check if image already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  //Check if image already exists (this is when image is already uploaded to DB), if so, set correct metadata
   try {
     if (image) {
       props.onImageSelected({
@@ -89,25 +89,34 @@ const ImageSelector = (props: {
                 source={{
                   uri: fixMediaUri(image),
                 }}
+                accessibilityLabel={'Gemaakte afbeelding'}
               />
             </View>
-            <Icon
-              onPress={() => RemoveImage()}
-              name="remove"
+            <TouchableOpacity
               style={styles.icon}
-              size={48}
+              onPress={() => RemoveImage()}
               accessible={true}
               accessibilityLabel="Verwijder afbeelding knop"
-            />
+            >
+              <Icon name="remove" color={COLORS.black} size={48} />
+            </TouchableOpacity>
           </>
         ) : (
           <Text />
         )}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => RequestCameraPermission()}
+            accessibilityLabel={'Open camera knop'}
+          >
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => PickImageFromGallery()}
+            accessibilityLabel={'Open galerij knop'}
+          >
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
