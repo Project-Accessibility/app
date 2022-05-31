@@ -67,93 +67,53 @@ const MasterContainer = (props: {
   // };
 
   return (
-    <View style={styles.radioButton} accessibilityLabel={'Meerkeuze'} accessible={true}>
+    <View style={styles.multipleChoice} accessibilityLabel={'Meerkeuze'} accessible={true}>
       {multipleChoiceOptions.map((value, index) => {
         const isSelected = currentValues.includes(value);
         return (
           <TouchableOpacity
             key={index}
             style={[
-              styles.productBox,
+              styles.optionBox,
               {
                 backgroundColor: isSelected ? '#e1f5fe33' : '#fff',
                 borderColor: isSelected ? COLORS.green : COLORS.darkBlue,
               },
-              styles.box,
             ]}
             activeOpacity={0.9}
             onPress={() => selectOption(value, index)}
             accessibilityLabel={value + (isSelected ? ', geselecteerd' : '')}
             accessible={true}
           >
-            <View style={styles.leftProductBox}>
+            <View style={styles.leftOptionBox}>
               <View
                 style={[
                   styles.icon,
                   {
-                    borderColor: isSelected ? COLORS.green : COLORS.darkBlue,
+                    borderColor: isSelected ? 'transparent' : COLORS.darkBlue,
                     width: 18 + 8,
                     height: 18 + 8,
                   },
-                  {
-                    borderColor: isSelected ? 'transparent' : COLORS.darkBlue,
-                  },
                 ]}
               >
-                <View
-                  style={{
-                    opacity: isSelected ? 1 : 0,
-                  }}
-                >
+                <View style={{ opacity: isSelected ? 1 : 0 }}>
                   <Icon name="check-circle" size={25} color={COLORS.green} />
                 </View>
               </View>
             </View>
 
-            <View style={[styles.centerProductBox]}>
-              <Text
-                style={[
-                  {
-                    color: '#383838',
-                  },
-                  styles.text,
-                ]}
-              >
-                {value}
-              </Text>
+            <View style={[styles.centerOptionBox]}>
+              <Text style={styles.text}>{value}</Text>
             </View>
           </TouchableOpacity>
         );
       })}
     </View>
-    // <View accessibilityLabel={'Meerkeuze'}>
-    //   <RadioButtonRN
-    //     initial={
-    //       props.values && props.values.length > 0
-    //         ? multipleChoiceQuestions.indexOf(props.values[0]) + 1
-    //         : -1
-    //     }
-    //     data={stringArrayToRadioButtonData(multipleChoiceQuestions)}
-    //     selectedBtn={(selected: RadioButtonData) => {
-    //       props.onClicked(selected.label);
-    //     }}
-    //     animationTypes={['zoomIn', 'rotate']}
-    //     textStyle={styles.text}
-    //     style={styles.radioButton}
-    //     boxStyle={styles.box}
-    //     activeColor={COLORS.green}
-    //     deactiveColor={COLORS.darkBlue}
-    //     icon={<Icon name="check-circle" size={25} color={COLORS.green} />}
-    //   />
-    // </View>
   );
 };
 
 const styles = StyleSheet.create({
-  box: {
-    backgroundColor: COLORS.white,
-  },
-  radioButton: {
+  multipleChoice: {
     width: '100%',
   },
   text: {
@@ -161,24 +121,21 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: COLORS.black,
   },
-  productBox: {
+  optionBox: {
     flexDirection: 'row',
     borderRadius: 7,
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingVertical: 15,
     marginTop: 10,
+    backgroundColor: COLORS.white,
   },
-  productBoxLess: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  leftProductBox: {
+  leftOptionBox: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  centerProductBox: {
+  centerOptionBox: {
     flex: 6,
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -195,10 +152,6 @@ const styles = StyleSheet.create({
     borderRadius: 10000,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  circleFill: {
-    borderWidth: 1,
-    borderRadius: 10000,
   },
 });
 
