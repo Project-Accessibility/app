@@ -45,12 +45,15 @@ const ACCESSIBILITY_STRINGS = {
   phone: 'Telefoon',
   email: 'E-mail',
   questionTitle: 'Vraag pagina',
-  noQuestions: 'Geen vragen gevonden',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
   codeNotCorrect: 'Voer een code in van vijf karakters',
   isFetchingQuestionnaire:
     'Er wordt op dit moment al een vragenlijst opgehaald. Een ogenblik geduld.',
+
+  noQuestions: 'Geen vragen gevonden',
+  noSectionsNearby: 'Geen onderdelen in de buurt',
+  noSections: 'Geen onderdelen gevonden',
 };
 
 export default ACCESSIBILITY_STRINGS;
