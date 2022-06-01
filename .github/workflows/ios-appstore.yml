@@ -7,7 +7,7 @@ on:
     - develop
   pull_request:
 
-  obs:
+  jobs:
   build-android-adhoc:
     runs-on: macOS-latest
     name: "Build iOS app"
