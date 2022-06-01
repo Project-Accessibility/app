@@ -8,7 +8,7 @@ export class Questionnaire {
   description?: string;
   instructions?: string;
   teachableMachineLink?: string;
-  sections?: [Section];
+  sections?: Section[];
 
   constructor(
     id: number,
@@ -18,7 +18,7 @@ export class Questionnaire {
     description?: string,
     instructions?: string,
     teachableMachineLink?: string,
-    sections?: [Section]
+    sections?: Section[]
   ) {
     this.id = id;
     this.title = title;

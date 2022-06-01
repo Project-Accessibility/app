@@ -11,7 +11,6 @@ async function getRequest(
   body: Object | undefined = undefined
 ): Promise<AxiosResponse | null> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
-  console.log(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`);
   return await axios
     .get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
       headers: {

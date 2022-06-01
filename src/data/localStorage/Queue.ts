@@ -52,7 +52,6 @@ class TempStorage {
     for (let i = 0; i < this.objectQueue.length; i++) {
       if (this.objectQueue[i].key === newQueueObject.key) {
         this.objectQueue[i] = newQueueObject;
-        console.log('replaced item in queue');
         return;
       }
     }

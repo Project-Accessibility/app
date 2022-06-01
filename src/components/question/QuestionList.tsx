@@ -1,9 +1,12 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Question } from '../../models/Question';
 import Button from '../generic/Button';
 import { QuestionOption } from '../../models/QuestionOption';
+import FONTS from '../../assets/fonts';
+import COLORS from '../../assets/colors';
+import accessibilityStrings from '../../assets/accessibilityStrings';
 
 const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
@@ -11,6 +14,9 @@ const QuestionList = (props: { questions: Question[] }) => {
   const isFocused = useIsFocused();
   return (
     <>
+      {questions?.length === 0 && (
+        <Text style={styles.text}>{accessibilityStrings.noQuestions}</Text>
+      )}
       {questions?.map((question, index) => {
         return (
           <View key={index} style={styles.buttonView}>
@@ -51,6 +57,11 @@ function isAnswered(question: Question): boolean {
 const styles = StyleSheet.create({
   buttonView: {
     marginTop: 5,
+  },
+  text: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
+    color: COLORS.black,
   },
 });
 
