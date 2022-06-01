@@ -78,7 +78,7 @@ function determineProgress(questions: Question[]): number {
 
     const isAnswered = !question.options.every((option: QuestionOption) => {
       if (!option.answer) return true;
-      if (option.answer?.values?.length === 0) return true;
+      if (option.answer.values?.length === 0) return true;
 
       let answer = option.answer.values?.[0];
 
