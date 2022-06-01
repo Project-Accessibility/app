@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-android-adhoc:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     name: "Build iOS app"
 
     strategy:
