@@ -1,0 +1,225 @@
+{
+  "id": 1,
+  "research_id": 1,
+  "title": "Rijksmuseum",
+  "description": "Hoe goed is het rijksmuseum te bezoeken?",
+  "instructions": "Ga naar het Rijksmuseum en vul de vragenlijst in!",
+  "open": true,
+  "participantCode": "HTSIL",
+  "teachable_machine_link": "https://teachablemachine.withgoogle.com/models/47svpIqPL/",
+  "created_at": "2022-04-03T19:17:30.000000Z",
+  "updated_at": "2022-04-03T19:17:30.000000Z",
+  "sections": [
+    {
+      "id": 1,
+      "questionnaire_id": 1,
+      "geofence": {
+        "id": 1,
+        "longitude": 4.8951679,
+        "latitude": 52.3702157,
+        "radius": 100
+      },
+      "title": "Ingang",
+      "description": "Hoe duidelijk is de ingang van het rijksmuseum?",
+      "locationDescription": "Direct bij binnenkomst",
+      "teachableMachineClass": "entrance",
+      "created_at": "2022-04-03T19:17:30.000000Z",
+      "updated_at": "2022-04-03T19:17:30.000000Z",
+      "questions": [
+        {
+          "id": 1,
+          "section_id": 1,
+          "title": "Balie",
+          "question": "Wat vindt u van de hoogte van de balie?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 1,
+              "question_id": 1,
+              "type": "OPEN",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": {
+                "id": 1,
+                "values": ["Prachtig, precies de juiste hoogte"],
+                "createdAt": "2022-04-03T19:17:30.000000Z",
+                "updatedAt": "2022-04-03T19:17:30.000000Z"
+              }
+            },
+            {
+              "id": 2,
+              "question_id": 1,
+              "type": "RANGE",
+              "extra_data": {
+                "min": 0,
+                "max": 8,
+                "step": 2
+              },
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": null
+            },
+            {
+              "id": 3,
+              "question_id": 1,
+              "type": "IMAGE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": null
+            },
+            {
+              "id": 4,
+              "question_id": 1,
+              "type": "VOICE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": null
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "section_id": 1,
+          "title": "Belichting",
+          "question": "Wat vindt u van de belichting?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 3,
+              "question_id": 2,
+              "type": "OPEN",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": {
+                "id": 2,
+                "values": ["Veel te fel."],
+                "createdAt": "2022-04-03T19:17:30.000000Z",
+                "updatedAt": "2022-04-03T19:17:30.000000Z"
+              }
+            },
+            {
+              "id": 4,
+              "question_id": 2,
+              "type": "VOICE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            },
+            {
+              "id": 5,
+              "question_id": 2,
+              "type": "MULTIPLE_CHOICE",
+              "extra_data": {
+                "multiple": true,
+                "values": ["Te fel", "Precies goed", "Niet fel genoeg"]
+              },
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "questionnaire_id": 1,
+      "geofence": {
+        "id": 2,
+        "longitude": 4.1991679,
+        "latitude": 51.3102157,
+        "radius": 100
+      },
+      "title": "Toilet Verdieping 1",
+      "description": "Toilleten op verdieping 1",
+      "locationDescription": "Links van de bali",
+      "teachableMachineClass": "toiler_floor_1",
+      "created_at": "2022-04-03T19:17:30.000000Z",
+      "updated_at": "2022-04-03T19:17:30.000000Z",
+      "questions": [
+        {
+          "id": 3,
+          "section_id": 2,
+          "title": "WC Grootte",
+          "question": "Wat vindt u van de grootte van het toilet?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 5,
+              "question_id": 2,
+              "type": "OPEN",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": {
+                "id": 3,
+                "values": {
+                  "value": "Niet goed, ik kan er niet in plassen"
+                },
+                "createdAt": "2022-04-03T19:17:30.000000Z",
+                "updatedAt": "2022-04-03T19:17:30.000000Z"
+              }
+            },
+            {
+              "id": 6,
+              "question_id": 2,
+              "type": "IMAGE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": null
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "section_id": 2,
+          "title": "Belichting",
+          "question": "Wat vindt u van de belichting?",
+          "created_at": "2022-04-03T19:17:30.000000Z",
+          "updated_at": "2022-04-03T19:17:30.000000Z",
+          "questionOptions": [
+            {
+              "id": 7,
+              "question_id": 4,
+              "type": "OPEN",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z",
+              "answer": {
+                "id": 4,
+                "values": {
+                  "value": "Precies goed"
+                },
+                "createdAt": "2022-04-03T19:17:30.000000Z",
+                "updatedAt": "2022-04-03T19:17:30.000000Z"
+              }
+            },
+            {
+              "id": 8,
+              "question_id": 4,
+              "type": "VOICE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            },
+            {
+              "id": 9,
+              "question_id": 4,
+              "type": "IMAGE",
+              "extra_data": {},
+              "created_at": "2022-04-03T19:17:30.000000Z",
+              "updated_at": "2022-04-03T19:17:30.000000Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

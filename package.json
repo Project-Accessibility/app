@@ -10,17 +10,38 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"**/*.{js,json,less,css,md,ts,tsx,jsx}\"",
-    "format:check": "prettier --loglevel debug --check \"**/*.{js,json,less,css,md,ts,tsx,jsx}\""
+    "format:check": "prettier --loglevel debug --check \"**/*.{js,json,less,css,md,ts,tsx,jsx}\"",
+    "prepare": "husky install",
+    "generate": "yarn react-native generate-bootsplash ./src/assets/images/logos/icon_accessibility_on-blue_transp.png  --background-color=2B50EC  --logo-width=100 --assets-path=./src/assets --flavor=main"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.4",
+    "@react-native-community/hooks": "^2.8.1",
+    "@react-native-community/netinfo": "^8.3.0",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.5.2",
+    "@types/react-native-vector-icons": "^6.4.10",
+    "axios": "^0.26.1",
     "react": "17.0.2",
-    "react-native": "0.67.3"
+    "react-native": "0.67.3",
+    "react-native-audio-recorder-player": "^3.4.0",
+    "react-native-bootsplash": "^4.1.5",
+    "react-native-config": "^1.4.5",
+    "react-native-fast-image": "^8.5.11",
+    "react-native-image-modal": "^2.0.4",
+    "react-native-image-picker": "^4.7.3",
+    "react-native-permissions": "^3.3.1",
+    "react-native-safe-area-context": "^4.2.4",
+    "react-native-screens": "^3.13.1",
+    "react-native-vector-icons": "^9.1.0",
+    "rn-range-slider": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.23",
+    "@types/mustache": "^4.1.2",
     "@types/react-native": "^0.66.15",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
@@ -28,9 +49,13 @@
     "babel-jest": "^26.6.3",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.5.0",
+    "husky": "^7.0.4",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
+    "mustache": "^4.2.0",
     "prettier": "^2.5.1",
+    "radio-buttons-react-native": "^1.0.4",
+    "react-native-radar": "^3.2.3",
     "react-test-renderer": "17.0.2",
     "typescript": "^4.4.4"
   },
@@ -46,6 +71,15 @@
       "jsx",
       "json",
       "node"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-native|react-native|react-native-vector-icons|react-native-permissions|react-native-radar|async-storage|react-native-audio-recorder-player|rn-range-slider|react-native-image-picker|react-native-image-modal|radio-buttons-react-native)/)"
+    ],
+    "setupFiles": [
+      "./jest.setup.tsx"
     ]
   }
 }

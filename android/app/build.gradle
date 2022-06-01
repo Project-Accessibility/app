@@ -1,6 +1,16 @@
 apply plugin: "com.android.application"
 
+apply plugin: 'com.google.gms.google-services'
+
 import com.android.build.OutputFile
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
+
+project.ext.envConfigFiles = [
+  release: ".env",
+  dev: ".env"
+];
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -96,7 +106,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -134,8 +144,19 @@ android {
         applicationId "com.projectaccessibility"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+        versionCode versCode as Integer
+        resValue "string", "build_config_package", "com.projectaccessibility"
+        configurations.all {
+          resolutionStrategy {
+            force 'androidx.lifecycle:lifecycle process:2.3.1'
+            force 'androidx.appcompat:appcompat:1.3.1'
+            force 'androidx.appcompat:appcompat-resources:1.3.1'
+            // force 'androidx.emoji2:emoji2-views-helper:1.0.0', This won't work, because it is made to work with Android SDK version 31 only
+            force 'androidx.core:core:1.6.0'
+            force 'androidx.lifecycle:lifecycle-runtime:2.3.1'
+         }
+      }
     }
     splits {
         abi {
@@ -165,7 +186,6 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -192,9 +212,12 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-audio-recorder-player')
+    implementation 'io.radar:sdk:3.3.+'
+    implementation "androidx.core:core-splashscreen:1.0.0-beta01" // Add this line
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+    implementation project(':react-native-permissions')
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
