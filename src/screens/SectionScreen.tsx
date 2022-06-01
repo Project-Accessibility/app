@@ -76,20 +76,28 @@ function determineProgress(questions: Question[]): number {
   for (let question of questions) {
     if (!question.options) continue;
 
-    const isAnswered = !question.options.every((option: QuestionOption) => {
-      if (!option.answer) return true;
-      if (option.answer.values.length === 0) return true;
-
-      let answer = option.answer.values[0];
-
-      return answer === undefined || answer[0] === '';
-    });
+    const isAnswered = isQuestionAnswered(question);
     if (isAnswered) {
       amountAnswers++;
     }
   }
 
   return amountAnswers;
+}
+
+function isQuestionAnswered(question: Question): boolean {
+  let finished = false;
+  if (!question.options) return finished;
+
+  question.options.forEach((option: QuestionOption) => {
+    if (!option.answer) return finished;
+
+    const length: number = option.answer.values?.length ?? 0;
+    if (length > 0) {
+      finished = true;
+    }
+  });
+  return finished;
 }
 
 const styles = StyleSheet.create({
