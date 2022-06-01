@@ -1,5 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  AccessibilityInfo,
+  findNodeHandle,
+} from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,8 +22,9 @@ const ImageSelector = (props: {
   onImageSelected: (selectedImageData: FileSelectedData | null) => void;
 }) => {
   const [image, SetImage] = React.useState<string | undefined>(props.value);
+  const imageModal = useRef(null);
 
-  //Check if image already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  //Check if image already exists (this is when image is already uploaded to DB), if so, set correct metadata
   try {
     if (image) {
       props.onImageSelected({
@@ -34,9 +42,9 @@ const ImageSelector = (props: {
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
     if (response.didCancel) {
-      console.log('Geen foto geselecteerd');
+      console.log('No photo selected');
     } else if (response.errorCode === 'permission') {
-      console.log('Permissie afgewezen');
+      console.log('Permission denied');
     } else if (response.errorCode === 'others') {
       console.log(response.errorMessage);
     } else {
@@ -49,6 +57,14 @@ const ImageSelector = (props: {
         } as FileSelectedData;
         props.onImageSelected(formDataImage);
         SetImage(source.uri);
+        setTimeout(function () {
+          if (imageModal && imageModal.current) {
+            const reactTag = findNodeHandle(imageModal.current);
+            if (reactTag) {
+              AccessibilityInfo.setAccessibilityFocus(reactTag);
+            }
+          }
+        }, 1000);
       }
     }
   };
@@ -82,7 +98,12 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-            <View style={styles.imgStyle}>
+            <View
+              style={styles.imgStyle}
+              ref={imageModal}
+              accessible={true}
+              accessibilityLabel={'Gemaakte afbeelding'}
+            >
               <ImageModal
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
@@ -91,23 +112,31 @@ const ImageSelector = (props: {
                 }}
               />
             </View>
-            <Icon
-              onPress={() => RemoveImage()}
-              name="remove"
+            <TouchableOpacity
               style={styles.icon}
-              size={48}
+              onPress={() => RemoveImage()}
               accessible={true}
               accessibilityLabel="Verwijder afbeelding knop"
-            />
+            >
+              <Icon name="remove" color={COLORS.black} size={48} />
+            </TouchableOpacity>
           </>
         ) : (
           <Text />
         )}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => RequestCameraPermission()}
+            accessibilityLabel={'Open camera knop'}
+          >
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => PickImageFromGallery()}
+            accessibilityLabel={'Open galerij knop'}
+          >
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
