@@ -49,6 +49,14 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je gallerij openen</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je contacten openen</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je locatie gebruiken</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Muli-ExtraBold.ttf</string>
