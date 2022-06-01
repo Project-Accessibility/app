@@ -1,0 +1,64 @@
+name: Build iOS app and publish on App store
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
+
+  obs:
+  build-android-adhoc:
+    runs-on: macOS-latest
+    name: "Build iOS app"
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Getting the repo
+        uses: actions/checkout@v2
+
+      # Install node
+      - name: Installing node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install React Native CLI, used to bundle the app
+      - name: Install React Native CLI
+        run: |
+          yarn global add react-native-cli
+
+      # Install Yarn dependencies
+      - name: Install Yarn dependencies
+        run: |
+          yarn install
+
+      - name: Make envfile Acceptation
+        if: github.ref == 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.ACC_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.ACC_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
+
+      - name: Make envfile Development
+        if: github.ref != 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.DEV_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
+
+      # Build iOS app
+      - uses: sparkfabrik/ios-build-action@v1.2.0
+        name: Build iOS
+        with:
+          project-path: ./ios/ProjectAccessibility.xcodeproj
+          p12-base64: ${{ secrets.P12_BASE64 }}
+          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          team-id: ${{ secrets.TEAM_ID }}
+          workspace-path: ProjectAccessibility.xcworkspace # optional
