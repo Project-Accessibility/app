@@ -18,7 +18,7 @@ const VideoSelector = (props: {
   const [paused, setPaused] = React.useState<boolean>();
   const [fullScreen, setFullScreen] = React.useState(false);
 
-  //Check if video already exists (this is when image is already uplaoded to DB), if so, set correct metadata
+  //Check if video already exists (this is when image is already uploaded to DB), if so, set correct metadata
   try {
     if (video) {
       props.onVideoSelected({
@@ -36,9 +36,9 @@ const VideoSelector = (props: {
   const checkResponse = (response: ImagePickerResponse) => {
     //Check for future logging system for response errors
     if (response.didCancel) {
-      console.log('Geen video geselecteerd');
+      console.log('No video selected');
     } else if (response.errorCode === 'permission') {
-      console.log('Permissie afgewezen');
+      console.log('Permission denied');
     } else if (response.errorCode === 'others') {
       console.log(response.errorMessage);
     } else {
