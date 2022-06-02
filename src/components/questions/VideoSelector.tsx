@@ -105,15 +105,15 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel="Verwijder video knop"
+                accessibilityLabel={fullScreen ? 'Video verkleinen knop' : 'Video vergroten knop'}
               />
               <Icon
                 onPress={() => removeVideo()}
-                name="remove"
+                name="trash"
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel={fullScreen ? 'Video verkleinen knop' : 'Video vergroten knop'}
+                accessibilityLabel="Verwijder video knop"
               />
             </View>
           </>
