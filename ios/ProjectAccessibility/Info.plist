@@ -36,25 +36,25 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven</string>
+	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling</string>
+	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling</string>
+	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>De microfoon wordt gebruikt om een volledig antwoord op de vraag te kunnen geven</string>
+	<string>De microfoon wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je gallerij openen om een foto toe te voegen aan je antwoord voor de vragenlijst</string>
+	<string>$(PRODUCT_NAME) wilt graag je gallerij openen om een foto toe te voegen aan je antwoord voor de vragenlijst.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je contacten openen</string>
+	<string>$(PRODUCT_NAME) wilt graag je contacten openen.</string>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen</string>
+	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken</string>
+	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>UIAppFonts</key>
