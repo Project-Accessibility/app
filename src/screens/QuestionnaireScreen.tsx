@@ -72,7 +72,12 @@ const QuestionnaireScreen = () => {
 
   return (
     <>
-      <View style={styles.progressBar} />
+      <View style={styles.progressHeader}>
+        <View style={styles.progressBar}>
+          <View style={styles.progressBarFill} />
+        </View>
+        <Text style={styles.percentText}> 75% </Text>
+      </View>
       <MasterContainer>
         {!questionnaire && <Text>Geen vragenlijst gevonden.</Text>}
         {questionnaire?.instructions && (
@@ -155,14 +160,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.black,
   },
-  progressBar: {
-    height: 20,
+  progressHeader: {
+    backgroundColor: COLORS.darkBlue,
+    paddingBottom: 10,
     flexDirection: 'row',
-    width: '100%',
-    backgroundColor: COLORS.black,
-    borderColor: COLORS.black,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  progressBar: {
+    height: 14,
+    flexDirection: 'row',
+    width: '70%',
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.white,
+    color: COLORS.white,
     borderWidth: 2,
-    borderRadius: 5,
+    borderRadius: 30,
+  },
+  progressBarFill: {
+    backgroundColor: COLORS.green,
+    width: '50%',
+    borderRadius: 30,
+  },
+  percentText: {
+    color: COLORS.white,
+    fontSize: 15,
   },
 });
 
