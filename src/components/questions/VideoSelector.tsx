@@ -9,6 +9,7 @@ import permissionCheck from '../utility/PermissionCheck';
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
+import { useNavigation } from '@react-navigation/native';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -16,7 +17,7 @@ const VideoSelector = (props: {
 }) => {
   const [video, setVideo] = React.useState<string | undefined>('');
   const [paused, setPaused] = React.useState<boolean>();
-  const [fullScreen, setFullScreen] = React.useState(false);
+  const navigation = useNavigation();
 
   //Check if video already exists (this is when image is already uploaded to DB), if so, set correct metadata
   try {
@@ -80,7 +81,8 @@ const VideoSelector = (props: {
   };
 
   const toggleFullScreen = () => {
-    setFullScreen(!fullScreen);
+    //@ts-ignore next-line
+    navigation.navigate('Video', { uri: video });
   };
 
   return (
@@ -91,7 +93,7 @@ const VideoSelector = (props: {
             <Video
               resizeMode="contain"
               source={{ uri: video }}
-              style={fullScreen ? styles.fullScreenVideo : styles.normalVideo}
+              style={styles.video}
               controls={true}
               paused={paused}
               onLoad={() => setPaused(true)}
@@ -101,11 +103,11 @@ const VideoSelector = (props: {
             <View style={styles.videoButtons}>
               <Icon
                 onPress={() => toggleFullScreen()}
-                name={fullScreen ? 'compress' : 'expand'}
+                name="expand"
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel={fullScreen ? 'Video verkleinen knop' : 'Video vergroten knop'}
+                accessibilityLabel="Video vergroten knop"
               />
               <Icon
                 onPress={() => removeVideo()}
@@ -140,11 +142,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
   },
-  fullScreenVideo: {
-    height: 500,
-    width: '100%',
-  },
-  normalVideo: {
+  video: {
+    borderWidth: 2,
+    borderColor: COLORS.black,
+    borderRadius: 10,
     height: 250,
     width: '100%',
   },
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
 
     position: 'absolute',
     width: '100%',
-    padding: 10,
+    padding: 20,
   },
   rowContainer: {
     display: 'flex',
