@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   codeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: COLORS.white,
     borderWidth: 2,
     borderRadius: 20,
