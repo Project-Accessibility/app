@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je camera gebruiken</string>
+	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -44,11 +44,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je microfoon gebruiken.</string>
+	<string>De microfoon wordt gebruikt om een volledig antwoord op de vraag te kunnen geven</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je gallerij openen</string>
+	<string>$(PRODUCT_NAME) wilt graag je gallerij openen om een foto toe te voegen aan je antwoord voor de vragenlijst</string>
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je contacten openen</string>
 	<key>NSAppleMusicUsageDescription</key>
@@ -56,7 +56,7 @@
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je locatie gebruiken</string>
+	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Muli-ExtraBold.ttf</string>
