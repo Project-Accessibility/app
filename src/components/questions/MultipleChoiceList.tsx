@@ -27,44 +27,12 @@ const MasterContainer = (props: {
         return currentValue !== value;
       });
       setCurrentValues(value);
-      // fadeOutAnimation();
     } else if (multipleAnswersPossible || currentValues.length === 0) {
       value = [...currentValues, value];
       setCurrentValues(value);
-      // fadeInAnimation();
     }
     props.onClicked(value);
   };
-
-  // const fadeInAnimation = () => {
-  //   Animated.timing(fadeAnim, {
-  //     toValue: 0,
-  //     duration: 0,
-  //     useNativeDriver: true,
-  //   }).start(() => {
-  //     Animated.timing(fadeAnim, {
-  //       toValue: 1,
-  //       duration: 500,
-  //       delay: 10,
-  //       useNativeDriver: true,
-  //     }).start();
-  //   });
-  // };
-  //
-  // const fadeOutAnimation = () => {
-  //   Animated.timing(fadeAnim, {
-  //     toValue: 1,
-  //     duration: 0,
-  //     useNativeDriver: true,
-  //   }).start(() => {
-  //     Animated.timing(fadeAnim, {
-  //       toValue: 0,
-  //       duration: 500,
-  //       delay: 10,
-  //       useNativeDriver: true,
-  //     }).start();
-  //   });
-  // };
 
   return (
     <View
@@ -94,7 +62,14 @@ const MasterContainer = (props: {
             ]}
             activeOpacity={0.9}
             onPress={() => selectOption(value, index)}
-            accessibilityLabel={value + (isSelected ? ', geselecteerd' : '')}
+            accessibilityLabel={
+              value +
+              ', ' +
+              (index + 1) +
+              ' van de ' +
+              multipleChoiceOptions.length +
+              (isSelected ? ', geselecteerd' : '')
+            }
             accessible={true}
           >
             <View style={styles.leftOptionBox}>
