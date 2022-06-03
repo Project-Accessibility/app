@@ -3,6 +3,11 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Radar from 'react-native-radar';
 import ParticipantCode from '../localStorage/ParticipantCode';
 
+interface PermissionResult {
+  success: boolean;
+  isRequested: boolean;
+}
+
 export class Result {
   user: User;
   events: Event[];
@@ -67,9 +72,12 @@ class RadarLocation {
     const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
     const userId: string = participantCode ?? this.backupUserId;
     this.configureRadar(userId);
-    this.handleLocationPermission().then(async (granted) => {
-      if (granted) {
-        console.log('Location is granted!');
+    this.handleLocationPermission().then(async (result) => {
+      if (result.success) {
+        if (result.isRequested) {
+          console.log('Location is granted!');
+          await this.runRadarOnce();
+        }
         await this.runRadarTracking();
       } else {
         console.log('Location is not granted!');
@@ -104,14 +112,19 @@ class RadarLocation {
    *
    * @protected
    */
-  protected async handleLocationPermission() {
+  protected async handleLocationPermission(): Promise<PermissionResult> {
+    let isRequested = false;
     if (Platform.OS === 'ios') {
       const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
 
       if (permissionCheck !== RESULTS.GRANTED) {
+        isRequested = true;
         const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
         if (permissionRequest !== RESULTS.GRANTED) {
-          return false;
+          return {
+            success: false,
+            isRequested,
+          };
         }
       }
     }
@@ -120,13 +133,33 @@ class RadarLocation {
       const permissionCheck = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
 
       if (permissionCheck !== RESULTS.GRANTED) {
+        isRequested = true;
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
         if (permissionRequest !== RESULTS.GRANTED) {
-          return false;
+          return {
+            success: false,
+            isRequested,
+          };
         }
       }
     }
-    return true;
+    return {
+      success: true,
+      isRequested,
+    };
+  }
+
+  /**
+   * Get Radar data once
+   *
+   */
+  public async runRadarOnce() {
+    const result = await Radar.searchGeofences({
+      radius: 20,
+    });
+    if (this.callback) {
+      this.callback(this.getResult(false, result));
+    }
   }
 
   /**
@@ -134,13 +167,7 @@ class RadarLocation {
    *
    * @private
    */
-  private async runRadarTracking() {
-    const result = await Radar.searchGeofences({
-      radius: 20,
-    });
-    if (this.callback) {
-      this.callback(this.getResult(false, result));
-    }
+  protected async runRadarTracking() {
     await Radar.startTrackingContinuous();
   }
 

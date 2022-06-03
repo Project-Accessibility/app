@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
@@ -67,6 +67,12 @@ const QuestionnaireScreen = () => {
       }
     }
   }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      Radar.runRadarOnce().then(() => console.log('Radar run once'));
+    }, [])
+  );
 
   return (
     <MasterContainer>
