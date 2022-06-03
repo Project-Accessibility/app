@@ -32,6 +32,7 @@ const QuestionnaireScreen = () => {
   useEffect(() => {
     Radar.on(configureNearBySections);
     Radar.start().then(() => 'Radar started');
+
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
@@ -47,7 +48,7 @@ const QuestionnaireScreen = () => {
       if (questionnaire && questionnaire.sections) {
         sections = questionnaire.sections;
       }
-      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
+      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds));
       checkIfShowToast();
     }
 
@@ -127,17 +128,10 @@ const QuestionnaireScreen = () => {
   );
 };
 
-function getSectionsThatAreNearby(
-  sections: Section[],
-  closeGeofenceIds: number[] = [],
-  closeTeachableMachineIds: string[] = []
-): Section[] {
+function getSectionsThatAreNearby(sections: Section[], closeGeofenceIds: number[] = []): Section[] {
   let closeSections: Section[] = [];
   sections?.forEach((section) => {
-    if (
-      closeGeofenceIds.includes(section.geofence?.id ?? -1) ||
-      closeTeachableMachineIds.includes(section.teachableMachineClass ?? '')
-    ) {
+    if (closeGeofenceIds.includes(section.id ?? -1)) {
       closeSections.push(section);
     }
   });
