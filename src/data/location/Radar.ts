@@ -63,10 +63,13 @@ class RadarLocation {
   private callback: Function | undefined;
   private backupUserId: string = 'cd66931c-a623-11ec-b909-0242ac120002';
 
-  async start() {
+  public async init() {
     const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
     const userId: string = participantCode ?? this.backupUserId;
     this.configureRadar(userId);
+  }
+
+  public async start() {
     this.handleLocationPermission().then(async (granted) => {
       if (granted) {
         console.log('Location is granted!');
@@ -82,8 +85,12 @@ class RadarLocation {
    *
    * @param callback
    */
-  on(callback: Function): void {
+  public on(callback: Function): void {
     this.callback = callback;
+  }
+
+  public stopTracking() {
+    Radar.stopTracking();
   }
 
   /**

@@ -2,6 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
+  AppState,
   Platform,
   StyleSheet,
   Text,
@@ -31,7 +32,7 @@ const QuestionnaireScreen = () => {
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.start().then(() => 'Radar started');
+    Radar.init().then(() => Radar.start().then(() => 'Radar started'));
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
@@ -65,6 +66,16 @@ const QuestionnaireScreen = () => {
         Alert.alert(msg);
       }
     }
+    AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        Radar.start().then(() => 'Radar started');
+      } else if (state === 'background') {
+        Radar.stopTracking();
+      }
+    });
+    return () => {
+      Radar.stopTracking();
+    };
   }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
 
   return (
