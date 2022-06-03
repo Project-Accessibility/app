@@ -70,14 +70,13 @@ class RadarLocation {
   }
 
   public async start() {
-    this.handleLocationPermission().then(async (granted) => {
-      if (granted) {
-        console.log('Location is granted!');
-        await this.runRadarTracking();
-      } else {
-        console.log('Location is not granted!');
-      }
-    });
+    const granted = await this.handleLocationPermission();
+    if (granted) {
+      console.log('Location is granted!');
+      await this.runRadarTracking();
+    } else {
+      console.log('Location is not granted!');
+    }
   }
 
   /**
@@ -91,19 +90,6 @@ class RadarLocation {
 
   public stopTracking() {
     Radar.stopTracking();
-  }
-
-  /**
-   * Configure Radar
-   *
-   * @param userId
-   * @private
-   */
-  private configureRadar(userId: string) {
-    Radar.setUserId(userId);
-    Radar.on('events', (result: any) => {
-      radarLocation.trigger(true, result);
-    });
   }
 
   /**
@@ -134,6 +120,38 @@ class RadarLocation {
       }
     }
     return true;
+  }
+
+  /**
+   * Get filtered event
+   *
+   * @param isEvent
+   * @param data
+   * @protected
+   */
+  protected getEvent(isEvent: boolean, data: any): Event {
+    const geofence = new Geofence(
+      isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
+      isEvent ? data.geofence.tag : data.tag,
+      isEvent ? data.geofence.description : data.description
+    );
+    return new Event(
+      geofence,
+      isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered'
+    );
+  }
+
+  /**
+   * Configure Radar
+   *
+   * @param userId
+   * @private
+   */
+  private configureRadar(userId: string) {
+    Radar.setUserId(userId);
+    Radar.on('events', (result: any) => {
+      radarLocation.trigger(true, result);
+    });
   }
 
   /**
@@ -192,25 +210,6 @@ class RadarLocation {
       });
     }
     return result;
-  }
-
-  /**
-   * Get filtered event
-   *
-   * @param isEvent
-   * @param data
-   * @protected
-   */
-  protected getEvent(isEvent: boolean, data: any): Event {
-    const geofence = new Geofence(
-      isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
-      isEvent ? data.geofence.tag : data.tag,
-      isEvent ? data.geofence.description : data.description
-    );
-    return new Event(
-      geofence,
-      isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered'
-    );
   }
 }
 

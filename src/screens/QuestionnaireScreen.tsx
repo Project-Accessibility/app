@@ -32,7 +32,7 @@ const QuestionnaireScreen = () => {
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.init().then(() => Radar.start().then(() => 'Radar started'));
+    Radar.init().then(() => Radar.start().then(() => console.log('Radar started')));
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
@@ -66,9 +66,10 @@ const QuestionnaireScreen = () => {
         Alert.alert(msg);
       }
     }
-    AppState.addEventListener('change', (state) => {
+
+    AppState.addEventListener('change', async (state) => {
       if (state === 'active') {
-        Radar.start().then(() => 'Radar started');
+        await Radar.start().then(() => console.log('Radar started'));
       } else if (state === 'background') {
         Radar.stopTracking();
       }
@@ -76,7 +77,7 @@ const QuestionnaireScreen = () => {
     return () => {
       Radar.stopTracking();
     };
-  }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
+  }, []);
 
   return (
     <MasterContainer>
