@@ -71,9 +71,12 @@ const MasterContainer = (props: {
       style={styles.multipleChoice}
       accessibilityLabel={'Meerkeuze'}
       accessibilityHint={
-        'Er zijn ' + multipleChoiceOptions.length + 'opties, ' + multipleAnswersPossible
+        'Er zijn ' +
+        multipleChoiceOptions.length +
+        'opties en ' +
+        (multipleAnswersPossible
           ? 'er zijn meerdere antwoorden mogelijk'
-          : 'er is een antwoord mogelijk'
+          : 'er is een antwoord mogelijk')
       }
       accessible={true}
     >
