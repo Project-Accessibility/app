@@ -77,12 +77,12 @@ class RadarLocation {
   public async start() {
     const result = await this.handleLocationPermission();
     if (result.success) {
-        if (result.isRequested) {
-          console.log('Location is granted!');
-          await this.runRadarOnce();
-        }
-        await this.runRadarTracking();
-      } else {
+      if (result.isRequested) {
+        console.log('Location is granted!');
+        await this.runRadarOnce();
+      }
+      await this.runRadarTracking();
+    } else {
       console.log('Location is not granted!');
     }
   }
@@ -219,8 +219,8 @@ class RadarLocation {
     }
     return result;
   }
-  
-    /**
+
+  /**
    * Get filtered event
    *
    * @param isEvent

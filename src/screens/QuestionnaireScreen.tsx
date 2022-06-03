@@ -45,11 +45,7 @@ const QuestionnaireScreen = () => {
       const nearbyGeofenceIds = nearbyGeofences.map((event: Event) => {
         return event.geofence.sectionId;
       });
-      let sections: Section[] = [];
-      if (questionnaire && questionnaire.sections) {
-        sections = questionnaire.sections;
-      }
-      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds));
+      setNearbySections(getSectionsThatAreNearby(nearbyGeofenceIds));
       checkIfShowToast();
     }
 
@@ -144,17 +140,19 @@ const QuestionnaireScreen = () => {
       )}
     </MasterContainer>
   );
-};
 
-function getSectionsThatAreNearby(sections: Section[], closeGeofenceIds: number[] = []): Section[] {
-  let closeSections: Section[] = [];
-  sections?.forEach((section) => {
-    if (closeGeofenceIds.includes(section.id ?? -1)) {
-      closeSections.push(section);
-    }
-  });
-  return closeSections;
-}
+  function getSectionsThatAreNearby(closeGeofenceIds: number[] = []): Section[] {
+    const currentParams = route.params as { questionnaire: Questionnaire };
+    if (!currentParams) return [];
+    let closeSections: Section[] = [];
+    currentParams.questionnaire?.sections?.forEach((section) => {
+      if (closeGeofenceIds.includes(section.id ?? -1)) {
+        closeSections.push(section);
+      }
+    });
+    return closeSections;
+  }
+};
 
 const styles = StyleSheet.create({
   sectionTitle: {
