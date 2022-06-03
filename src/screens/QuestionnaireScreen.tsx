@@ -17,8 +17,8 @@ import MasterContainer from '../components/generic/MasterContainer';
 import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
-import ParticipantCode from '../data/localStorage/ParticipantCode';
 import Radar, { Event, Result } from '../data/location/Radar';
+import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -31,11 +31,10 @@ const QuestionnaireScreen = () => {
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.start('cd66931c-a623-11ec-b909-0242ac120002');
+    Radar.start().then(() => 'Radar started');
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
-    ParticipantCode.saveParticipantCodeToLocalStorage(currentParams.questionnaire.participantCode);
 
     function configureNearBySections(result: Result) {
       const nearbyGeofences = result.events.filter((event: Event) => {
@@ -47,16 +46,12 @@ const QuestionnaireScreen = () => {
       let sections: Section[] = [];
       if (questionnaire && questionnaire.sections) {
         sections = questionnaire.sections;
-        console.log(sections);
-        console.log(nearbyGeofenceIds);
       }
       setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
       checkIfShowToast();
     }
 
     function checkIfShowToast() {
-      console.log(lastCountOfNearbySections);
-      console.log(nearbySections.length);
       if (lastCountOfNearbySections < nearbySections.length) {
         showToast('Er is een nieuwe onderdeel bij u in de buurt');
       }
@@ -100,6 +95,9 @@ const QuestionnaireScreen = () => {
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
+            {nearbySections.length === 0 && (
+              <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
+            )}
             <SectionList sections={nearbySections} />
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -117,6 +115,9 @@ const QuestionnaireScreen = () => {
               </Text>
             </TouchableOpacity>
             <Divider width="33%" height={2} margin={0} />
+            {questionnaire.sections?.length === 0 && (
+              <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
+            )}
             {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -152,6 +153,11 @@ const styles = StyleSheet.create({
   sectionText: {
     fontFamily: FONTS.regular,
     fontSize: 20,
+    color: COLORS.black,
+  },
+  text: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
     color: COLORS.black,
   },
 });

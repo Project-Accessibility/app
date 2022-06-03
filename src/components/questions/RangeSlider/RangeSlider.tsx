@@ -9,13 +9,19 @@ import Label from './Label';
 import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
-const sliderWidth = '80%';
-const inputFieldWidth = '15%';
+const sliderWidthBig = '80%';
+const sliderWidthSmall = '77.5%';
+const inputWidthSmall = '15%';
+const inputWidthBig = '17.5%';
 
-const Range = (props: { questionOption: QuestionOption; onChange: (label: number) => void }) => {
-  const range = props.questionOption.extraData as any;
-  const [currentValue, setCurrentValue] = useState(range.min);
-  const [textValue, setTextValue] = useState(String(range.min));
+const Range = (props: {
+  questionOption: QuestionOption;
+  value: number;
+  onChange: (label: number) => void;
+}) => {
+  const range = props.questionOption.extra_data as any;
+  const [currentValue, setCurrentValue] = useState(props.value ?? parseInt(range.min));
+  const [textValue, setTextValue] = useState(String(currentValue ?? range.min));
 
   const renderThumb = useCallback(() => <Thumb />, []);
   const renderRail = useCallback(() => <Rail />, []);
@@ -29,13 +35,13 @@ const Range = (props: { questionOption: QuestionOption; onChange: (label: number
         value = Number.parseInt(value, 10);
         if (Number.isNaN(value)) {
           value = currentValue;
-        } else if (value < range.min) {
+        } else if (value < parseInt(range.min)) {
           showToast('Minimum waarde is ' + range.min);
-          value = range.min;
+          value = parseInt(range.min);
           setTextValue(String(value));
-        } else if (value > range.max) {
+        } else if (value > parseInt(range.max)) {
           showToast('Maximum waarde is ' + range.max);
-          value = range.max;
+          value = parseInt(range.max);
           setTextValue(String(value));
         }
       }
@@ -60,16 +66,16 @@ const Range = (props: { questionOption: QuestionOption; onChange: (label: number
     <View style={styles.root}>
       <View style={styles.row}>
         <View
-          style={styles.slider}
+          style={[styles.slider, textValue.length === 1 ? styles.sliderBig : styles.sliderSmall]}
           accessibilityLabel={'Slider'}
-          accessibilityHint={`Tussen ${range.min} en ${range.max}`}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
           <RangeSlider
-            min={range.min}
-            max={range.max}
+            min={parseInt(range.min)}
+            max={parseInt(range.max)}
             low={currentValue}
             disableRange={true}
-            step={range.step}
+            step={parseInt(range.step)}
             floatingLabel={true}
             renderThumb={renderThumb}
             renderRail={renderRail}
@@ -84,7 +90,10 @@ const Range = (props: { questionOption: QuestionOption; onChange: (label: number
           </View>
         </View>
         <TextInput
-          style={styles.rangeInput}
+          style={[
+            styles.input,
+            textValue.length === 1 ? styles.rangeInputSmall : styles.rangeInputBig,
+          ]}
           placeholderTextColor={COLORS.black}
           keyboardType="numeric"
           onChangeText={handleValueChange}
@@ -109,8 +118,13 @@ const styles = StyleSheet.create({
     alignItems: 'center', //Centered vertically
   },
   slider: {
-    width: sliderWidth,
     marginRight: 10,
+  },
+  sliderBig: {
+    width: sliderWidthBig,
+  },
+  sliderSmall: {
+    width: sliderWidthSmall,
   },
   horizontalContainer: {
     flexDirection: 'row',
@@ -122,9 +136,8 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     fontSize: 20,
   },
-  rangeInput: {
+  input: {
     backgroundColor: COLORS.white,
-    width: inputFieldWidth,
     borderWidth: 2,
     borderRadius: 20,
     flexGrow: 1,
@@ -133,6 +146,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontFamily: FONTS.semiBold,
     fontSize: 20,
+    color: COLORS.black,
+  },
+  rangeInputBig: {
+    width: inputWidthBig,
+  },
+  rangeInputSmall: {
+    width: inputWidthSmall,
   },
 });
 

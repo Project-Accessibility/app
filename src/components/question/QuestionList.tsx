@@ -1,8 +1,12 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Question } from '../../models/Question';
 import Button from '../generic/Button';
+import { QuestionOption } from '../../models/QuestionOption';
+import FONTS from '../../assets/fonts';
+import COLORS from '../../assets/colors';
+import accessibilityStrings from '../../assets/accessibilityStrings';
 
 const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
@@ -10,6 +14,9 @@ const QuestionList = (props: { questions: Question[] }) => {
   const isFocused = useIsFocused();
   return (
     <>
+      {questions?.length === 0 && (
+        <Text style={styles.text}>{accessibilityStrings.noQuestions}</Text>
+      )}
       {questions?.map((question, index) => {
         return (
           <View key={index} style={styles.buttonView}>
@@ -34,16 +41,15 @@ const QuestionList = (props: { questions: Question[] }) => {
 
 function isAnswered(question: Question): boolean {
   let finished = false;
-  if (!question.questionOptions) return finished;
+  if (!question.options) return finished;
 
-  question.questionOptions.forEach((questionOption) => {
-    if (!questionOption.answers) return finished;
+  question.options.forEach((option: QuestionOption) => {
+    if (!option.answer) return finished;
 
-    questionOption.answers.forEach((answer) => {
-      if (answer.answer && answer.answer[0] !== '') {
-        finished = true;
-      }
-    });
+    const length: number = option.answer.values?.length ?? 0;
+    if (length > 0) {
+      finished = true;
+    }
   });
   return finished;
 }
@@ -51,6 +57,11 @@ function isAnswered(question: Question): boolean {
 const styles = StyleSheet.create({
   buttonView: {
     marginTop: 5,
+  },
+  text: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
+    color: COLORS.black,
   },
 });
 

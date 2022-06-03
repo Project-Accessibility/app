@@ -1,4 +1,4 @@
-name: Build Android
+name: Build Android App Debug
 
 on:
   push:
@@ -52,12 +52,6 @@ jobs:
           envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
           envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
 
-      # Create react-native app Bundle
-      - name: Building bundle
-        run: |
-          mkdir -p ./android/app/src/main/assets/
-          yarn react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
-
       # Build Android app
       - name: Build Android
         env:
@@ -68,12 +62,22 @@ jobs:
           export VERSION_CODE=${{ github.run_number }}
           export VERSION_NAME=1.0.${{ github.run_number }}
           echo ${{ secrets.STAGING_KEYSTORE }} | base64 --decode > android/app/staging.keystore
-          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleDebug
+          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME :app:assembleRelease
+
+      - name: Sign APK
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/apk/release/
+          signingKeyBase64: ${{ secrets.STAGING_KEYSTORE }}
+          alias: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
+          keyPassword: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
 
       # Upload app as Artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           retention-days: 2
-          name: android-app-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: android-app
+          path: android/app/build/outputs/apk/release/app-release-unsigned-signed.apk

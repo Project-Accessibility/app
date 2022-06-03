@@ -8,6 +8,7 @@ import MasterContainer from '../components/generic/MasterContainer';
 import QuestionList from '../components/question/QuestionList';
 import { Section } from '../models/Section';
 import { Question } from '../models/Question';
+import { QuestionOption } from '../models/QuestionOption';
 
 const SectionScreen = () => {
   const [section, setSection] = useState<Section>();
@@ -47,18 +48,20 @@ const SectionScreen = () => {
         <>
           <View>
             <Text style={styles.questionsTitle}>Vragen</Text>
-            <Text
-              style={styles.questionsAnswered}
-              accessible={true}
-              accessibilityLabel={`${determineProgress(section.questions)} van de ${
-                section.questions.length
-              } beantwoord.`}
-            >
-              Beantwoord:{' '}
-              {isFocused
-                ? `${determineProgress(section.questions)} / ${section.questions.length}`
-                : ''}
-            </Text>
+            {section.questions.length > 0 && (
+              <Text
+                style={styles.questionsAnswered}
+                accessible={true}
+                accessibilityLabel={`${determineProgress(section.questions)} van de ${
+                  section.questions.length
+                } vragen beantwoord.`}
+              >
+                Beantwoord:{' '}
+                {isFocused
+                  ? `${determineProgress(section.questions)} / ${section.questions.length}`
+                  : ''}
+              </Text>
+            )}
             <QuestionList questions={section.questions} />
           </View>
         </>
@@ -71,15 +74,17 @@ function determineProgress(questions: Question[]): number {
   let amountAnswers = 0;
 
   for (let question of questions) {
-    if (!question.questionOptions) continue;
+    if (!question.options) continue;
 
-    for (let option of question.questionOptions) {
-      if (!option.answers) continue;
-      if (option.answers.length < 1) continue;
+    const isAnswered = !question.options.every((option: QuestionOption) => {
+      if (!option.answer) return true;
+      if (option.answer.values?.length === 0) return true;
 
-      let answer = option.answers[0].answer;
+      let answer = option.answer.values?.[0];
 
-      if (answer === undefined || answer[0] === '') continue;
+      return answer === undefined || answer[0] === '';
+    });
+    if (isAnswered) {
       amountAnswers++;
     }
   }

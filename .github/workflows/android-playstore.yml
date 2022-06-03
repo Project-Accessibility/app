@@ -1,0 +1,103 @@
+name: Build Android App PlayStore
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+
+jobs:
+  build-android-adhoc:
+    runs-on: ubuntu-latest
+    name: "Build Android app"
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Getting the repo
+        uses: actions/checkout@v2
+
+      # Install node
+      - name: Installing node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install React Native CLI, used to bundle the app
+      - name: Install React Native CLI
+        run: |
+          yarn global add react-native-cli
+
+      # Install Yarn dependencies
+      - name: Install Yarn dependencies
+        run: |
+          yarn install
+
+      - name: Make envfile Acceptation
+        if: github.ref == 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.ACC_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.ACC_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
+
+      - name: Make envfile Development
+        if: github.ref != 'refs/heads/main'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_ENDPOINT_TO_ENFORCE: ${{ secrets.DEV_ENDPOINT_TO_ENFORCE }}
+          envkey_API_KEY: ${{ secrets.DEV_API_KEY }}
+          envkey_RADAR_PUBLISHABLE_KEY: ${{ secrets.RADAR_PUBLISHABLE_KEY }}
+
+      # Build Android app
+      - name: Build Android
+        run: |
+          export VERSION_CODE=${{ github.run_number }}
+          export VERSION_NAME=1.0.${{ github.run_number }}
+          cd android && ./gradlew -PversCode=$VERSION_CODE -PversName=$VERSION_NAME bundleRelease
+
+      - name: Sign AAB
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.STAGING_KEYSTORE }}
+          alias: ${{ secrets.STAGING_KEYSTORE_ALIAS }}
+          keyStorePassword: ${{ secrets.STAGING_KEYSTORE_PASSPHRASE }}
+          keyPassword: ${{ secrets.STAGING_KEYSTORE_ALIAS_PASSPHRASE }}
+
+      # Upload app as Artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 2
+          name: android-app
+          path: android/app/build/outputs/bundle/release/app-release.aab
+    
+      - name: Deploy to Play Store (Alpha - Closed Testing)
+        if: github.ref != 'refs/heads/main'
+        id: deploy-beta
+        uses: r0adkll/upload-google-play@v1.0.16
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.projectaccessibility
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: alpha
+          whatsNewDirectory: app-patchnotes/Android
+          inAppUpdatePriority: 2
+          status: completed
+      
+      - name: Deploy to Play Store (Production)
+        if: github.ref == 'refs/heads/main'
+        id: deploy-production
+        uses: r0adkll/upload-google-play@v1.0.16
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.projectaccessibility
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: production
+          whatsNewDirectory: app-patchnotes/Android
+          inAppUpdatePriority: 2
+          status: completed

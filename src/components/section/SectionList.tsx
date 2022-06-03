@@ -36,21 +36,19 @@ const SectionList = (props: { sections: Section[] }) => {
 function getAnsweredQuestions(section: Section): number {
   let answeredQuestions = 0;
   section.questions?.forEach((question) => {
-    question.questionOptions?.forEach((questionOption) => {
-      questionOption.answers?.forEach((answer) => {
-        answer.answer ? answeredQuestions++ : null;
-      });
+    let isAnswered = false;
+    question.options?.forEach((option) => {
+      if (option.answer) {
+        isAnswered = true;
+      }
     });
+    if (isAnswered) answeredQuestions++;
   });
   return answeredQuestions;
 }
 
 function getTotalQuestions(section: Section): number {
-  let totalQuestions = 0;
-  section.questions?.forEach((question) => {
-    totalQuestions += question.questionOptions?.length ?? 0;
-  });
-  return totalQuestions;
+  return section.questions?.length ?? 0;
 }
 
 const styles = StyleSheet.create({
