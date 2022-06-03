@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
@@ -33,6 +33,7 @@ const QuestionnaireScreen = () => {
   useEffect(() => {
     Radar.on(configureNearBySections);
     Radar.init().then(() => Radar.start().then(() => console.log('Radar started')));
+
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
@@ -48,7 +49,7 @@ const QuestionnaireScreen = () => {
       if (questionnaire && questionnaire.sections) {
         sections = questionnaire.sections;
       }
-      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
+      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds));
       checkIfShowToast();
     }
 
@@ -78,6 +79,12 @@ const QuestionnaireScreen = () => {
       Radar.stopTracking();
     };
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      Radar.runRadarOnce().then(() => console.log('Radar run once'));
+    }, [])
+  );
 
   return (
     <MasterContainer>
@@ -139,17 +146,10 @@ const QuestionnaireScreen = () => {
   );
 };
 
-function getSectionsThatAreNearby(
-  sections: Section[],
-  closeGeofenceIds: number[] = [],
-  closeTeachableMachineIds: string[] = []
-): Section[] {
+function getSectionsThatAreNearby(sections: Section[], closeGeofenceIds: number[] = []): Section[] {
   let closeSections: Section[] = [];
   sections?.forEach((section) => {
-    if (
-      closeGeofenceIds.includes(section.geofence?.id ?? -1) ||
-      closeTeachableMachineIds.includes(section.teachableMachineClass ?? '')
-    ) {
+    if (closeGeofenceIds.includes(section.id ?? -1)) {
       closeSections.push(section);
     }
   });

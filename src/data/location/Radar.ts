@@ -3,6 +3,11 @@ import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 import Radar from 'react-native-radar';
 import ParticipantCode from '../localStorage/ParticipantCode';
 
+interface PermissionResult {
+  success: boolean;
+  isRequested: boolean;
+}
+
 export class Result {
   user: User;
   events: Event[];
@@ -70,11 +75,14 @@ class RadarLocation {
   }
 
   public async start() {
-    const granted = await this.handleLocationPermission();
-    if (granted) {
-      console.log('Location is granted!');
-      await this.runRadarTracking();
-    } else {
+    const result = await this.handleLocationPermission();
+    if (result.success) {
+        if (result.isRequested) {
+          console.log('Location is granted!');
+          await this.runRadarOnce();
+        }
+        await this.runRadarTracking();
+      } else {
       console.log('Location is not granted!');
     }
   }
@@ -97,14 +105,19 @@ class RadarLocation {
    *
    * @protected
    */
-  protected async handleLocationPermission() {
+  protected async handleLocationPermission(): Promise<PermissionResult> {
+    let isRequested = false;
     if (Platform.OS === 'ios') {
       const permissionCheck = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
 
       if (permissionCheck !== RESULTS.GRANTED) {
+        isRequested = true;
         const permissionRequest = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
         if (permissionRequest !== RESULTS.GRANTED) {
-          return false;
+          return {
+            success: false,
+            isRequested,
+          };
         }
       }
     }
@@ -113,32 +126,20 @@ class RadarLocation {
       const permissionCheck = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
 
       if (permissionCheck !== RESULTS.GRANTED) {
+        isRequested = true;
         const permissionRequest = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
         if (permissionRequest !== RESULTS.GRANTED) {
-          return false;
+          return {
+            success: false,
+            isRequested,
+          };
         }
       }
     }
-    return true;
-  }
-
-  /**
-   * Get filtered event
-   *
-   * @param isEvent
-   * @param data
-   * @protected
-   */
-  protected getEvent(isEvent: boolean, data: any): Event {
-    const geofence = new Geofence(
-      isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
-      isEvent ? data.geofence.tag : data.tag,
-      isEvent ? data.geofence.description : data.description
-    );
-    return new Event(
-      geofence,
-      isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered'
-    );
+    return {
+      success: true,
+      isRequested,
+    };
   }
 
   /**
@@ -155,17 +156,24 @@ class RadarLocation {
   }
 
   /**
-   * Run radar tracking
+   * Get Radar data once
    *
-   * @private
    */
-  private async runRadarTracking() {
+  public async runRadarOnce() {
     const result = await Radar.searchGeofences({
       radius: 20,
     });
     if (this.callback) {
       this.callback(this.getResult(false, result));
     }
+  }
+
+  /**
+   * Run radar tracking
+   *
+   * @private
+   */
+  protected async runRadarTracking() {
     await Radar.startTrackingContinuous();
   }
 
@@ -210,6 +218,25 @@ class RadarLocation {
       });
     }
     return result;
+  }
+  
+    /**
+   * Get filtered event
+   *
+   * @param isEvent
+   * @param data
+   * @protected
+   */
+  protected getEvent(isEvent: boolean, data: any): Event {
+    const geofence = new Geofence(
+      isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
+      isEvent ? data.geofence.tag : data.tag,
+      isEvent ? data.geofence.description : data.description
+    );
+    return new Event(
+      geofence,
+      isEvent ? data.type.replace('user.', '').replace('_geofence', '') : 'entered'
+    );
   }
 }
 
