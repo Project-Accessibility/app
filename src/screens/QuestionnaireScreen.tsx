@@ -18,6 +18,7 @@ import { Questionnaire } from '../models/Questionnaire';
 import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
+import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -94,6 +95,9 @@ const QuestionnaireScreen = () => {
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
             <Divider width="33%" height={2} margin={0} />
+            {nearbySections.length === 0 && (
+              <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
+            )}
             <SectionList sections={nearbySections} />
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -111,6 +115,9 @@ const QuestionnaireScreen = () => {
               </Text>
             </TouchableOpacity>
             <Divider width="33%" height={2} margin={0} />
+            {questionnaire.sections?.length === 0 && (
+              <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
+            )}
             {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -146,6 +153,11 @@ const styles = StyleSheet.create({
   sectionText: {
     fontFamily: FONTS.regular,
     fontSize: 20,
+    color: COLORS.black,
+  },
+  text: {
+    fontFamily: FONTS.regular,
+    fontSize: 18,
     color: COLORS.black,
   },
 });

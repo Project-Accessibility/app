@@ -79,6 +79,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <OpenTextArea
+          placeholder={questionOption.extra_data.placeholder}
           value={questionOption.answer?.values?.[0] ?? ''}
           onChangeText={(value: string) => {
             questionOption.answer = {
