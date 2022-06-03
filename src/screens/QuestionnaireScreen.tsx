@@ -2,6 +2,7 @@ import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
+  AppState,
   Platform,
   StyleSheet,
   Text,
@@ -31,7 +32,7 @@ const QuestionnaireScreen = () => {
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.start().then(() => 'Radar started');
+    Radar.init().then(() => Radar.start().then(() => console.log('Radar started')));
 
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
@@ -44,11 +45,7 @@ const QuestionnaireScreen = () => {
       const nearbyGeofenceIds = nearbyGeofences.map((event: Event) => {
         return event.geofence.sectionId;
       });
-      let sections: Section[] = [];
-      if (questionnaire && questionnaire.sections) {
-        sections = questionnaire.sections;
-      }
-      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds));
+      setNearbySections(getSectionsThatAreNearby(nearbyGeofenceIds));
       checkIfShowToast();
     }
 
@@ -66,7 +63,18 @@ const QuestionnaireScreen = () => {
         Alert.alert(msg);
       }
     }
-  }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
+
+    AppState.addEventListener('change', async (state) => {
+      if (state === 'active') {
+        await Radar.start().then(() => console.log('Radar started'));
+      } else if (state === 'background') {
+        Radar.stopTracking();
+      }
+    });
+    return () => {
+      Radar.stopTracking();
+    };
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -132,17 +140,19 @@ const QuestionnaireScreen = () => {
       )}
     </MasterContainer>
   );
-};
 
-function getSectionsThatAreNearby(sections: Section[], closeGeofenceIds: number[] = []): Section[] {
-  let closeSections: Section[] = [];
-  sections?.forEach((section) => {
-    if (closeGeofenceIds.includes(section.id ?? -1)) {
-      closeSections.push(section);
-    }
-  });
-  return closeSections;
-}
+  function getSectionsThatAreNearby(closeGeofenceIds: number[] = []): Section[] {
+    const currentParams = route.params as { questionnaire: Questionnaire };
+    if (!currentParams) return [];
+    let closeSections: Section[] = [];
+    currentParams.questionnaire?.sections?.forEach((section) => {
+      if (closeGeofenceIds.includes(section.id ?? -1)) {
+        closeSections.push(section);
+      }
+    });
+    return closeSections;
+  }
+};
 
 const styles = StyleSheet.create({
   sectionTitle: {

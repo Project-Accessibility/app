@@ -68,21 +68,23 @@ class RadarLocation {
   private callback: Function | undefined;
   private backupUserId: string = 'cd66931c-a623-11ec-b909-0242ac120002';
 
-  async start() {
+  public async init() {
     const participantCode = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
     const userId: string = participantCode ?? this.backupUserId;
     this.configureRadar(userId);
-    this.handleLocationPermission().then(async (result) => {
-      if (result.success) {
-        if (result.isRequested) {
-          console.log('Location is granted!');
-          await this.runRadarOnce();
-        }
-        await this.runRadarTracking();
-      } else {
-        console.log('Location is not granted!');
+  }
+
+  public async start() {
+    const result = await this.handleLocationPermission();
+    if (result.success) {
+      if (result.isRequested) {
+        console.log('Location is granted!');
+        await this.runRadarOnce();
       }
-    });
+      await this.runRadarTracking();
+    } else {
+      console.log('Location is not granted!');
+    }
   }
 
   /**
@@ -90,21 +92,12 @@ class RadarLocation {
    *
    * @param callback
    */
-  on(callback: Function): void {
+  public on(callback: Function): void {
     this.callback = callback;
   }
 
-  /**
-   * Configure Radar
-   *
-   * @param userId
-   * @private
-   */
-  private configureRadar(userId: string) {
-    Radar.setUserId(userId);
-    Radar.on('events', (result: any) => {
-      radarLocation.trigger(true, result);
-    });
+  public stopTracking() {
+    Radar.stopTracking();
   }
 
   /**
@@ -147,6 +140,19 @@ class RadarLocation {
       success: true,
       isRequested,
     };
+  }
+
+  /**
+   * Configure Radar
+   *
+   * @param userId
+   * @private
+   */
+  private configureRadar(userId: string) {
+    Radar.setUserId(userId);
+    Radar.on('events', (result: any) => {
+      radarLocation.trigger(true, result);
+    });
   }
 
   /**
