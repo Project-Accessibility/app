@@ -34,7 +34,7 @@ const HomeScreen = () => {
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={questionnaires} />
+          <QuestionnaireList questionnaires={questionnaires.reverse()} />
         </View>
       </MasterContainer>
     </>
