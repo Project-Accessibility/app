@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Section } from '../../models/Section';
 import Button from '../generic/Button';
+import Radar from '../../data/location/Radar';
 
 const SectionList = (props: { sections: Section[] }) => {
   const sections: Section[] = props.sections;
@@ -16,13 +17,14 @@ const SectionList = (props: { sections: Section[] }) => {
             <Button
               accLabel={`Onderdeel ${section.title}`}
               title={section.title}
-              onButtonPress={() =>
+              onButtonPress={() => {
+                Radar.stopTracking();
                 // @ts-ignore next-line
                 navigation.navigate('Section', {
                   title: section.title,
                   section: section,
-                })
-              }
+                });
+              }}
               maxAnswers={getTotalQuestions(section)}
               answered={getAnsweredQuestions(section)}
             />
