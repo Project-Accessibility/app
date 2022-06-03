@@ -63,8 +63,13 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
                 }}
               />
             </View>
-            <Icon accessibilityLabel={accessibilityStrings.photoRemoveImage}
-                  onPress={() => SetImage('')} name="remove" style={styles.icon} size={48} />
+            <Icon
+              accessibilityLabel={accessibilityStrings.photoRemoveImage}
+              onPress={() => SetImage('')}
+              name="remove"
+              style={styles.icon}
+              size={48}
+            />
           </>
         ) : (
           <Text />
@@ -73,13 +78,17 @@ const ImageSelector = (props: { onImageSelected: (base64Image: string) => void }
           <TouchableOpacity
             accessible={true}
             accessibilityLabel={accessibilityStrings.photoCameraIcon}
-            activeOpacity={0.5} onPress={() => RequestCameraPermission()}>
+            activeOpacity={0.5}
+            onPress={() => RequestCameraPermission()}
+          >
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             accessible={true}
             accessibilityLabel={accessibilityStrings.photoGaleryIcon}
-            activeOpacity={0.5} onPress={() => PickImageFromGallery()}>
+            activeOpacity={0.5}
+            onPress={() => PickImageFromGallery()}
+          >
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>

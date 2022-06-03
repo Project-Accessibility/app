@@ -38,10 +38,10 @@ const ACCESSIBILITY_STRINGS = {
 
   sectionTitle: 'Onderdeel pagina',
 
-  photoCameraIcon: "Maak een foto en gebruik als antwoord",
-  photoGaleryIcon: "Kies foto uit galerij en gebruik als foto",
-  photoAddedImage: "Aan antwoord toegevoegde foto",
-  photoRemoveImage: "Verwijder toegevoegde foto",
+  photoCameraIcon: 'Maak een foto en gebruik als antwoord',
+  photoGaleryIcon: 'Kies foto uit galerij en gebruik als foto',
+  photoAddedImage: 'Aan antwoord toegevoegde foto',
+  photoRemoveImage: 'Verwijder toegevoegde foto',
 
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',
