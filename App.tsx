@@ -11,6 +11,7 @@ import { navigationRef } from './src/helpers/rootNavigation';
 import SectionScreen from './src/screens/SectionScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import { LogBox } from 'react-native';
+import VideoScreen from './src/screens/VideoScreen';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 const Stack = createNativeStackNavigator();
@@ -79,6 +80,7 @@ const App = () => {
             ),
           }}
         />
+        <Stack.Screen name="Video" component={VideoScreen} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
