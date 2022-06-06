@@ -28,6 +28,11 @@ const mockedNetinfo = netinfo as jest.Mocked<typeof netinfo>;
 jest.mock('@react-native-community/netinfo', () => {
   return mockedNetinfo;
 });
+import Video from 'react-native-video';
+const mockedVideo = Video as jest.Mocked<typeof Video>;
+jest.mock('react-native-video', () => {
+  return mockedVideo;
+});
 jest.mock('react-native-bootsplash', () => {
   return {
     show: jest.fn().mockResolvedValueOnce(),
