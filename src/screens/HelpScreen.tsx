@@ -9,6 +9,8 @@ import ParticipantCode from '../data/localStorage/ParticipantCode';
 import LottieView from 'lottie-react-native';
 import loadingScreen from '../assets/animations/loading.json';
 
+let helptext = '';
+
 const HelpScreen = () => {
   const [hasCode, setHasCode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,16 @@ const HelpScreen = () => {
     React.useCallback(() => {
       setLoading(true);
       checkParticipantCodeAvailable().then(() => {
-        setLoading(false);
+        if (!hasCode) {
+          setLoading(false);
+          return;
+        }
+        ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
+          if (h){
+            helptext = h;
+            setLoading(false)
+          }
+        });
       });
     }, []),
   );
@@ -148,9 +159,10 @@ function OptionalCompanyHelp() {
     <View style={styles.tabScreen}>
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
-          {/*Creating text elements based on data*/}
-          <View accessible={true}>{createText()}</View>
+          <View accessible={true}>
+            <Text style={styles.h1}>Hulp</Text>
+            <Text style={styles.contactText}>{helptext}</Text>
+          </View>
         </View>
       </View>
     </View>

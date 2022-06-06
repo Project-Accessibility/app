@@ -7,6 +7,7 @@ export class Questionnaire {
   participantCode: string;
   description?: string;
   instructions?: string;
+  help?: string;
   teachableMachineLink?: string;
   sections?: Section[];
 
@@ -17,6 +18,7 @@ export class Questionnaire {
     participantCode: string,
     description?: string,
     instructions?: string,
+    help?: string,
     teachableMachineLink?: string,
     sections?: Section[]
   ) {
@@ -26,6 +28,7 @@ export class Questionnaire {
     this.participantCode = participantCode;
     this.description = description;
     this.instructions = instructions;
+    this.help = help;
     this.teachableMachineLink = teachableMachineLink;
     this.sections = sections;
   }

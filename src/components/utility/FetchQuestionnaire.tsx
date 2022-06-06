@@ -19,7 +19,7 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
         }),
       ]);
 
-      await ParticipantCode.setCurrentQuestionaire(questionnaire.title);
+      await ParticipantCode.setCurrentQuestionaireHelp(questionnaire.help ? questionnaire.help : '');
       // @ts-ignore next-line
       navigation.navigate('Questionnaire', {
         title: questionnaire.title,

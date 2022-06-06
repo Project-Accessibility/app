@@ -16,13 +16,17 @@ class ParticipantCode {
     return AsyncStorage.getItem('ParticipantCode');
   }
 
-  public static async setCurrentQuestionaire(title: string){
-    await AsyncStorage.setItem('CurrentQuestionaire', title);
+  public static async setCurrentQuestionaireHelp(help: string) {
+    await AsyncStorage.setItem('CurrentQuestionaireHelp', JSON.stringify(help));
+  }
+
+  public static async getCurrentQuestionaireHelp() : Promise<string | null> {
+    return AsyncStorage.getItem('CurrentQuestionaireHelp');
   }
 
   public static async getCurrentQuestionaireExtraData(){
     let q = await AsyncStorage.getItem('CurrentQuestionaire');
-    return typeof q === 'string' ? JSON.parse(q) : null;  // TODO refactor for just   HELP
+    return typeof q === 'string' ? JSON.parse(q) : null;
   }
 
   private static questionnaireExists(questionnaires: QuestionnaireDisplay[], code: string) {
@@ -50,6 +54,8 @@ class ParticipantCode {
     const result = await AsyncStorage.getItem('questionnaires');
     return result ? JSON.parse(result) : [];
   }
+
+
 }
 
 export default ParticipantCode;
