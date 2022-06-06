@@ -8,6 +8,7 @@ import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import ParticipantCode, { QuestionnaireDisplay } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
+import TempStorage from '../data/localStorage/Queue';
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
@@ -21,6 +22,8 @@ const HomeScreen = () => {
       initQuestionnaires();
     }, [])
   );
+
+  TempStorage.getInstance().clearStorage();
 
   const initQuestionnaires = async () => {
     const result = await ParticipantCode.getQuestionnairesFromLocalStorage();

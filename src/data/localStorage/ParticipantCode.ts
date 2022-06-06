@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Questionnaire } from '../../models/Questionnaire';
 
 export interface QuestionnaireDisplay {
   code: string;
@@ -6,12 +7,22 @@ export interface QuestionnaireDisplay {
 }
 
 class ParticipantCode {
+
   public static async saveCurrentParticipantCodeToLocalStorage(code: string) {
     await AsyncStorage.setItem('ParticipantCode', code);
   }
 
   public static async loadCurrentParticipantCodeFromLocalStorage() {
-    return await AsyncStorage.getItem('ParticipantCode');
+    return AsyncStorage.getItem('ParticipantCode');
+  }
+
+  public static async setCurrentQuestionaire(title: string){
+    await AsyncStorage.setItem('CurrentQuestionaire', title);
+  }
+
+  public static async getCurrentQuestionaireExtraData(){
+    let q = await AsyncStorage.getItem('CurrentQuestionaire');
+    return typeof q === 'string' ? JSON.parse(q) : null;  // TODO refactor for just   HELP
   }
 
   private static questionnaireExists(questionnaires: QuestionnaireDisplay[], code: string) {

@@ -6,43 +6,49 @@ import COLORS from '../assets/colors';
 import ACC_STRS from '../assets/accessibilityStrings';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import ParticipantCode from '../data/localStorage/ParticipantCode';
+import LottieView from 'lottie-react-native';
+import loadingScreen from '../assets/animations/loading.json';
 
 const HelpScreen = () => {
   const [hasCode, setHasCode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
-      checkParticipantCodeAvailable();
-    }, [])
+      setLoading(true);
+      checkParticipantCodeAvailable().then(() => {
+        setLoading(false);
+      });
+    }, []),
   );
 
   const checkParticipantCodeAvailable = async () => {
     const code = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
-    if (!code) setHasCode(false);
-    else setHasCode(true);
+    !code ? setHasCode(false) : setHasCode(true);
   };
 
-  // if code entered, show tab screen.
-  if (hasCode) {
+  const LoadingComponent = () => {
     return (
       <View style={styles.main}>
-        <NavigationContainer independent={true}>
-          <Tab.Navigator screenOptions={({route, navigation}) => ({
-            headerShown: false,
-            headerStatusBarHeight: 0,
-          })} >
-            <Tab.Screen name={'BedrijfsInformatie'} component={OptionalCompanyHelp} />
-            <Tab.Screen name={'Accessibility'} component={AccessibilityScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <LottieView source={loadingScreen} autoPlay={true} loop />
       </View>
     );
-  } else {
-    return AccessibilityScreen();
-  }
+  };
 
+  const determineHelpScreen = () => {
+    if (!loading && hasCode) {
+      return TabHelp();
+    } else if (!loading && !hasCode) {
+      return AccessibilityScreen();
+    } else return LoadingComponent();
+  };
+
+  return (
+    <>
+      {determineHelpScreen()}
+    </>
+  );
 };
-
 
 const createText = () => {
   return data.map((element, index) => {
@@ -53,6 +59,7 @@ const createText = () => {
     );
   });
 };
+
 
 // TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
@@ -67,6 +74,23 @@ const phoneCall = () => {
   Linking.openURL(phoneNumber);
 };
 
+function TabHelp() {
+  return (
+    <View style={styles.main}>
+      <NavigationContainer independent={true}>
+        <Tab.Navigator
+          screenOptions={({ route, navigation }) => ({
+            headerShown: false,
+            headerStatusBarHeight: 0,
+          })}
+        >
+          <Tab.Screen name={'BedrijfsInformatie'} component={OptionalCompanyHelp} />
+          <Tab.Screen name={'Accessibility'} component={AccessibilityScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </View>
+  );
+}
 
 function AccessibilityScreen() {
   return (
@@ -126,35 +150,8 @@ function OptionalCompanyHelp() {
         <View>
           <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
           {/*Creating text elements based on data*/}
-          <View accessible={true}>
-            {createText()}
-          </View>
+          <View accessible={true}>{createText()}</View>
         </View>
-
-        <TouchableOpacity
-          style={styles.emailBtn}
-          onPress={() => {
-            Linking.openURL(`mailto: ${ACC_STRS.contactEmail}`);
-          }}
-        >
-          <Text
-            accessible={true}
-            accessibilityHint={ACC_STRS.contactSendEmailHint}
-            style={styles.emailBtnText}
-          >
-            {ACC_STRS.contactSendEmail}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
-          <Text
-            accessible={true}
-            accessibilityHint={ACC_STRS.contactCallPhoneHint}
-            style={styles.emailBtnText}
-          >
-            {ACC_STRS.contactCallPhone}
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -162,9 +159,11 @@ function OptionalCompanyHelp() {
 
 const Tab = createBottomTabNavigator();
 
-
 const styles = StyleSheet.create({
-  main:{
+  main: {
+    flex: 1,
+  },
+  fadeloading: {
     flex: 1,
   },
   tabScreen: {

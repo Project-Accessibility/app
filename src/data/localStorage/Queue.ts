@@ -27,6 +27,10 @@ class TempStorage {
     return TempStorage.instance;
   }
 
+  public clearStorage() {
+    AsyncStorage.clear();
+  }
+
   private loadQueueFromLocalStorage() {
     AsyncStorage.getItem('Queue')
       .then((result: string | null) => {

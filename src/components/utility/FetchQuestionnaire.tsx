@@ -18,6 +18,8 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
           name: questionnaire.title,
         }),
       ]);
+
+      await ParticipantCode.setCurrentQuestionaire(questionnaire.title);
       // @ts-ignore next-line
       navigation.navigate('Questionnaire', {
         title: questionnaire.title,
