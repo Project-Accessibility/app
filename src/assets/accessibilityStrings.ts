@@ -12,7 +12,7 @@ const ACCESSIBILITY_STRINGS = {
   helpButtonHint: 'Naar de helppagina',
   helpTitle: 'Helppagina',
 
-  contactTitle: 'Contactgegevens',
+  contactTitle: 'Contactgegevens Stichting Accessibility',
   contactSubtitle: 'Bezoek- en postadres',
   contactExtraInfo:
     'Stichting Accessibility is gevestigd in het bedrijfsverzamelgebouw de Krammstate op een paar minuten lopen van Station Utrecht Overvecht.',

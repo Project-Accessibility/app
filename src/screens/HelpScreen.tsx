@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Linking,
@@ -9,11 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FONTS from '../assets/fonts';
 import COLORS from '../assets/colors';
 import ACC_STRS from '../assets/accessibilityStrings';
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import ParticipantCode from '../data/localStorage/ParticipantCode';
 import LottieView from 'lottie-react-native';
 import loadingScreen from '../assets/animations/loading.json';
@@ -46,7 +45,7 @@ const HelpScreen = () => {
       ])
         .then(() => setLoading(false))
         .catch((c) => console.log(c));
-    }, []),
+    }, [])
   );
 
   const determineHelpScreen = () => {
@@ -166,8 +165,6 @@ function OptionalCompanyHelp() {
     </>
   );
 }
-
-const Tab = createBottomTabNavigator();
 
 const styles = StyleSheet.create({
   main: {
