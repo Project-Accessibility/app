@@ -123,7 +123,6 @@ const ImageSelector = (props: {
             >
               <Icon name="remove" color={COLORS.black} size={48} />
             </TouchableOpacity>
-              
           </>
         ) : (
           <Text />
@@ -141,7 +140,6 @@ const ImageSelector = (props: {
             onPress={() => PickImageFromGallery()}
             accessibilityLabel={accessibilityStrings.photoGaleryIcon}
           >
-            
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>

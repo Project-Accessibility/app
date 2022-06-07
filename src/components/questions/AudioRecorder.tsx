@@ -208,7 +208,7 @@ const AudioRecorder = (props: {
               disabled={isDisabled}
               activeOpacity={0.5}
               accessible={true}
-              accessibilityLabel='Spraakopname afspelen'
+              accessibilityLabel="Spraakopname afspelen"
               onPress={onStartPlay}
             >
               <Icon name="play" size={48} style={isDisabled ? styles.disabled : styles.icon} />
