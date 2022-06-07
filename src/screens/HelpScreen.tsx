@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FONTS from '../assets/fonts';
 import COLORS from '../assets/colors';
@@ -9,7 +9,8 @@ import ParticipantCode from '../data/localStorage/ParticipantCode';
 import LottieView from 'lottie-react-native';
 import loadingScreen from '../assets/animations/loading.json';
 
-let helptext = '';
+let helptext: string = "";
+let customTitle: string = "";
 
 const HelpScreen = () => {
   const [hasCode, setHasCode] = useState(false);
@@ -20,15 +21,27 @@ const HelpScreen = () => {
       setLoading(true);
       checkParticipantCodeAvailable().then(() => {
         if (!hasCode) {
+          console.log('not hascode');
+          setHasCode(false);
           setLoading(false);
-          return;
+        } else {
+          console.log('has code');
+          Promise.all([
+            ParticipantCode.getCurrentQuestionaireTitle().then(title => {
+              if (title) {
+                console.log(`ontvangen title: ${title}`);
+                customTitle = title.slice(title.indexOf('"') + 1, title.lastIndexOf('"'));
+              }
+            }),
+            ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
+              if (h) {
+                console.log(`ontvangen help: ${h}`);
+                if (h == '' || h == '""') h = 'Geen helptekst beschikbaar.';
+                helptext = h.slice(h.indexOf('"') + 1, h.lastIndexOf('"'));
+              }
+            }),
+          ]).then(() => setLoading(false)).catch(c => console.log(c));
         }
-        ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
-          if (h){
-            helptext = h;
-            setLoading(false)
-          }
-        });
       });
     }, []),
   );
@@ -38,27 +51,17 @@ const HelpScreen = () => {
     !code ? setHasCode(false) : setHasCode(true);
   };
 
-  const LoadingComponent = () => {
-    return (
-      <View style={styles.main}>
-        <LottieView source={loadingScreen} autoPlay={true} loop />
-      </View>
-    );
-  };
-
   const determineHelpScreen = () => {
     if (!loading && hasCode) {
-      return TabHelp();
+      return HelpPage();
     } else if (!loading && !hasCode) {
-      return AccessibilityScreen();
-    } else return LoadingComponent();
+      return AccessibilityScreen(true);
+    } else {
+      return LoadingComponent();
+    }
   };
 
-  return (
-    <>
-      {determineHelpScreen()}
-    </>
-  );
+  return <>{determineHelpScreen()}</>;
 };
 
 const createText = () => {
@@ -71,8 +74,6 @@ const createText = () => {
   });
 };
 
-
-// TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
   let phoneNumber = ACC_STRS.contactPhone;
 
@@ -85,31 +86,33 @@ const phoneCall = () => {
   Linking.openURL(phoneNumber);
 };
 
-function TabHelp() {
+const LoadingComponent = () => {
   return (
     <View style={styles.main}>
-      <NavigationContainer independent={true}>
-        <Tab.Navigator
-          screenOptions={({ route, navigation }) => ({
-            headerShown: false,
-            headerStatusBarHeight: 0,
-          })}
-        >
-          <Tab.Screen name={'BedrijfsInformatie'} component={OptionalCompanyHelp} />
-          <Tab.Screen name={'Accessibility'} component={AccessibilityScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
+      <LottieView source={loadingScreen} autoPlay={true} loop />
     </View>
+  );
+};
+
+function HelpPage() {
+  return (
+    <ScrollView style={styles.main}>
+      {OptionalCompanyHelp()}
+      {AccessibilityScreen(false)}
+    </ScrollView>
   );
 }
 
-function AccessibilityScreen() {
+function AccessibilityScreen(image: boolean) {
   return (
-    <View style={styles.tabScreen}>
-      <Image
+    <View style={styles.accessibilityScreen}>
+      {image && (
+        <Image
         style={styles.logo}
+        fadeDuration={400}
         source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
-      />
+        />
+        )}
       <View style={styles.contactInfo}>
         <View>
           <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
@@ -156,16 +159,13 @@ function AccessibilityScreen() {
 
 function OptionalCompanyHelp() {
   return (
-    <View style={styles.tabScreen}>
-      <View style={styles.contactInfo}>
-        <View>
-          <View accessible={true}>
-            <Text style={styles.h1}>Hulp</Text>
-            <Text style={styles.contactText}>{helptext}</Text>
-          </View>
-        </View>
+    <>
+      <View style={styles.tabScreen}>
+        <Text style={styles.h1}>{customTitle}</Text>
+        <Text style={styles.contactText}>{helptext}</Text>
       </View>
-    </View>
+      <View style={styles.empty}></View>
+    </>
   );
 }
 
@@ -175,17 +175,23 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-  fadeloading: {
-    flex: 1,
+  empty: {
+    padding: 20,
   },
   tabScreen: {
     flex: 1,
+    marginTop: 20,
+    paddingBottom: 20,
+  },
+  accessibilityScreen: {
+    flex: 2,
   },
   logo: {
+    margin: 0,
+    padding: 0,
     width: '100%',
     height: 100,
     resizeMode: 'contain',
-    marginTop: 0,
   },
   h1: {
     fontFamily: FONTS.semiBold,

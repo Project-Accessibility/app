@@ -11,7 +11,7 @@ import { navigationRef } from './src/helpers/rootNavigation';
 import SectionScreen from './src/screens/SectionScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['new NativeEventEmitter']);
+LogBox.ignoreLogs(['new NativeEventEmitter', 'Unhandled Promise Rejection']);
 
 const Stack = createNativeStackNavigator();
 

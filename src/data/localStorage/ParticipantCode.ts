@@ -7,7 +7,6 @@ export interface QuestionnaireDisplay {
 }
 
 class ParticipantCode {
-
   public static async saveCurrentParticipantCodeToLocalStorage(code: string) {
     await AsyncStorage.setItem('ParticipantCode', code);
   }
@@ -20,11 +19,19 @@ class ParticipantCode {
     await AsyncStorage.setItem('CurrentQuestionaireHelp', JSON.stringify(help));
   }
 
-  public static async getCurrentQuestionaireHelp() : Promise<string | null> {
+  public static async getCurrentQuestionaireHelp(): Promise<string | null> {
     return AsyncStorage.getItem('CurrentQuestionaireHelp');
   }
 
-  public static async getCurrentQuestionaireExtraData(){
+  static async setCurrentQuestionaireTitle(title: string) {
+    await AsyncStorage.setItem('CurrentQuestionaireTitle', JSON.stringify(title));
+  }
+
+  static async getCurrentQuestionaireTitle() : Promise<string | null> {
+    return AsyncStorage.getItem('CurrentQuestionaireTitle');
+  }
+
+  public static async getCurrentQuestionaireExtraData() {
     let q = await AsyncStorage.getItem('CurrentQuestionaire');
     return typeof q === 'string' ? JSON.parse(q) : null;
   }
