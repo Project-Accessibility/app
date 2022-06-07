@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Questionnaire } from '../../models/Questionnaire';
 
 export interface QuestionnaireDisplay {
   code: string;
