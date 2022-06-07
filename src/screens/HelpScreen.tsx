@@ -31,13 +31,11 @@ const HelpScreen = () => {
         ParticipantCode.getCurrentQuestionaireTitle().then((title) => {
           if (title) {
             setHasHelpPage(true);
-            console.log(`ontvangen title: ${title}`);
             customTitle = `Hulp bij ${title.slice(title.indexOf('"') + 1, title.lastIndexOf('"'))}`;
           }
         }),
         ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
           if (h) {
-            console.log(`ontvangen help: ${h}`);
             if (h == '' || h == '""') h = 'Geen helptekst beschikbaar.';
             helptext = h.slice(h.indexOf('"') + 1, h.lastIndexOf('"'));
           }
@@ -105,6 +103,8 @@ function AccessibilityScreen(image: boolean) {
     <View style={styles.accessibilityScreen}>
       {image && (
         <Image
+          accessible={true}
+          accessibilityLabel={ACC_STRS.contactLogo}
           style={styles.logo}
           fadeDuration={400}
           source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
@@ -112,8 +112,7 @@ function AccessibilityScreen(image: boolean) {
       )}
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
-          {/*Creating text elements based on data*/}
+          <Text style={styles.h1}>Contactgegevens Stichting Accessibility</Text>
           <View accessible={true}>{createText()}</View>
         </View>
         <TouchableOpacity
@@ -124,20 +123,20 @@ function AccessibilityScreen(image: boolean) {
         >
           <Text
             accessible={true}
-            accessibilityHint={ACC_STRS.contactSendEmailHint}
+            accessibilityLabel={ACC_STRS.contactSendEmailLabel}
             style={styles.emailBtnText}
           >
-            {ACC_STRS.contactSendEmail}
+            Stuur een e-mail
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
           <Text
             accessible={true}
-            accessibilityHint={ACC_STRS.contactCallPhoneHint}
+            accessibilityLabel={ACC_STRS.contactCallPhoneLabel}
             style={styles.emailBtnText}
           >
-            {ACC_STRS.contactCallPhone}
+            Bellen
           </Text>
         </TouchableOpacity>
       </View>
@@ -147,7 +146,7 @@ function AccessibilityScreen(image: boolean) {
           accessibilityLabel={ACC_STRS.contactExtraInfoLabel}
           style={styles.contactText}
         >
-          {ACC_STRS.contactExtraInfo}
+          Stichting Accessibility is gevestigd in het bedrijfsverzamelgebouw de Krammstate op een paar minuten lopen van Station Utrecht Overvecht.
         </Text>
       </View>
     </View>
