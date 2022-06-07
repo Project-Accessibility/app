@@ -23,8 +23,6 @@ const HomeScreen = () => {
     }, [])
   );
 
-  // TempStorage.getInstance().clearStorage();
-
   const initQuestionnaires = async () => {
     const result = await ParticipantCode.getQuestionnairesFromLocalStorage();
     if (!result) return setQuestionnaires([]);

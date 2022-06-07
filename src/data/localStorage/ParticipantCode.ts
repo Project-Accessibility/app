@@ -27,7 +27,7 @@ class ParticipantCode {
     await AsyncStorage.setItem('CurrentQuestionaireTitle', JSON.stringify(title));
   }
 
-  static async getCurrentQuestionaireTitle() : Promise<string | null> {
+  static async getCurrentQuestionaireTitle(): Promise<string | null> {
     return AsyncStorage.getItem('CurrentQuestionaireTitle');
   }
 
@@ -61,8 +61,6 @@ class ParticipantCode {
     const result = await AsyncStorage.getItem('questionnaires');
     return result ? JSON.parse(result) : [];
   }
-
-
 }
 
 export default ParticipantCode;

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Linking,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FONTS from '../assets/fonts';
 import COLORS from '../assets/colors';
@@ -9,52 +18,41 @@ import ParticipantCode from '../data/localStorage/ParticipantCode';
 import LottieView from 'lottie-react-native';
 import loadingScreen from '../assets/animations/loading.json';
 
-let helptext: string = "";
-let customTitle: string = "";
+let helptext: string = '';
+let customTitle: string = '';
 
 const HelpScreen = () => {
-  const [hasCode, setHasCode] = useState(false);
+  const [hasHelpPage, setHasHelpPage] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       setLoading(true);
-      checkParticipantCodeAvailable().then(() => {
-        if (!hasCode) {
-          console.log('not hascode');
-          setHasCode(false);
-          setLoading(false);
-        } else {
-          console.log('has code');
-          Promise.all([
-            ParticipantCode.getCurrentQuestionaireTitle().then(title => {
-              if (title) {
-                console.log(`ontvangen title: ${title}`);
-                customTitle = title.slice(title.indexOf('"') + 1, title.lastIndexOf('"'));
-              }
-            }),
-            ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
-              if (h) {
-                console.log(`ontvangen help: ${h}`);
-                if (h == '' || h == '""') h = 'Geen helptekst beschikbaar.';
-                helptext = h.slice(h.indexOf('"') + 1, h.lastIndexOf('"'));
-              }
-            }),
-          ]).then(() => setLoading(false)).catch(c => console.log(c));
-        }
-      });
+      Promise.all([
+        ParticipantCode.getCurrentQuestionaireTitle().then((title) => {
+          if (title) {
+            setHasHelpPage(true);
+            console.log(`ontvangen title: ${title}`);
+            customTitle = `Hulp bij ${title.slice(title.indexOf('"') + 1, title.lastIndexOf('"'))}`;
+          }
+        }),
+        ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
+          if (h) {
+            console.log(`ontvangen help: ${h}`);
+            if (h == '' || h == '""') h = 'Geen helptekst beschikbaar.';
+            helptext = h.slice(h.indexOf('"') + 1, h.lastIndexOf('"'));
+          }
+        }),
+      ])
+        .then(() => setLoading(false))
+        .catch((c) => console.log(c));
     }, []),
   );
 
-  const checkParticipantCodeAvailable = async () => {
-    const code = await ParticipantCode.loadCurrentParticipantCodeFromLocalStorage();
-    !code ? setHasCode(false) : setHasCode(true);
-  };
-
   const determineHelpScreen = () => {
-    if (!loading && hasCode) {
+    if (!loading && hasHelpPage) {
       return HelpPage();
-    } else if (!loading && !hasCode) {
+    } else if (!loading) {
       return AccessibilityScreen(true);
     } else {
       return LoadingComponent();
@@ -108,11 +106,11 @@ function AccessibilityScreen(image: boolean) {
     <View style={styles.accessibilityScreen}>
       {image && (
         <Image
-        style={styles.logo}
-        fadeDuration={400}
-        source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
+          style={styles.logo}
+          fadeDuration={400}
+          source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
         />
-        )}
+      )}
       <View style={styles.contactInfo}>
         <View>
           <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
