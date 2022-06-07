@@ -121,7 +121,10 @@ const VideoSelector = (props: {
           </>
         ) : null}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => requestCameraPermission()}>
+          <TouchableOpacity activeOpacity={0.5}
+                            onPress={() => requestCameraPermission()}
+          accessible={true}
+          accessibilityLabel={"Neem video op en plaats als antwoord"}>
             <Icon
               name="video-camera"
               style={styles.rowContainerChild}
@@ -129,7 +132,9 @@ const VideoSelector = (props: {
               color={COLORS.black}
             />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}>
+          <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}
+                            accessible={true}
+                            accessibilityLabel={"Kies video uit galerij en plaats als antwoord"}>
             <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
