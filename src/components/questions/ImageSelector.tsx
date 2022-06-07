@@ -111,6 +111,13 @@ const ImageSelector = (props: {
               />
             </View>
             <View style={styles.imageButtons}>
+              <View
+                pointerEvents="none"
+                accessible={true}
+                accessibilityLabel="Afbeelding vergroten knop"
+              >
+                <Icon name="expand" color={COLORS.black} size={48} />
+              </View>
               <TouchableOpacity
                 onPress={() => RemoveImage()}
                 accessible={true}
@@ -157,7 +164,7 @@ const styles = StyleSheet.create({
   },
   imageButtons: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     flexDirection: 'row',
 
     position: 'absolute',
