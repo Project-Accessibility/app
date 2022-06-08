@@ -22,8 +22,8 @@ const ACCESSIBILITY_STRINGS = {
     'Stuur een e-mail naar Stichting Accessibility via een beschikbare mail app',
   contactCallPhone: 'Bellen',
   contactCallPhoneLabel: 'Bel naar Stichting Accessibility',
-  contactAddress: "Adres is Christiaan Krammlaan 2",
-  contactPostalCode: "Postcode en plaatsnaam is 3571 AX Utrecht",
+  contactAddress: 'Adres is Christiaan Krammlaan 2',
+  contactPostalCode: 'Postcode en plaatsnaam is 3571 AX Utrecht',
 
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar',
@@ -38,6 +38,16 @@ const ACCESSIBILITY_STRINGS = {
   photoGaleryIcon: 'Kies foto uit galerij en gebruik als foto',
   photoAddedImage: 'Aan antwoord toegevoegde foto',
   photoRemoveImage: 'Verwijder toegevoegde foto',
+  photoDisplay: "Weergave toegevoegde foto",
+
+  audioStop: "Stop spraakopname",
+  audioStart: "Start spraakopname",
+  audioPause: 'Pauzeer spraakopname',
+  audioPlay: 'Spraakopname afspelen',
+  audioReset: 'Spraakopname starten vanaf het begin',
+  audioDelete: 'Verwijder spraakopname',
+  audioPlayTime: 'Totale afspeelduur is',
+
 
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',

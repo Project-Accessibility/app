@@ -103,7 +103,7 @@ const ImageSelector = (props: {
               style={styles.imgStyle}
               ref={imageModal}
               accessible={true}
-              accessibilityLabel={'Gemaakte afbeelding'}
+              accessibilityLabel={accessibilityStrings.photoDisplay}
             >
               <ImageModal
                 accessible={true}

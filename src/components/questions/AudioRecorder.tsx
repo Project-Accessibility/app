@@ -22,6 +22,7 @@ import COLORS from '../../assets/colors';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import fixMediaUri from '../../helpers/mediaUriHelper';
 import getLastItemFromSplit from '../../helpers/splitHelper';
+import accessibilityStrings from '../../assets/accessibilityStrings';
 
 const nullTime = '00:00';
 const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
@@ -179,7 +180,7 @@ const AudioRecorder = (props: {
               name="stop"
               size={48}
               accessible={true}
-              accessibilityLabel={'Stop spraakopname'}
+              accessibilityLabel={accessibilityStrings.audioStop}
               style={styles.icon}
               onPress={onStopRecord}
             />
@@ -187,7 +188,7 @@ const AudioRecorder = (props: {
             <Icon
               name="microphone"
               accessible={true}
-              accessibilityLabel={'Start spraakopname'}
+              accessibilityLabel={accessibilityStrings.audioStart}
               size={48}
               style={styles.icon}
               onPress={onStartRecord}
@@ -197,7 +198,7 @@ const AudioRecorder = (props: {
             <TouchableOpacity
               disabled={isDisabled}
               accessible={true}
-              accessibilityLabel={'Pauzeer spraakopname'}
+              accessibilityLabel={accessibilityStrings.audioPause}
               activeOpacity={0.5}
               onPress={onPausePlay}
             >
@@ -208,7 +209,7 @@ const AudioRecorder = (props: {
               disabled={isDisabled}
               activeOpacity={0.5}
               accessible={true}
-              accessibilityLabel="Spraakopname afspelen"
+              accessibilityLabel={accessibilityStrings.audioPlay}
               onPress={onStartPlay}
             >
               <Icon name="play" size={48} style={isDisabled ? styles.disabled : styles.icon} />
@@ -219,7 +220,7 @@ const AudioRecorder = (props: {
             activeOpacity={0.5}
             onPress={onStopPlay}
             accessible={true}
-            accessibilityLabel={'Spraakopname starten vanaf het begin knop'}
+            accessibilityLabel={accessibilityStrings.audioReset}
           >
             <Icon name="backward" size={48} style={isDisabled ? styles.disabled : styles.icon} />
           </TouchableOpacity>
@@ -228,7 +229,7 @@ const AudioRecorder = (props: {
             disabled={isDisabled}
             activeOpacity={0.5}
             accessible={true}
-            accessibilityLabel={'Verwijder spraakopname knop'}
+            accessibilityLabel={accessibilityStrings.audioDelete}
             onPress={onRemoveRecord}
           >
             <Icon name="trash" size={48} style={isDisabled ? styles.disabled : styles.icon} />
@@ -237,7 +238,7 @@ const AudioRecorder = (props: {
         <Text
           style={styles.txtCounter}
           accessible={true}
-          accessibilityLabel={`Totale afspeelduur is ${voiceFriendlyDuration}`}
+          accessibilityLabel={`${accessibilityStrings.audioPlayTime} ${voiceFriendlyDuration}`}
         >
           {playTime} / {duration}
         </Text>

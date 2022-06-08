@@ -11,8 +11,9 @@ const createText = () => {
       <Text key={index} accessible={true} accessibilityLabel={element.label} style={element.style}>
         {element.text}
       </Text>
-    )});
-}
+    );
+  });
+};
 
 // TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
@@ -45,14 +46,10 @@ const HelpScreen = () => {
           accessible={true}
           accessibilityLabel={ACC_STRS.contactSendEmailHint}
           onPress={() => {
-            Linking.openURL("mailto: info@accessibility.nl");
+            Linking.openURL('mailto: info@accessibility.nl');
           }}
         >
-          <Text
-            style={styles.emailBtnText}
-          >
-            {ACC_STRS.contactSendEmail}
-          </Text>
+          <Text style={styles.emailBtnText}>{ACC_STRS.contactSendEmail}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
@@ -143,14 +140,14 @@ const styles = StyleSheet.create({
 
 const data = [
   {
-    text: "Christiaan Krammlaan 2",
+    text: 'Christiaan Krammlaan 2',
     style: styles.contactText,
-    label: ACC_STRS.contactAddress
+    label: ACC_STRS.contactAddress,
   },
   {
-    text: "3571 AX Utrecht",
+    text: '3571 AX Utrecht',
     style: styles.contactText,
-    label: ACC_STRS.contactPostalCode
+    label: ACC_STRS.contactPostalCode,
   },
 ];
 
