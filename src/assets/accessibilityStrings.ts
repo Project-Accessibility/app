@@ -38,16 +38,15 @@ const ACCESSIBILITY_STRINGS = {
   photoGaleryIcon: 'Kies foto uit galerij en gebruik als foto',
   photoAddedImage: 'Aan antwoord toegevoegde foto',
   photoRemoveImage: 'Verwijder toegevoegde foto',
-  photoDisplay: "Weergave toegevoegde foto",
+  photoDisplay: 'Weergave toegevoegde foto',
 
-  audioStop: "Stop spraakopname",
-  audioStart: "Start spraakopname",
+  audioStop: 'Stop spraakopname',
+  audioStart: 'Start spraakopname',
   audioPause: 'Pauzeer spraakopname',
   audioPlay: 'Spraakopname afspelen',
   audioReset: 'Spraakopname starten vanaf het begin',
   audioDelete: 'Verwijder spraakopname',
   audioPlayTime: 'Totale afspeelduur is',
-
 
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',
