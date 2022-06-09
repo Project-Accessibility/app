@@ -24,7 +24,7 @@ const VideoSelector = (props: {
     if (video) {
       props.onVideoSelected({
         uri: video,
-        type: `video/mp4`,
+        type: 'video/mp4',
         name: 'video-recording.mp4',
       });
     }
