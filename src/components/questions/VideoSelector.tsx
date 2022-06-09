@@ -8,7 +8,6 @@ import permissionCheck from '../utility/PermissionCheck';
 //@ts-ignore next-line
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
-import getLastItemFromSplit from '../../helpers/splitHelper';
 import { useNavigation } from '@react-navigation/native';
 
 const VideoSelector = (props: {
