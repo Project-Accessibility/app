@@ -16,6 +16,7 @@ import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import accessibilityStrings from '../../assets/accessibilityStrings';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -102,9 +103,11 @@ const ImageSelector = (props: {
               style={styles.imgStyle}
               ref={imageModal}
               accessible={true}
-              accessibilityLabel={'Gemaakte afbeelding'}
+              accessibilityLabel={accessibilityStrings.photoDisplay}
             >
               <ImageModal
+                accessible={true}
+                accessibilityLabel={accessibilityStrings.photoAddedImage}
                 modalImageResizeMode="contain"
                 style={styles.imgStyle}
                 source={{
@@ -116,7 +119,7 @@ const ImageSelector = (props: {
               style={styles.icon}
               onPress={() => RemoveImage()}
               accessible={true}
-              accessibilityLabel="Verwijder afbeelding knop"
+              accessibilityLabel={accessibilityStrings.photoRemoveImage}
             >
               <Icon name="remove" color={COLORS.black} size={48} />
             </TouchableOpacity>
@@ -128,14 +131,14 @@ const ImageSelector = (props: {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => RequestCameraPermission()}
-            accessibilityLabel={'Open camera knop'}
+            accessibilityLabel={accessibilityStrings.photoCameraIcon}
           >
             <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => PickImageFromGallery()}
-            accessibilityLabel={'Open galerij knop'}
+            accessibilityLabel={accessibilityStrings.photoGaleryIcon}
           >
             <Icon name="image" size={48} color={COLORS.black} />
           </TouchableOpacity>
