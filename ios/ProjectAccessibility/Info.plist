@@ -38,9 +38,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling.</string>
+	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag locatie gebruiken voor locatiebepaling.</string>
+	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
