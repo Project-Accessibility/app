@@ -18,6 +18,7 @@ import { QueueAction } from '../enums/QueueAction';
 import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
 import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
+import VideoSelector from '../components/questions/VideoSelector';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -106,7 +107,21 @@ function getElement(questionOption: QuestionOption) {
         />
       );
     case QuestionOptionType.VIDEO:
-      break;
+      return (
+        <VideoSelector
+          value={getMediaURI(questionOption)}
+          onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
+            if (videoPath) {
+              questionOption.answer = {
+                id: answerId,
+                values: [videoPath],
+              } as Answer;
+            } else {
+              questionOption.answer = undefined;
+            }
+          }}
+        />
+      );
     case QuestionOptionType.VOICE:
       return (
         <AudioRecorder
@@ -128,10 +143,10 @@ function getElement(questionOption: QuestionOption) {
         <MultipleChoiceList
           values={questionOption.answer?.values}
           questionOption={questionOption}
-          onClicked={(label: string) => {
+          onClicked={(values: string[]) => {
             questionOption.answer = {
               id: answerId,
-              values: [label],
+              values: values,
             } as Answer;
           }}
         />
