@@ -24,8 +24,8 @@ const VideoSelector = (props: {
     if (video) {
       props.onVideoSelected({
         uri: video,
-        type: `video/${getLastItemFromSplit(video, '.')}`,
-        name: getLastItemFromSplit(video, '/'),
+        type: `video/mp4`,
+        name: 'video-recording.mp4',
       });
     }
   } catch (_) {}
