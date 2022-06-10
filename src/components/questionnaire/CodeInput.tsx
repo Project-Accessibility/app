@@ -1,19 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import {
-  Alert,
-  Platform,
-  StyleSheet,
-  TextInput,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
+import { showToast } from '../../helpers/popupHelper';
 
 const CodeInput = () => {
   const [code, setCode] = useState<string>('');
@@ -21,15 +14,11 @@ const CodeInput = () => {
   const navigation = useNavigation();
 
   const handleCodeEntered = () => {
-    if (code && code.length === 5) {
-      fetchQuestionnaire(code, navigation);
-    } else {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(ACCESSIBILITY_STRINGS.codeNotCorrect, ToastAndroid.LONG);
-      } else {
-        Alert.alert(ACCESSIBILITY_STRINGS.codeNotCorrect);
-      }
+    if (!code || code.length !== 5) {
+      showToast(ACCESSIBILITY_STRINGS.codeNotCorrect);
+      return;
     }
+    fetchQuestionnaire(code, navigation);
   };
 
   return (

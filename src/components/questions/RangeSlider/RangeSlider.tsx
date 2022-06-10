@@ -9,6 +9,7 @@ import Label from './Label';
 import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
+import { showToast } from '../../../helpers/popupHelper';
 const sliderWidthBig = '80%';
 const sliderWidthSmall = '77.5%';
 const inputWidthSmall = '15%';
@@ -53,14 +54,6 @@ const Range = (props: {
     },
     [currentValue, props, range.max, range.min]
   );
-
-  function showToast(msg: string) {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.LONG);
-    } else {
-      Alert.alert(msg);
-    }
-  }
 
   return (
     <View style={styles.root}>

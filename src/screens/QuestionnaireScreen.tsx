@@ -1,15 +1,6 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  AppState,
-  Platform,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { AppState, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -20,6 +11,7 @@ import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
 import accessibilityStrings from '../assets/accessibilityStrings';
+import { showToast } from '../helpers/popupHelper';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -54,14 +46,6 @@ const QuestionnaireScreen = () => {
         showToast('Er is een nieuwe onderdeel bij u in de buurt');
       }
       setLastCountOfNearbySections(nearbySections.length);
-    }
-
-    function showToast(msg: string) {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(msg, ToastAndroid.LONG);
-      } else {
-        Alert.alert(msg);
-      }
     }
 
     AppState.addEventListener('change', async (state) => {
