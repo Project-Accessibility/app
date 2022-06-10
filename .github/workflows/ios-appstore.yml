@@ -15,6 +15,10 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
 
+      - name: CHMOD +x scripts
+        run: |
+          chmod +x scripts/*.sh
+
       - name: Open ios folder
         run: |
           cd ios
