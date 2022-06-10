@@ -20,7 +20,6 @@ import AudioRecorder from '../components/questions/AudioRecorder';
 import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 import VideoSelector from '../components/questions/VideoSelector';
 import QuestionTitle from '../components/questions/QuestionTitle';
-import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionScreen = () => {
   const route = useRoute();
