@@ -12,11 +12,11 @@ async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnair
   );
 
   // noinspection SuspiciousTypeOfGuard
-  if (typeof response == "number" && response == 404){
+  if (typeof response === 'number' && response === 404) {
     return `${response}`;
   }
 
-  return response ? (response.data as Questionnaire) : "";
+  return response ? (response.data as Questionnaire) : '';
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {

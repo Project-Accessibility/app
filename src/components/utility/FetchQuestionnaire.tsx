@@ -11,7 +11,7 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
 
     let questionnaire = await getAllQuestionnaireDataByCode(code);
 
-    if (questionnaire && typeof questionnaire != "string") {
+    if (questionnaire && typeof questionnaire !== 'string') {
       await Promise.all([
         ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code),
         ParticipantCode.addQuestionnaireInLocalStorage({
@@ -26,16 +26,19 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
         questionnaire: questionnaire,
       });
       return true;
-    } else if (questionnaire && typeof questionnaire === "string") {
+    } else if (questionnaire && typeof questionnaire === 'string') {
       // probably an error
-      if (questionnaire === "404"){
+      if (questionnaire === '404') {
         if (Platform.OS === 'android') {
-          ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchDeletedQuestionaire, ToastAndroid.LONG);
+          ToastAndroid.show(
+            ACCESSIBILITY_STRINGS.failedToFetchDeletedQuestionaire,
+            ToastAndroid.LONG
+          );
         } else {
           Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchDeletedQuestionaire);
         }
         let result = false;
-        await ParticipantCode.removeQuestionaireFromLocalStorage(code).then(res => {
+        await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
           result = res;
         });
         isFetching = false;

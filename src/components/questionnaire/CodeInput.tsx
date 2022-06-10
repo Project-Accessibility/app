@@ -1,5 +1,5 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, {  useState } from 'react';
 import {
   Alert,
   Platform,
@@ -27,8 +27,7 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
   const handleCodeEntered = () => {
     if (code && code.length === 5) {
       fetchQuestionnaire(code, navigation).then((deleted) => {
-        if (deleted)
-          setRefresh(true);
+        if (deleted) setRefresh(true);
       });
     } else {
       if (Platform.OS === 'android') {
@@ -46,7 +45,7 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
         placeholder={ACCESSIBILITY_STRINGS.codeInputField}
         placeholderTextColor={COLORS.black}
         maxLength={5}
-        autoCapitalize='characters'
+        autoCapitalize="characters"
         onChangeText={(value: string) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity
@@ -56,7 +55,7 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
         accessibilityLabel={ACCESSIBILITY_STRINGS.codeInputButton}
         accessibilityHint={ACCESSIBILITY_STRINGS.codeInputButtonHint}
       >
-        <Icon name='chevron-right' size={60} color={COLORS.black} />
+        <Icon name="chevron-right" size={60} color={COLORS.black} />
       </TouchableOpacity>
     </View>
   );
