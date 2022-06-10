@@ -19,6 +19,8 @@ import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
 import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 import VideoSelector from '../components/questions/VideoSelector';
+import QuestionTitle from '../components/questions/QuestionTitle';
+import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -79,90 +81,108 @@ function getElement(questionOption: QuestionOption) {
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
-        <OpenTextArea
-          placeholder={questionOption.extra_data.placeholder}
-          value={questionOption.answer?.values?.[0] ?? ''}
-          onChangeText={(value: string) => {
-            questionOption.answer = {
-              id: questionOption.answer?.id ?? 1,
-              values: [value],
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle text={'Open Vraag'}></QuestionTitle>
+          <OpenTextArea
+            placeholder={questionOption.extra_data.placeholder}
+            value={questionOption.answer?.values?.[0] ?? ''}
+            onChangeText={(value: string) => {
+              questionOption.answer = {
+                id: questionOption.answer?.id ?? 1,
+                values: [value],
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.IMAGE:
       return (
-        <ImageSelector
-          value={getMediaURI(questionOption)}
-          onImageSelected={(image: FileSelectedData | null) => {
-            if (image) {
-              questionOption.answer = {
-                id: answerId,
-                values: [image],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle text={'Foto Vraag'}></QuestionTitle>
+          <ImageSelector
+            value={getMediaURI(questionOption)}
+            onImageSelected={(image: FileSelectedData | null) => {
+              if (image) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [image],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.VIDEO:
       return (
-        <VideoSelector
-          value={getMediaURI(questionOption)}
-          onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
-            if (videoPath) {
-              questionOption.answer = {
-                id: answerId,
-                values: [videoPath],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle text={"Video vraag"}></QuestionTitle>
+          <VideoSelector
+            value={getMediaURI(questionOption)}
+            onVideoSelected={function(videoPath: FileSelectedData | undefined): void {
+              if (videoPath) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [videoPath],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.VOICE:
       return (
-        <AudioRecorder
-          value={getMediaURI(questionOption)}
-          onAudioRecorded={(audio: FileSelectedData | null) => {
-            if (audio) {
-              questionOption.answer = {
-                id: answerId,
-                values: [audio],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle text={"Audio vraag"}></QuestionTitle>
+          <AudioRecorder
+            value={getMediaURI(questionOption)}
+            onAudioRecorded={(audio: FileSelectedData | null) => {
+              if (audio) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [audio],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
-        <MultipleChoiceList
-          values={questionOption.answer?.values}
-          questionOption={questionOption}
-          onClicked={(values: string[]) => {
-            questionOption.answer = {
-              id: answerId,
-              values: values,
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle text={"Meerkeuze vraag"}></QuestionTitle>
+          <MultipleChoiceList
+            values={questionOption.answer?.values}
+            questionOption={questionOption}
+            onClicked={(values: string[]) => {
+              questionOption.answer = {
+                id: answerId,
+                values: values,
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.RANGE:
       return (
-        <RangeSlider
-          value={questionOption.answer?.values?.[0]}
-          questionOption={questionOption}
-          onChange={(value: number) => {
-            questionOption.answer = {
-              id: answerId,
-              values: [value],
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle text={"Slider vraag"}></QuestionTitle>
+          <RangeSlider
+            value={questionOption.answer?.values?.[0]}
+            questionOption={questionOption}
+            onChange={(value: number) => {
+              questionOption.answer = {
+                id: answerId,
+                values: [value],
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.DATE:
       break;

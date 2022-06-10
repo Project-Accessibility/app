@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Platform,
@@ -15,14 +15,21 @@ import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
 
-const CodeInput = () => {
+interface codeInputProps {
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CodeInput = ({ setRefresh }: codeInputProps) => {
   const [code, setCode] = useState<string>('');
 
   const navigation = useNavigation();
 
   const handleCodeEntered = () => {
     if (code && code.length === 5) {
-      fetchQuestionnaire(code, navigation);
+      fetchQuestionnaire(code, navigation).then((deleted) => {
+        if (deleted)
+          setRefresh(true);
+      });
     } else {
       if (Platform.OS === 'android') {
         ToastAndroid.show(ACCESSIBILITY_STRINGS.codeNotCorrect, ToastAndroid.LONG);
@@ -39,7 +46,7 @@ const CodeInput = () => {
         placeholder={ACCESSIBILITY_STRINGS.codeInputField}
         placeholderTextColor={COLORS.black}
         maxLength={5}
-        autoCapitalize="characters"
+        autoCapitalize='characters'
         onChangeText={(value: string) => setCode(value.toUpperCase())}
       />
       <TouchableOpacity
@@ -49,7 +56,7 @@ const CodeInput = () => {
         accessibilityLabel={ACCESSIBILITY_STRINGS.codeInputButton}
         accessibilityHint={ACCESSIBILITY_STRINGS.codeInputButtonHint}
       >
-        <Icon name="chevron-right" size={60} color={COLORS.black} />
+        <Icon name='chevron-right' size={60} color={COLORS.black} />
       </TouchableOpacity>
     </View>
   );

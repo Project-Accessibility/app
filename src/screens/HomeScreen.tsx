@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { LogBox, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
@@ -11,6 +11,7 @@ import Queue from '../data/localStorage/Queue';
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(true);
 
   useEffect(() => {
     Queue.getInstance();
@@ -18,8 +19,11 @@ const HomeScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      initQuestionnaires();
-    }, [])
+      if (refresh) {
+        initQuestionnaires();
+        setRefresh(false);
+      }
+    }, [refresh])
   );
 
   const initQuestionnaires = async () => {
@@ -30,7 +34,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <CodeInput />
+      <CodeInput setRefresh={setRefresh} />
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>

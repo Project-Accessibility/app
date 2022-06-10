@@ -25,7 +25,7 @@ async function getRequest(
     })
     .catch((error) => {
       console.log('Error with fetching data: ' + error);
-      return null;
+      return error.response.status;
     });
 }
 

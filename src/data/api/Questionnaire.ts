@@ -4,14 +4,19 @@ import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | null> {
+async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | string> {
   let response = await ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
   );
 
-  return response ? (response.data as Questionnaire) : null;
+  // noinspection SuspiciousTypeOfGuard
+  if (typeof response == "number" && response == 404){
+    return `${response}`;
+  }
+
+  return response ? (response.data as Questionnaire) : "";
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
