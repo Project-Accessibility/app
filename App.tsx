@@ -24,7 +24,7 @@ NetInfo.addEventListener((state) => {
   if (!(state.isConnected && state.isInternetReachable)) {
     Snackbar.show({
       text: ACCESSIBILITY_STRINGS.noInternetConnection,
-      duration: Snackbar.LENGTH_LONG,
+      duration: Snackbar.LENGTH_INDEFINITE,
       backgroundColor: COLORS.red,
     });
   }
