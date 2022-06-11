@@ -20,7 +20,7 @@ LogBox.ignoreLogs(['new NativeEventEmitter']);
 const Stack = createNativeStackNavigator();
 let isConnected = true;
 
-NetInfo.addEventListener((state) => {
+NetInfo?.addEventListener((state) => {
   //Ignore if isInternetReachable == null, because in that case the package is still checking the connection, no need to show an offline message in that case
   const internetAvailable =
     state.isConnected && (state.isInternetReachable || state.isInternetReachable == null);
