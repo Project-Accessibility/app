@@ -21,7 +21,10 @@ const Stack = createNativeStackNavigator();
 let isConnected = true;
 
 NetInfo.addEventListener((state) => {
-  if (!(state.isConnected && state.isInternetReachable)) {
+  const internetAvailable =
+    state.isConnected && (state.isInternetReachable || state.isInternetReachable == null);
+
+  if (!internetAvailable) {
     Snackbar.show({
       text: ACCESSIBILITY_STRINGS.noInternetConnection,
       duration: Snackbar.LENGTH_INDEFINITE,
@@ -29,14 +32,14 @@ NetInfo.addEventListener((state) => {
     });
   }
   //Only show connected notification when state is connected true and variable is false, because the variable is being set to true at app launch, no need so show a notification then.
-  else if (state.isConnected && state.isInternetReachable && !isConnected) {
+  else if (internetAvailable && !isConnected) {
     Snackbar.show({
       text: ACCESSIBILITY_STRINGS.internetConnectionBackOnline,
       duration: Snackbar.LENGTH_LONG,
       backgroundColor: COLORS.green,
     });
   }
-  isConnected = (state.isConnected && state.isInternetReachable) ?? false;
+  isConnected = internetAvailable ?? false;
 });
 
 const App = () => {
