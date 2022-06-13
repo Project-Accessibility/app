@@ -3,7 +3,6 @@ import Mustache from 'mustache';
 import ActiveApiEndpoint from '../ActiveApiEndpoint';
 import Config from 'react-native-config';
 import { api } from '../consts.json';
-import { IApiResponse } from './IApiResponse';
 
 async function getRequest(
   baseEndpoint: string,

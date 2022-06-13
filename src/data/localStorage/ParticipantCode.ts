@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAllQuestionnaireDataByCode } from '../api/Questionnaire';
 
 export interface QuestionnaireDisplay {
   code: string;
@@ -29,7 +28,7 @@ class ParticipantCode {
     return this.getQuestionnairesFromLocalStorage().then(
       (questionaires: QuestionnaireDisplay[]) => {
         if (!questionaires || questionaires.length === 0) {
-          console.log("No questionnaires to remove");
+          console.log('No questionnaires to remove');
           return false;
         }
 
