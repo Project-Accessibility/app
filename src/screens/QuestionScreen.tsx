@@ -116,10 +116,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VIDEO:
       return (
         <>
-          <QuestionTitle text={"Video vraag"}></QuestionTitle>
+          <QuestionTitle text={'Video vraag'}></QuestionTitle>
           <VideoSelector
             value={getMediaURI(questionOption)}
-            onVideoSelected={function(videoPath: FileSelectedData | undefined): void {
+            onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
               if (videoPath) {
                 questionOption.answer = {
                   id: answerId,
@@ -135,7 +135,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <>
-          <QuestionTitle text={"Audio vraag"}></QuestionTitle>
+          <QuestionTitle text={'Audio vraag'}></QuestionTitle>
           <AudioRecorder
             value={getMediaURI(questionOption)}
             onAudioRecorded={(audio: FileSelectedData | null) => {
@@ -154,7 +154,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <>
-          <QuestionTitle text={"Meerkeuze vraag"}></QuestionTitle>
+          <QuestionTitle text={'Meerkeuze vraag'}></QuestionTitle>
           <MultipleChoiceList
             values={questionOption.answer?.values}
             questionOption={questionOption}
@@ -170,7 +170,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <>
-          <QuestionTitle text={"Slider vraag"}></QuestionTitle>
+          <QuestionTitle text={'Slider vraag'}></QuestionTitle>
           <RangeSlider
             value={questionOption.answer?.values?.[0]}
             questionOption={questionOption}

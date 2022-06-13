@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import {
   Alert,
   Platform,
@@ -26,6 +26,14 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
 
   const handleCodeEntered = () => {
     if (code && code.length === 5) {
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Vragenlijst laden, even geduld alstublieft", ToastAndroid.LONG);
+      } else {
+        Alert.alert("Vragenlijst laden, even geduld alstublieft");
+      }
+
+
+
       fetchQuestionnaire(code, navigation).then((deleted) => {
         if (deleted) setRefresh(true);
       });

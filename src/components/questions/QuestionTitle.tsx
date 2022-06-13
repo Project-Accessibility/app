@@ -3,9 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 
-const QuestionTitle = (props: {
-  text: string;
-}) => {
+const QuestionTitle = (props: { text: string }) => {
   return (
     <Text style={styles.openTextArea} accessible={true}>
       {props.text}

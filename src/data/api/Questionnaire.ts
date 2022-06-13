@@ -3,20 +3,20 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
+import { IApiResponse } from './IApiResponse';
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | string> {
-  let response = await ApiRequest.getRequest(
+async function getAllQuestionnaireDataByCode(code: string): Promise<IApiResponse> {
+  return ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
-    { code: code }
-  );
+    { code: code },
+  ).then((response) => {
+    return {status: response.status, error: false, data: response.data} as IApiResponse;
 
-  // noinspection SuspiciousTypeOfGuard
-  if (typeof response === 'number' && response === 404) {
-    return `${response}`;
-  }
-
-  return response ? (response.data as Questionnaire) : '';
+  }).catch((error) => {
+    let r = JSON.parse(error);
+    return {status: r.status, error: true, message: r.message, data: {url: r.config.url}} as IApiResponse;
+  });
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {
@@ -26,7 +26,7 @@ async function saveQuestionnaireByCode(code: string, questionnaire: Questionnair
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.saveQuestionnaireByCode,
     { code: code },
-    formData
+    formData,
   );
 
   return response ? response.json() : null;
@@ -37,7 +37,7 @@ async function saveQuestionByIdAndCode(code: string, question: Question) {
     apiEndpoints.questions.base_endpoint,
     apiEndpoints.questions.saveQuestionByIdAndCode,
     { code: code, questionId: question.id },
-    generateFormDataByQuestion(question)
+    generateFormDataByQuestion(question),
   );
   if (response) {
     response

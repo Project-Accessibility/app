@@ -3,29 +3,31 @@ import Mustache from 'mustache';
 import ActiveApiEndpoint from '../ActiveApiEndpoint';
 import Config from 'react-native-config';
 import { api } from '../consts.json';
+import { IApiResponse } from './IApiResponse';
 
 async function getRequest(
   baseEndpoint: string,
   endpoint: string,
   endpointParams: Object = {},
   body: Object | undefined = undefined
-): Promise<AxiosResponse | null> {
+): Promise<AxiosResponse> {
   const formattedEndpoint = Mustache.render(endpoint, endpointParams);
-  return await axios
+  return axios
     .get(`${ActiveApiEndpoint()}/${baseEndpoint}/${formattedEndpoint}`, {
       headers: {
         [api.headers.authKey.key]: Config.API_KEY,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
+      timeout: 30000,
       data: body,
     })
     .then((response) => {
+      console.log(`getRequest: ${response}`);
       return response;
     })
     .catch((error) => {
-      console.log('Error with fetching data: ' + error);
-      return error.response.status;
+      throw JSON.stringify(error, null, 2);
     });
 }
 

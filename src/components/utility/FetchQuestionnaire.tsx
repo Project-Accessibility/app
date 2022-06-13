@@ -9,26 +9,26 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
   if (!isFetching) {
     isFetching = true;
 
-    let questionnaire = await getAllQuestionnaireDataByCode(code);
+    let response = await getAllQuestionnaireDataByCode(code);
 
-    if (questionnaire && typeof questionnaire !== 'string') {
+    if (response && !response.error) {
       await Promise.all([
         ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code),
         ParticipantCode.addQuestionnaireInLocalStorage({
           code: code,
-          name: questionnaire.title,
+          name: response.data.title,
         }),
       ]);
       isFetching = false;
       // @ts-ignore next-line
       navigation.navigate('Questionnaire', {
-        title: questionnaire.title,
-        questionnaire: questionnaire,
+        title: response.data.title,
+        questionnaire: response.data,
       });
       return true;
-    } else if (questionnaire && typeof questionnaire === 'string') {
+    } else if (response && response.error) {
       // probably an error
-      if (questionnaire === '404') {
+      if (response.status === 404) {
         if (Platform.OS === 'android') {
           ToastAndroid.show(
             ACCESSIBILITY_STRINGS.failedToFetchDeletedQuestionaire,

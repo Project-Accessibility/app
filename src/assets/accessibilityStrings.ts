@@ -47,7 +47,7 @@ const ACCESSIBILITY_STRINGS = {
   questionTitle: 'Vraag pagina',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
-  failedToFetchDeletedQuestionaire: "Vragenlijst bestaat niet meer of verkeerde code",
+  failedToFetchDeletedQuestionaire: 'Vragenlijst bestaat niet meer of verkeerde code',
 
   codeNotCorrect: 'Voer een code in van vijf karakters',
   isFetchingQuestionnaire:
