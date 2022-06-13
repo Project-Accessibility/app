@@ -12,7 +12,7 @@ import SectionScreen from './src/screens/SectionScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import { LogBox } from 'react-native';
 import VideoScreen from './src/screens/VideoScreen';
-LogBox.ignoreLogs(['new NativeEventEmitter', 'Possible Unhandled Promise Rejection']);
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 const Stack = createNativeStackNavigator();
 
