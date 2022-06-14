@@ -5,7 +5,7 @@ export class Section {
   title: string;
   geofence?: Geofence;
   description?: string;
-  locationDescription?: string;
+  location_description?: string;
   teachableMachineClass?: string;
   questions?: [Question];
 
@@ -14,7 +14,7 @@ export class Section {
     title: string,
     geofence?: Geofence,
     description?: string,
-    locationDescription?: string,
+    location_description?: string,
     teachableMachineClass?: string,
     questions?: [Question]
   ) {
@@ -22,7 +22,7 @@ export class Section {
     this.title = title;
     this.geofence = geofence;
     this.description = description;
-    this.locationDescription = locationDescription;
+    this.location_description = location_description;
     this.teachableMachineClass = teachableMachineClass;
     this.questions = questions;
   }
