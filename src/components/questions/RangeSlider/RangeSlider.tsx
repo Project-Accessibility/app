@@ -67,8 +67,7 @@ const Range = (props: {
       <View style={styles.row}>
         <View
           style={[styles.slider, textValue.length === 1 ? styles.sliderBig : styles.sliderSmall]}
-          accessibilityLabel={'Slider'}
-          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
+          accessible={false}
         >
           <RangeSlider
             min={parseInt(range.min)}
@@ -99,6 +98,8 @@ const Range = (props: {
           onChangeText={handleValueChange}
           value={String(textValue)}
           accessible={true}
+          accessibilityLabel={'Schaal invoerveld'}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}.`}
         />
       </View>
     </View>
