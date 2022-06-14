@@ -18,6 +18,7 @@ const SectionList = (props: { sections: Section[] }) => {
               accLabel={`Onderdeel ${section.title}`}
               title={section.title}
               onButtonPress={() => {
+                global.isQuestionnaireScreen = false;
                 Radar.stopTracking();
                 // @ts-ignore next-line
                 navigation.navigate('Section', {
