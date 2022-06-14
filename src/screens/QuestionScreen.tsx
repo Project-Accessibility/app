@@ -143,10 +143,10 @@ function getElement(questionOption: QuestionOption) {
         <MultipleChoiceList
           values={questionOption.answer?.values}
           questionOption={questionOption}
-          onClicked={(label: string) => {
+          onClicked={(values: string[]) => {
             questionOption.answer = {
               id: answerId,
-              values: [label],
+              values: values,
             } as Answer;
           }}
         />
