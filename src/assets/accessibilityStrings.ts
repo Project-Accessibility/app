@@ -54,6 +54,8 @@ const ACCESSIBILITY_STRINGS = {
   noQuestions: 'Geen vragen gevonden',
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
+
+  fileUploadSuccess: 'Bestand succesvol toegevoegd',
 };
 
 export default ACCESSIBILITY_STRINGS;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform, ToastAndroid, Alert } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +9,7 @@ import permissionCheck from '../utility/PermissionCheck';
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import { useNavigation } from '@react-navigation/native';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -51,6 +52,11 @@ const VideoSelector = (props: {
         } as FileSelectedData;
         props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(ACCESSIBILITY_STRINGS.fileUploadSuccess, ToastAndroid.SHORT);
+        } else {
+          Alert.alert(ACCESSIBILITY_STRINGS.fileUploadSuccess);
+        }
       }
     }
   };

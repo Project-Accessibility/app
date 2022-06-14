@@ -5,6 +5,9 @@ import {
   TouchableOpacity,
   AccessibilityInfo,
   findNodeHandle,
+  Platform,
+  ToastAndroid,
+  Alert,
 } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -15,6 +18,7 @@ import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -64,6 +68,11 @@ const ImageSelector = (props: {
             }
           }
         }, 1000);
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(ACCESSIBILITY_STRINGS.fileUploadSuccess, ToastAndroid.SHORT);
+        } else {
+          Alert.alert(ACCESSIBILITY_STRINGS.fileUploadSuccess);
+        }
       }
     }
   };
