@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { LogBox, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
@@ -38,7 +38,7 @@ const HomeScreen = () => {
       <MasterContainer>
         <View>
           <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={questionnaires.reverse()} />
+          <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
       </MasterContainer>
     </>
