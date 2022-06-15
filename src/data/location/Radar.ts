@@ -97,6 +97,7 @@ class RadarLocation {
   }
 
   public stopTracking() {
+    console.log('Radar stop tracking');
     Radar.stopTracking();
   }
 
