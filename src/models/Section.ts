@@ -1,4 +1,3 @@
-import { Geofence } from './Geofence';
 import { Question } from './Question';
 export class Section {
   id: number;
