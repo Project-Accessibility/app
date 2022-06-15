@@ -170,7 +170,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.RANGE:
       return (
         <>
-          <QuestionTitle text={'Slider vraag'}></QuestionTitle>
+          <QuestionTitle text={'Schaal'}></QuestionTitle>
           <RangeSlider
             value={questionOption.answer?.values?.[0]}
             questionOption={questionOption}
