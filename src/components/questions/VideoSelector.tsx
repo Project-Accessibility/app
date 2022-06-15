@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Platform, ToastAndroid, Alert } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';

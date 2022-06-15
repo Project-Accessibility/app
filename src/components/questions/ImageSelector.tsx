@@ -5,9 +5,6 @@ import {
   TouchableOpacity,
   AccessibilityInfo,
   findNodeHandle,
-  Platform,
-  ToastAndroid,
-  Alert,
 } from 'react-native';
 import { PERMISSIONS } from 'react-native-permissions';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
