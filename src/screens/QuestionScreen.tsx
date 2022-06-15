@@ -167,7 +167,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       // create label for multiple choice
       const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
-      const multiplePossibilities = questionOption.extra_data.multiple ?? false;
+      const multiplePossibilities = questionOption.extra_data?.multiple ?? false;
 
       const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${
         multiplePossibilities == true ? 'zijn' : 'is'

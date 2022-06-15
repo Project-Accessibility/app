@@ -40,10 +40,12 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
     return false;
   } else {
     let result = false;
-    if (response.error && (response.status === 404 || response.status == 422)) {
-      await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
-        result = res;
-      });
+    if (response && response.error) {
+      if (response.status === 404 || response.status == 422) {
+        await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
+          result = res;
+        });
+      }
     }
     triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
     isFetching = false;
