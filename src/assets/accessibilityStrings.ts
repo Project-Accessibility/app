@@ -56,6 +56,12 @@ const ACCESSIBILITY_STRINGS = {
   noQuestions: 'Geen vragen gevonden',
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
+
+  questionListDeleted: 'Vragenlijst is verwijderd',
+  questionTitlePhoto: 'Foto maken of selecteren uit galerij',
+  questionTitleVideo: 'Video maken of selecteren uit galerij',
+  questionTitleAudio: 'Audio opname maken',
+
 };
 
 export default ACCESSIBILITY_STRINGS;

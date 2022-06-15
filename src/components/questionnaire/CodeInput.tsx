@@ -33,7 +33,14 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
       }
 
       fetchQuestionnaire(code, navigation).then((deleted) => {
-        if (deleted) setRefresh(true);
+        if (deleted) {
+          setRefresh(true);
+          if (Platform.OS === 'android') {
+            ToastAndroid.show(ACCESSIBILITY_STRINGS.questionListDeleted, ToastAndroid.LONG);
+          } else {
+            Alert.alert(ACCESSIBILITY_STRINGS.questionListDeleted);
+          }
+        }
       });
     } else {
       if (Platform.OS === 'android') {

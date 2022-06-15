@@ -20,6 +20,7 @@ import AudioRecorder from '../components/questions/AudioRecorder';
 import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 import VideoSelector from '../components/questions/VideoSelector';
 import QuestionTitle from '../components/questions/QuestionTitle';
+import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -51,6 +52,7 @@ const QuestionScreen = () => {
               <Text style={styles.questionText}>{question.question}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />
+            <QuestionTitle text={'Antwoordmogelijkheden'} fontSize={25}></QuestionTitle>
             {question.options &&
               question.options.map((option, index) => {
                 return (
@@ -97,7 +99,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <>
-          <QuestionTitle text={'Foto'}></QuestionTitle>
+          <QuestionTitle accLabel={accessibilityStrings.questionTitlePhoto} text={'Foto'}></QuestionTitle>
           <ImageSelector
             value={getMediaURI(questionOption)}
             onImageSelected={(image: FileSelectedData | null) => {
@@ -116,7 +118,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VIDEO:
       return (
         <>
-          <QuestionTitle text={'Video'}></QuestionTitle>
+          <QuestionTitle accLabel={accessibilityStrings.questionTitleVideo} text={'Video'}></QuestionTitle>
           <VideoSelector
             value={getMediaURI(questionOption)}
             onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
@@ -135,7 +137,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <>
-          <QuestionTitle text={'Audio'}></QuestionTitle>
+          <QuestionTitle accLabel={accessibilityStrings.questionTitleAudio} text={'Audio'}></QuestionTitle>
           <AudioRecorder
             value={getMediaURI(questionOption)}
             onAudioRecorded={(audio: FileSelectedData | null) => {
@@ -152,9 +154,16 @@ function getElement(questionOption: QuestionOption) {
         </>
       );
     case QuestionOptionType.MULTIPLE_CHOICE:
+      // create label for multiple choice
+      const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
+      const multiplePossibilities = questionOption.extra_data.multiple ?? false;
+
+      const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${multiplePossibilities == true ? "zijn" : "is"}
+      ${multiplePossibilities == true ? "Meerdere antwoorden mogelijk" : "één antwoord mogelijk"}  / `;
+
       return (
         <>
-          <QuestionTitle text={'Meerkeuze'}></QuestionTitle>
+          <QuestionTitle accLabel={label} text={'Meerkeuze'}></QuestionTitle>
           <MultipleChoiceList
             values={questionOption.answer?.values}
             questionOption={questionOption}
@@ -168,6 +177,12 @@ function getElement(questionOption: QuestionOption) {
         </>
       );
     case QuestionOptionType.RANGE:
+      // create label for range
+      console.log("Range");
+      console.log(JSON.stringify(questionOption, null, 2));
+
+      
+
       return (
         <>
           <QuestionTitle text={'Schaal'}></QuestionTitle>
