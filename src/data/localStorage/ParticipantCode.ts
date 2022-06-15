@@ -11,7 +11,28 @@ class ParticipantCode {
   }
 
   public static async loadCurrentParticipantCodeFromLocalStorage() {
-    return await AsyncStorage.getItem('ParticipantCode');
+    return AsyncStorage.getItem('ParticipantCode');
+  }
+
+  public static async setCurrentQuestionaireHelp(help: string) {
+    await AsyncStorage.setItem('CurrentQuestionaireHelp', JSON.stringify(help));
+  }
+
+  public static async getCurrentQuestionaireHelp(): Promise<string | null> {
+    return AsyncStorage.getItem('CurrentQuestionaireHelp');
+  }
+
+  static async setCurrentQuestionaireTitle(title: string) {
+    await AsyncStorage.setItem('CurrentQuestionaireTitle', JSON.stringify(title));
+  }
+
+  static async getCurrentQuestionaireTitle(): Promise<string | null> {
+    return AsyncStorage.getItem('CurrentQuestionaireTitle');
+  }
+
+  public static async getCurrentQuestionaireExtraData() {
+    let q = await AsyncStorage.getItem('CurrentQuestionaire');
+    return typeof q === 'string' ? JSON.parse(q) : null;
   }
 
   private static questionnaireExists(questionnaires: QuestionnaireDisplay[], code: string) {

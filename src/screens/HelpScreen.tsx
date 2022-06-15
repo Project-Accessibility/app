@@ -1,9 +1,63 @@
-import React from 'react';
-import { Image, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import MasterContainer from '../components/generic/MasterContainer';
+import React, { useState } from 'react';
+import {
+  Image,
+  Linking,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FONTS from '../assets/fonts';
 import COLORS from '../assets/colors';
 import ACC_STRS from '../assets/accessibilityStrings';
+import { useFocusEffect } from '@react-navigation/native';
+import ParticipantCode from '../data/localStorage/ParticipantCode';
+import LottieView from 'lottie-react-native';
+import loadingScreen from '../assets/animations/loading.json';
+
+let helptext: string = '';
+let customTitle: string = '';
+
+const HelpScreen = () => {
+  const [hasHelpPage, setHasHelpPage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+      Promise.all([
+        ParticipantCode.getCurrentQuestionaireTitle().then((title) => {
+          if (title) {
+            setHasHelpPage(true);
+            customTitle = `Hulp bij ${title.slice(title.indexOf('"') + 1, title.lastIndexOf('"'))}`;
+          }
+        }),
+        ParticipantCode.getCurrentQuestionaireHelp().then((h) => {
+          if (h) {
+            if (h == '' || h == '""') h = 'Geen helptekst beschikbaar.';
+            helptext = h.slice(h.indexOf('"') + 1, h.lastIndexOf('"'));
+          }
+        }),
+      ])
+        .then(() => setLoading(false))
+        .catch((c) => console.log(c));
+    }, [])
+  );
+
+  const determineHelpScreen = () => {
+    if (!loading && hasHelpPage) {
+      return HelpPage();
+    } else if (!loading) {
+      return AccessibilityScreen(true);
+    } else {
+      return LoadingComponent();
+    }
+  };
+
+  return <>{determineHelpScreen()}</>;
+};
 
 const createText = () => {
   return data.map((element, index) => {
@@ -15,7 +69,6 @@ const createText = () => {
   });
 };
 
-// TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
   let phoneNumber = ACC_STRS.contactPhone;
 
@@ -28,17 +81,38 @@ const phoneCall = () => {
   Linking.openURL(phoneNumber);
 };
 
-const HelpScreen = () => {
+const LoadingComponent = () => {
   return (
-    <MasterContainer>
-      <Image
-        style={styles.logo}
-        source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
-      />
+    <View style={styles.main}>
+      <LottieView source={loadingScreen} autoPlay={true} loop />
+    </View>
+  );
+};
+
+function HelpPage() {
+  return (
+    <ScrollView style={styles.main}>
+      {OptionalCompanyHelp()}
+      {AccessibilityScreen(false)}
+    </ScrollView>
+  );
+}
+
+function AccessibilityScreen(image: boolean) {
+  return (
+    <View style={styles.accessibilityScreen}>
+      {image && (
+        <Image
+          accessible={true}
+          accessibilityLabel={ACC_STRS.contactLogo}
+          style={styles.logo}
+          fadeDuration={400}
+          source={require('../assets/images/logos/icon_accessibility_logo_RGB.jpg')}
+        />
+      )}
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
-          {/*Creating text elements based on data*/}
+          <Text style={styles.h1}>Contactgegevens Stichting Accessibility</Text>
           <View accessible={true}>{createText()}</View>
         </View>
         <TouchableOpacity
@@ -49,20 +123,20 @@ const HelpScreen = () => {
         >
           <Text
             accessible={true}
-            accessibilityHint={ACC_STRS.contactSendEmailHint}
+            accessibilityLabel={ACC_STRS.contactSendEmailLabel}
             style={styles.emailBtnText}
           >
-            {ACC_STRS.contactSendEmail}
+            Stuur een e-mail
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
           <Text
             accessible={true}
-            accessibilityHint={ACC_STRS.contactCallPhoneHint}
+            accessibilityLabel={ACC_STRS.contactCallPhoneLabel}
             style={styles.emailBtnText}
           >
-            {ACC_STRS.contactCallPhone}
+            Bellen
           </Text>
         </TouchableOpacity>
       </View>
@@ -72,15 +146,43 @@ const HelpScreen = () => {
           accessibilityLabel={ACC_STRS.contactExtraInfoLabel}
           style={styles.contactText}
         >
-          {ACC_STRS.contactExtraInfo}
+          Stichting Accessibility is gevestigd in het bedrijfsverzamelgebouw de Krammstate op een paar minuten lopen van Station Utrecht Overvecht.
         </Text>
       </View>
-    </MasterContainer>
+    </View>
   );
-};
+}
+
+function OptionalCompanyHelp() {
+  return (
+    <>
+      <View style={styles.tabScreen}>
+        <Text style={styles.h1}>{customTitle}</Text>
+        <Text style={styles.contactText}>{helptext}</Text>
+      </View>
+      <View style={styles.empty}></View>
+    </>
+  );
+}
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
+  empty: {
+    padding: 20,
+  },
+  tabScreen: {
+    flex: 1,
+    marginTop: 20,
+    paddingBottom: 20,
+  },
+  accessibilityScreen: {
+    flex: 2,
+  },
   logo: {
+    margin: 0,
+    padding: 0,
     width: '100%',
     height: 100,
     resizeMode: 'contain',
@@ -105,7 +207,7 @@ const styles = StyleSheet.create({
   },
   contactInfo: {
     position: 'relative',
-    left: -30,
+    left: -20,
     backgroundColor: COLORS.gray,
     paddingLeft: 10,
     padding: 20,
@@ -143,10 +245,6 @@ const styles = StyleSheet.create({
 });
 
 const data = [
-  // {
-  //   text: ACC_STRS.contactSubtitle,
-  //   style: styles.contactTitle,
-  // },
   {
     text: ACC_STRS.contactStreet,
     style: styles.contactText,
@@ -155,22 +253,6 @@ const data = [
     text: `${ACC_STRS.contactPostalCode} ${ACC_STRS.contactCity}`,
     style: styles.contactText,
   },
-  // {
-  //   text: ACC_STRS.phone,
-  //   style: styles.contactTitle,
-  // },
-  // {
-  //   text: ACC_STRS.contactPhone,
-  //   style: styles.contactText,
-  // },
-  // {
-  //   text: ACC_STRS.email,
-  //   style: styles.contactTitle,
-  // },
-  // {
-  //   text: ACC_STRS.contactEmail,
-  //   style: styles.contactText,
-  // },
 ];
 
 export default HelpScreen;

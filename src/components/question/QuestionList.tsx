@@ -12,6 +12,7 @@ const QuestionList = (props: { questions: Question[] }) => {
   const questions: Question[] = props.questions;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+
   return (
     <>
       {questions?.length === 0 && (
