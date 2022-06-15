@@ -116,7 +116,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VIDEO:
       return (
         <>
-          <QuestionTitle text={'Video vraag'}></QuestionTitle>
+          <QuestionTitle text={'Video'}></QuestionTitle>
           <VideoSelector
             value={getMediaURI(questionOption)}
             onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
