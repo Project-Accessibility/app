@@ -47,7 +47,11 @@ const ACCESSIBILITY_STRINGS = {
   questionTitle: 'Vraag pagina',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
+  failedToFetchDeletedQuestionaire:
+    'Vragenlijst bestaat niet meer of er is een verkeerde code meegegeven',
+
   codeNotCorrect: 'Voer een code in van vijf karakters',
+  codeCorrect: 'Verbinden en ophalen...',
   isFetchingQuestionnaire:
     'Er wordt op dit moment al een vragenlijst opgehaald. Een ogenblik geduld.',
 
@@ -59,6 +63,11 @@ const ACCESSIBILITY_STRINGS = {
 
   noInternetConnection: 'Internet verbinding verbroken',
   internetConnectionBackOnline: 'Internet verbinding hersteld',
+
+  questionListDeleted: 'Vragenlijst is verwijderd',
+  questionTitlePhoto: 'Foto maken of selecteren uit galerij',
+  questionTitleVideo: 'Video maken of selecteren uit galerij',
+  questionTitleAudio: 'Audio opname maken',
 };
 
 export default ACCESSIBILITY_STRINGS;

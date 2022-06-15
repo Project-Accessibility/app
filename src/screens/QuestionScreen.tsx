@@ -19,6 +19,8 @@ import RangeSlider from '../components/questions/RangeSlider/RangeSlider';
 import AudioRecorder from '../components/questions/AudioRecorder';
 import { FileSelectedData } from '../models/questionOptionExtraData/FileSelectedData';
 import VideoSelector from '../components/questions/VideoSelector';
+import QuestionTitle from '../components/questions/QuestionTitle';
+import accessibilityStrings from '../assets/accessibilityStrings';
 
 const QuestionScreen = () => {
   const route = useRoute();
@@ -51,6 +53,7 @@ const QuestionScreen = () => {
                 <Text style={styles.questionText}>{question.question}</Text>
               </View>
               <Divider width="100%" height={3} margin={20} />
+              <QuestionTitle text={'Antwoordmogelijkheden'} fontSize={25}></QuestionTitle>
               {question.options &&
                 question.options.map((option, index) => {
                   return (
@@ -81,90 +84,132 @@ function getElement(questionOption: QuestionOption) {
   switch (questionOption.type) {
     case QuestionOptionType.OPEN:
       return (
-        <OpenTextArea
-          placeholder={questionOption.extra_data.placeholder}
-          value={questionOption.answer?.values?.[0] ?? ''}
-          onChangeText={(value: string) => {
-            questionOption.answer = {
-              id: questionOption.answer?.id ?? 1,
-              values: [value],
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle text={'Open tekstveld'}></QuestionTitle>
+          <OpenTextArea
+            placeholder={questionOption.extra_data.placeholder}
+            value={questionOption.answer?.values?.[0] ?? ''}
+            onChangeText={(value: string) => {
+              questionOption.answer = {
+                id: questionOption.answer?.id ?? 1,
+                values: [value],
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.IMAGE:
       return (
-        <ImageSelector
-          value={getMediaURI(questionOption)}
-          onImageSelected={(image: FileSelectedData | null) => {
-            if (image) {
-              questionOption.answer = {
-                id: answerId,
-                values: [image],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitlePhoto}
+            text={'Foto'}
+          ></QuestionTitle>
+          <ImageSelector
+            value={getMediaURI(questionOption)}
+            onImageSelected={(image: FileSelectedData | null) => {
+              if (image) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [image],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.VIDEO:
       return (
-        <VideoSelector
-          value={getMediaURI(questionOption)}
-          onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
-            if (videoPath) {
-              questionOption.answer = {
-                id: answerId,
-                values: [videoPath],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitleVideo}
+            text={'Video'}
+          ></QuestionTitle>
+          <VideoSelector
+            value={getMediaURI(questionOption)}
+            onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
+              if (videoPath) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [videoPath],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.VOICE:
       return (
-        <AudioRecorder
-          value={getMediaURI(questionOption)}
-          onAudioRecorded={(audio: FileSelectedData | null) => {
-            if (audio) {
-              questionOption.answer = {
-                id: answerId,
-                values: [audio],
-              } as Answer;
-            } else {
-              questionOption.answer = undefined;
-            }
-          }}
-        />
+        <>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitleAudio}
+            text={'Audio'}
+          ></QuestionTitle>
+          <AudioRecorder
+            value={getMediaURI(questionOption)}
+            onAudioRecorded={(audio: FileSelectedData | null) => {
+              if (audio) {
+                questionOption.answer = {
+                  id: answerId,
+                  values: [audio],
+                } as Answer;
+              } else {
+                questionOption.answer = undefined;
+              }
+            }}
+          />
+        </>
       );
     case QuestionOptionType.MULTIPLE_CHOICE:
+      // create label for multiple choice
+      const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
+      const multiplePossibilities = questionOption.extra_data?.multiple ?? false;
+
+      const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${
+        multiplePossibilities == true ? 'zijn' : 'is'
+      }
+      ${
+        multiplePossibilities == true ? 'Meerdere antwoorden mogelijk' : 'één antwoord mogelijk'
+      }  / `;
+
       return (
-        <MultipleChoiceList
-          values={questionOption.answer?.values}
-          questionOption={questionOption}
-          onClicked={(values: string[]) => {
-            questionOption.answer = {
-              id: answerId,
-              values: values,
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle accLabel={label} text={'Meerkeuze'}></QuestionTitle>
+          <MultipleChoiceList
+            values={questionOption.answer?.values}
+            questionOption={questionOption}
+            onClicked={(values: string[]) => {
+              questionOption.answer = {
+                id: answerId,
+                values: values,
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.RANGE:
+      // create label for range
+      console.log('Range');
+      console.log(JSON.stringify(questionOption, null, 2));
+
       return (
-        <RangeSlider
-          value={questionOption.answer?.values?.[0]}
-          questionOption={questionOption}
-          onChange={(value: number) => {
-            questionOption.answer = {
-              id: answerId,
-              values: [value],
-            } as Answer;
-          }}
-        />
+        <>
+          <QuestionTitle text={'Schaal'}></QuestionTitle>
+          <RangeSlider
+            value={questionOption.answer?.values?.[0]}
+            questionOption={questionOption}
+            onChange={(value: number) => {
+              questionOption.answer = {
+                id: answerId,
+                values: [value],
+              } as Answer;
+            }}
+          />
+        </>
       );
     case QuestionOptionType.DATE:
       break;
