@@ -97,7 +97,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <>
-          <QuestionTitle text={'Foto Vraag'}></QuestionTitle>
+          <QuestionTitle text={'Foto'}></QuestionTitle>
           <ImageSelector
             value={getMediaURI(questionOption)}
             onImageSelected={(image: FileSelectedData | null) => {
