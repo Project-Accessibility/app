@@ -10,6 +10,7 @@ import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import { useNavigation } from '@react-navigation/native';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -52,11 +53,7 @@ const VideoSelector = (props: {
         } as FileSelectedData;
         props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
-        if (Platform.OS === 'android') {
-          ToastAndroid.show(ACCESSIBILITY_STRINGS.fileUploadSuccess, ToastAndroid.SHORT);
-        } else {
-          Alert.alert(ACCESSIBILITY_STRINGS.fileUploadSuccess);
-        }
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };

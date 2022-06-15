@@ -19,6 +19,7 @@ import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelec
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -68,11 +69,7 @@ const ImageSelector = (props: {
             }
           }
         }, 1000);
-        if (Platform.OS === 'android') {
-          ToastAndroid.show(ACCESSIBILITY_STRINGS.fileUploadSuccess, ToastAndroid.SHORT);
-        } else {
-          Alert.alert(ACCESSIBILITY_STRINGS.fileUploadSuccess);
-        }
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
