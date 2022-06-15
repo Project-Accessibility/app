@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
@@ -40,28 +40,30 @@ const QuestionScreen = () => {
 
   return (
     <MasterContainer>
-      <ScrollView>
-        {!question && <Text>Geen vraag gevonden.</Text>}
-        {question?.question && (
-          <>
-            <View>
-              <Text style={styles.questionTitle}>Vraag</Text>
-              <Divider width="33%" height={2} margin={0} />
-              <Text style={styles.questionText}>{question.question}</Text>
-            </View>
-            <Divider width="100%" height={3} margin={20} />
-            {question.options &&
-              question.options.map((option, index) => {
-                return (
-                  <View key={index} style={styles.questionItem}>
-                    {getElement(option)}
-                  </View>
-                );
-              })}
-          </>
-        )}
-        <SaveButton question={question} />
-      </ScrollView>
+      <KeyboardAvoidingView behavior="height">
+        <ScrollView>
+          {!question && <Text>Geen vraag gevonden.</Text>}
+          {question?.question && (
+            <>
+              <View>
+                <Text style={styles.questionTitle}>Vraag</Text>
+                <Divider width="33%" height={2} margin={0} />
+                <Text style={styles.questionText}>{question.question}</Text>
+              </View>
+              <Divider width="100%" height={3} margin={20} />
+              {question.options &&
+                question.options.map((option, index) => {
+                  return (
+                    <View key={index} style={styles.questionItem}>
+                      {getElement(option)}
+                    </View>
+                  );
+                })}
+            </>
+          )}
+          <SaveButton question={question} />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </MasterContainer>
   );
 };

@@ -34,12 +34,12 @@ const SectionScreen = () => {
           <Divider width="100%" height={3} margin={20} />
         </>
       )}
-      {section?.locationDescription && (
+      {section?.location_description && (
         <>
           <View>
             <Text style={styles.questionTitle}>Locatie beschrijving</Text>
             <Divider width="33%" height={2} margin={0} />
-            <Text style={styles.questionText}>{section?.locationDescription}</Text>
+            <Text style={styles.questionText}>{section?.location_description}</Text>
           </View>
           <Divider width="100%" height={3} margin={20} />
         </>
