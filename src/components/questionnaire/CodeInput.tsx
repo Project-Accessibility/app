@@ -27,7 +27,7 @@ const CodeInput = ({ setRefresh }: codeInputProps) => {
     fetchQuestionnaire(code, navigation).then((deleted) => {
       setRefresh(true);
       if (deleted) {
-        triggerSnackbarShort(ACCESSIBILITY_STRINGS.questionListDeleted, Colors.darkBlue)
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.questionListDeleted, Colors.darkBlue);
       }
     });
   };

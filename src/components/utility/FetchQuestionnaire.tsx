@@ -7,10 +7,10 @@ import Colors from '../../assets/colors';
 let isFetching = false;
 
 /*
-  * Fetch questionnaire data by code
-  * @param code: 5 letter string code of participant
-  * @param navigation: Navigation
-  * @returns Promise<boolean> - true if questionnaire was deleted
+ * Fetch questionnaire data by code
+ * @param code: 5 letter string code of participant
+ * @param navigation: Navigation
+ * @returns Promise<boolean> - true if questionnaire was deleted
  */
 export async function fetchQuestionnaire(code: string, navigation: any) {
   if (isFetching) {
@@ -38,16 +38,15 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
     });
 
     return false;
-  } else if (response && response.error) {
-    if (response.status === 404) {
-      triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
-
-      let result = false;
+  } else {
+    let result = false;
+    if (response.error && (response.status === 404 || response.status == 422)) {
       await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
         result = res;
       });
-      isFetching = false;
-      return result;
     }
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
+    isFetching = false;
+    return result;
   }
 }
