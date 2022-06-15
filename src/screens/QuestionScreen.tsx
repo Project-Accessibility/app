@@ -81,7 +81,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <>
-          <QuestionTitle text={'Open Vraag'}></QuestionTitle>
+          <QuestionTitle text={'Open tekstveld'}></QuestionTitle>
           <OpenTextArea
             placeholder={questionOption.extra_data.placeholder}
             value={questionOption.answer?.values?.[0] ?? ''}
