@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ToastAndroid, Platform, Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { QuestionOption } from '../../../models/QuestionOption';
 import RangeSlider from 'rn-range-slider';
 import Thumb from './Thumb';
@@ -10,6 +10,7 @@ import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
 import { showToast } from '../../../helpers/popupHelper';
+
 const sliderWidthBig = '80%';
 const sliderWidthSmall = '77.5%';
 const inputWidthSmall = '15%';
