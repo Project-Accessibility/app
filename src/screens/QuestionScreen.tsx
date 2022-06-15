@@ -154,7 +154,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.MULTIPLE_CHOICE:
       return (
         <>
-          <QuestionTitle text={'Meerkeuze vraag'}></QuestionTitle>
+          <QuestionTitle text={'Meerkeuze'}></QuestionTitle>
           <MultipleChoiceList
             values={questionOption.answer?.values}
             questionOption={questionOption}
