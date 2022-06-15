@@ -55,8 +55,8 @@ const ACCESSIBILITY_STRINGS = {
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
 
-  noInternetConnection: 'De verbinding met het internet is verbroken',
-  internetConnectionBackOnline: 'De verbinding met het internet is hersteld',
+  noInternetConnection: 'Internet verbinding verbroken',
+  internetConnectionBackOnline: 'Internet verbinding hersteld',
 };
 
 export default ACCESSIBILITY_STRINGS;
