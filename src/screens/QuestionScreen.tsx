@@ -135,7 +135,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <>
-          <QuestionTitle text={'Audio vraag'}></QuestionTitle>
+          <QuestionTitle text={'Audio'}></QuestionTitle>
           <AudioRecorder
             value={getMediaURI(questionOption)}
             onAudioRecorded={(audio: FileSelectedData | null) => {
