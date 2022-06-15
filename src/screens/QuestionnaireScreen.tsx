@@ -27,6 +27,7 @@ const QuestionnaireScreen = () => {
   const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
   const [lastCountOfNearbySections, setLastCountOfNearbySections] = useState<number>(0);
+  global.isQuestionnaireScreen = true;
 
   const route = useRoute();
 
@@ -65,6 +66,9 @@ const QuestionnaireScreen = () => {
     }
 
     AppState.addEventListener('change', async (state) => {
+      if (!global.isQuestionnaireScreen) {
+        return;
+      }
       if (state === 'active') {
         await Radar.start().then(() => console.log('Radar started'));
       } else if (state === 'background') {
@@ -72,12 +76,14 @@ const QuestionnaireScreen = () => {
       }
     });
     return () => {
+      global.isQuestionnaireScreen = false;
       Radar.stopTracking();
     };
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
+      global.isQuestionnaireScreen = true;
       Radar.runRadarOnce().then(() => console.log('Radar run once'));
     }, [])
   );
