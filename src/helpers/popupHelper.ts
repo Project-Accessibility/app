@@ -1,9 +1,25 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
-export function showToast(msg: string) {
-  if (Platform.OS === 'android') {
-    ToastAndroid.show(msg, ToastAndroid.LONG);
-  } else {
-    Alert.alert(msg);
-  }
+export function triggerSnackbarShort(msg: string, color: string) {
+  Snackbar.show({
+    text: msg,
+    duration: Snackbar.LENGTH_SHORT,
+    backgroundColor: color,
+  });
+}
+
+export function triggerSnackbarLong(msg: string, color: string) {
+  Snackbar.show({
+    text: msg,
+    duration: Snackbar.LENGTH_LONG,
+    backgroundColor: color,
+  });
+}
+
+export function triggerSnackbarIndefinite(msg: string, color: string) {
+  Snackbar.show({
+    text: msg,
+    duration: Snackbar.LENGTH_INDEFINITE,
+    backgroundColor: color,
+  });
 }

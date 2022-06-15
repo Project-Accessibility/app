@@ -6,7 +6,8 @@ import Queue from '../../data/localStorage/Queue';
 import { Question } from '../../models/Question';
 import { QueueAction } from '../../enums/QueueAction';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { showToast } from '../../helpers/popupHelper';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
+import Colors from '../../assets/colors';
 
 interface SaveButtonProps {
   question: Question | undefined;
@@ -18,7 +19,7 @@ const SaveButton = ({ question }: SaveButtonProps) => {
     if (!questionObject) return;
     SaveData(questionObject);
 
-    showToast(ACCESSIBILITY_STRINGS.saveButton);
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.saveButton, Colors.darkBlue);
   };
 
   const SaveData = async (questionObject: Question) => {

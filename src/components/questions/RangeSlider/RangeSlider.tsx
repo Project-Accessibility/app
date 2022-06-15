@@ -9,7 +9,8 @@ import Label from './Label';
 import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
-import { showToast } from '../../../helpers/popupHelper';
+import { triggerSnackbarShort } from '../../../helpers/popupHelper';
+import Colors from '../../../assets/colors';
 
 const sliderWidthBig = '80%';
 const sliderWidthSmall = '77.5%';
@@ -38,11 +39,11 @@ const Range = (props: {
         if (Number.isNaN(value)) {
           value = currentValue;
         } else if (value < parseInt(range.min)) {
-          showToast('Minimum waarde is ' + range.min);
+          triggerSnackbarShort('Minimum waarde is ' + range.min, Colors.darkBlue);
           value = parseInt(range.min);
           setTextValue(String(value));
         } else if (value > parseInt(range.max)) {
-          showToast('Maximum waarde is ' + range.max);
+          triggerSnackbarShort('Maximum waarde is ' + range.max, Colors.darkBlue);
           value = parseInt(range.max);
           setTextValue(String(value));
         }

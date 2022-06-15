@@ -11,7 +11,8 @@ import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
 import accessibilityStrings from '../assets/accessibilityStrings';
-import { showToast } from '../helpers/popupHelper';
+import { triggerSnackbarShort } from '../helpers/popupHelper';
+import Colors from '../assets/colors';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -39,12 +40,12 @@ const QuestionnaireScreen = () => {
         return event.geofence.sectionId;
       });
       setNearbySections(getSectionsThatAreNearby(nearbyGeofenceIds));
-      checkIfShowToast();
+      checkIfTriggerSnackbar();
     }
 
-    function checkIfShowToast() {
+    function checkIfTriggerSnackbar() {
       if (lastCountOfNearbySections < nearbySections.length) {
-        showToast('Er is een nieuwe onderdeel bij u in de buurt');
+        triggerSnackbarShort('Er is een nieuwe onderdeel bij u in de buurt', Colors.darkBlue);
       }
       setLastCountOfNearbySections(nearbySections.length);
     }

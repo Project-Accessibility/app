@@ -1,13 +1,14 @@
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import ParticipantCode from '../../data/localStorage/ParticipantCode';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { showToast } from '../../helpers/popupHelper';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
+import Colors from '../../assets/colors';
 
 let isFetching = false;
 
 export async function fetchQuestionnaire(code: string, navigation: any) {
   if (isFetching) {
-    showToast(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire);
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire, Colors.darkBlue);
     return;
   }
   isFetching = true;
@@ -28,7 +29,7 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
       questionnaire: questionnaire,
     });
   } else {
-    showToast(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
   }
 
   isFetching = false;

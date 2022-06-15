@@ -6,7 +6,8 @@ import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
-import { showToast } from '../../helpers/popupHelper';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
+import Colors from '../../assets/colors';
 
 const CodeInput = () => {
   const [code, setCode] = useState<string>('');
@@ -15,7 +16,7 @@ const CodeInput = () => {
 
   const handleCodeEntered = () => {
     if (!code || code.length !== 5) {
-      showToast(ACCESSIBILITY_STRINGS.codeNotCorrect);
+      triggerSnackbarShort(ACCESSIBILITY_STRINGS.codeNotCorrect, Colors.red);
       return;
     }
     fetchQuestionnaire(code, navigation);
