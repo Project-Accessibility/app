@@ -14,6 +14,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Vibration,
 } from 'react-native';
 import React, { useEffect } from 'react';
 
@@ -62,6 +63,7 @@ const AudioRecorder = (props: {
   } catch (_) {}
 
   const onStartRecord = async () => {
+    Vibration.vibrate();
     onStopPlay();
     //check android
     if (Platform.OS === 'android') {
@@ -96,6 +98,7 @@ const AudioRecorder = (props: {
   };
 
   const onStopRecord = async () => {
+    Vibration.vibrate();
     await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
 
