@@ -45,7 +45,7 @@ const QuestionnaireScreen = () => {
 
     function checkIfTriggerSnackbar() {
       if (lastCountOfNearbySections < nearbySections.length) {
-        triggerSnackbarShort('Er is een nieuwe onderdeel bij u in de buurt', Colors.darkBlue);
+        triggerSnackbarShort('Er is een nieuw onderdeel bij u in de buurt', Colors.darkBlue);
       }
       setLastCountOfNearbySections(nearbySections.length);
     }
@@ -137,7 +137,7 @@ const QuestionnaireScreen = () => {
     if (!currentParams) return [];
     let closeSections: Section[] = [];
     currentParams.questionnaire?.sections?.forEach((section) => {
-      if (closeGeofenceIds.includes(section.id ?? -1)) {
+      if (closeGeofenceIds.includes(section.geofence_id ?? -1)) {
         closeSections.push(section);
       }
     });

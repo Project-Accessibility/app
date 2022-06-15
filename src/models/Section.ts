@@ -3,7 +3,7 @@ import { Question } from './Question';
 export class Section {
   id: number;
   title: string;
-  geofence?: Geofence;
+  geofence_id?: number;
   description?: string;
   location_description?: string;
   teachableMachineClass?: string;
@@ -12,7 +12,7 @@ export class Section {
   constructor(
     id: number,
     title: string,
-    geofence?: Geofence,
+    geofence_id?: number,
     description?: string,
     location_description?: string,
     teachableMachineClass?: string,
@@ -20,7 +20,7 @@ export class Section {
   ) {
     this.id = id;
     this.title = title;
-    this.geofence = geofence;
+    this.geofence_id = geofence_id;
     this.description = description;
     this.location_description = location_description;
     this.teachableMachineClass = teachableMachineClass;
