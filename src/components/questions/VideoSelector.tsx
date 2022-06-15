@@ -8,7 +8,6 @@ import permissionCheck from '../utility/PermissionCheck';
 //@ts-ignore next-line
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
-import getLastItemFromSplit from '../../helpers/splitHelper';
 import { useNavigation } from '@react-navigation/native';
 
 const VideoSelector = (props: {
@@ -24,8 +23,8 @@ const VideoSelector = (props: {
     if (video) {
       props.onVideoSelected({
         uri: video,
-        type: `video/${getLastItemFromSplit(video, '.')}`,
-        name: getLastItemFromSplit(video, '/'),
+        type: 'video/mp4',
+        name: 'video-recording.mp4',
       });
     }
   } catch (_) {}
