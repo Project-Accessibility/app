@@ -3,11 +3,14 @@ import { StyleSheet, Text } from 'react-native';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
 
-const QuestionTitle = (props: { text: string, accLabel?: string, fontSize?: number }) => {
+const QuestionTitle = (props: { text: string; accLabel?: string; fontSize?: number }) => {
   const styles = createStyleSheet(props.fontSize);
   return (
-    <Text style={styles.openTextArea} accessible={true}
-          accessibilityLabel={props.accLabel == undefined ? "" : props.accLabel} >
+    <Text
+      style={styles.openTextArea}
+      accessible={true}
+      accessibilityLabel={props.accLabel == undefined ? '' : props.accLabel}
+    >
       {props.text}
     </Text>
   );
@@ -25,8 +28,6 @@ const createStyleSheet = (fontSize: number = 20) => {
       color: COLORS.black,
     },
   });
-}
-
-
+};
 
 export default QuestionTitle;

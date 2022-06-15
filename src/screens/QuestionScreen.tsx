@@ -99,7 +99,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.IMAGE:
       return (
         <>
-          <QuestionTitle accLabel={accessibilityStrings.questionTitlePhoto} text={'Foto'}></QuestionTitle>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitlePhoto}
+            text={'Foto'}
+          ></QuestionTitle>
           <ImageSelector
             value={getMediaURI(questionOption)}
             onImageSelected={(image: FileSelectedData | null) => {
@@ -118,7 +121,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VIDEO:
       return (
         <>
-          <QuestionTitle accLabel={accessibilityStrings.questionTitleVideo} text={'Video'}></QuestionTitle>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitleVideo}
+            text={'Video'}
+          ></QuestionTitle>
           <VideoSelector
             value={getMediaURI(questionOption)}
             onVideoSelected={function (videoPath: FileSelectedData | undefined): void {
@@ -137,7 +143,10 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.VOICE:
       return (
         <>
-          <QuestionTitle accLabel={accessibilityStrings.questionTitleAudio} text={'Audio'}></QuestionTitle>
+          <QuestionTitle
+            accLabel={accessibilityStrings.questionTitleAudio}
+            text={'Audio'}
+          ></QuestionTitle>
           <AudioRecorder
             value={getMediaURI(questionOption)}
             onAudioRecorded={(audio: FileSelectedData | null) => {
@@ -158,8 +167,12 @@ function getElement(questionOption: QuestionOption) {
       const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
       const multiplePossibilities = questionOption.extra_data.multiple ?? false;
 
-      const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${multiplePossibilities == true ? "zijn" : "is"}
-      ${multiplePossibilities == true ? "Meerdere antwoorden mogelijk" : "één antwoord mogelijk"}  / `;
+      const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${
+        multiplePossibilities == true ? 'zijn' : 'is'
+      }
+      ${
+        multiplePossibilities == true ? 'Meerdere antwoorden mogelijk' : 'één antwoord mogelijk'
+      }  / `;
 
       return (
         <>
@@ -178,10 +191,8 @@ function getElement(questionOption: QuestionOption) {
       );
     case QuestionOptionType.RANGE:
       // create label for range
-      console.log("Range");
+      console.log('Range');
       console.log(JSON.stringify(questionOption, null, 2));
-
-      
 
       return (
         <>

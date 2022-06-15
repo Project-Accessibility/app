@@ -16,7 +16,6 @@ LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 const Stack = createNativeStackNavigator();
 
-
 const App = () => {
   return (
     <NavigationContainer ref={navigationRef} onReady={() => RNBootSplash.hide()}>

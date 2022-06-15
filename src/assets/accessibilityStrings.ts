@@ -47,7 +47,8 @@ const ACCESSIBILITY_STRINGS = {
   questionTitle: 'Vraag pagina',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
-  failedToFetchDeletedQuestionaire: 'Vragenlijst bestaat niet meer of er is een verkeerde code meegegeven',
+  failedToFetchDeletedQuestionaire:
+    'Vragenlijst bestaat niet meer of er is een verkeerde code meegegeven',
 
   codeNotCorrect: 'Voer een code in van vijf karakters',
   isFetchingQuestionnaire:
@@ -61,7 +62,6 @@ const ACCESSIBILITY_STRINGS = {
   questionTitlePhoto: 'Foto maken of selecteren uit galerij',
   questionTitleVideo: 'Video maken of selecteren uit galerij',
   questionTitleAudio: 'Audio opname maken',
-
 };
 
 export default ACCESSIBILITY_STRINGS;
