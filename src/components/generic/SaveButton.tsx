@@ -1,11 +1,13 @@
 import React from 'react';
 import COLORS from '../../assets/colors';
 import FONTS from '../../assets/fonts';
-import { Alert, Platform, StyleSheet, Text, ToastAndroid, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Queue from '../../data/localStorage/Queue';
 import { Question } from '../../models/Question';
 import { QueueAction } from '../../enums/QueueAction';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
+import Colors from '../../assets/colors';
 
 interface SaveButtonProps {
   question: Question | undefined;
@@ -17,11 +19,7 @@ const SaveButton = ({ question }: SaveButtonProps) => {
     if (!questionObject) return;
     SaveData(questionObject);
 
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(ACCESSIBILITY_STRINGS.saveButton, ToastAndroid.LONG);
-    } else {
-      Alert.alert(ACCESSIBILITY_STRINGS.saveButton);
-    }
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.saveButton, Colors.darkBlue);
   };
 
   const SaveData = async (questionObject: Question) => {

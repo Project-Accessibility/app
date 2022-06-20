@@ -57,6 +57,8 @@ const ACCESSIBILITY_STRINGS = {
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
 
+  fileUploadSuccess: 'Bestand succesvol toegevoegd',
+
   noInternetConnection: 'Internet verbinding verbroken',
   internetConnectionBackOnline: 'Internet verbinding hersteld',
 };

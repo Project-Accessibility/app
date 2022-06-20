@@ -9,6 +9,8 @@ import permissionCheck from '../utility/PermissionCheck';
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import { useNavigation } from '@react-navigation/native';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -51,6 +53,7 @@ const VideoSelector = (props: {
         } as FileSelectedData;
         props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };

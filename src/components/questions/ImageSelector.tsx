@@ -15,6 +15,8 @@ import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -64,6 +66,7 @@ const ImageSelector = (props: {
             }
           }
         }, 1000);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
