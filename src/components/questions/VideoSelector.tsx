@@ -10,6 +10,8 @@ import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import { useNavigation } from '@react-navigation/native';
+import ACC_STRS from '../../assets/accessibilityStrings';
+
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -98,7 +100,7 @@ const VideoSelector = (props: {
               paused={paused}
               onLoad={() => setPaused(true)}
               accessible={true}
-              accessibilityLabel="Video"
+              accessibilityLabel={ ACC_STRS.videoVideoLabel}
             />
             <View style={styles.videoButtons}>
               <Icon
@@ -107,7 +109,7 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel="Video vergroten knop"
+                accessibilityLabel={ ACC_STRS.videoEnlargeLabel}
               />
               <Icon
                 onPress={() => removeVideo()}
@@ -115,7 +117,7 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel="Verwijder video knop"
+                accessibilityLabel={ ACC_STRS.videoDeleteLabel }
               />
             </View>
           </>
@@ -125,7 +127,7 @@ const VideoSelector = (props: {
             activeOpacity={0.5}
             onPress={() => requestCameraPermission()}
             accessible={true}
-            accessibilityLabel={'Neem video op en plaats als antwoord'}
+            accessibilityLabel={ ACC_STRS.videoRecordVideoLabel }
           >
             <Icon
               name="video-camera"
@@ -138,7 +140,7 @@ const VideoSelector = (props: {
             activeOpacity={0.5}
             onPress={() => pickVideoFromGallery()}
             accessible={true}
-            accessibilityLabel={'Kies video uit galerij en plaats als antwoord'}
+            accessibilityLabel={ACC_STRS.videoChooseVideoLabel}
           >
             <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>

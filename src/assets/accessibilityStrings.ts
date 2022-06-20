@@ -11,6 +11,10 @@ const ACCESSIBILITY_STRINGS = {
   helpButton: 'Hulp knop',
   helpButtonHint: 'Naar de helppagina',
   helpTitle: 'Helppagina',
+  helpStandardTitle: 'Contactgegevens Stichting Accessibility',
+  helpDataAddress: 'Christiaan Krammlaan 2',
+  helpDataPostalCode: '3571 AX Utrecht',
+
 
   contactSubtitle: 'Bezoek- en postadres',
   contactExtraInfo:
@@ -47,6 +51,13 @@ const ACCESSIBILITY_STRINGS = {
   audioReset: 'Spraakopname starten vanaf het begin',
   audioDelete: 'Verwijder spraakopname',
   audioPlayTime: 'Totale afspeelduur is',
+
+  videoEnlargeLabel: 'Video vergroten knop',
+  videoVideoLabel: 'Video',
+  videoDeleteLabel: 'Verwijder video knop',
+  videoRecordVideoLabel: 'Neem video op en plaats als antwoord',
+  videoChooseVideoLabel: 'Kies video uit galerij en plaats als antwoord',
+
 
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',

@@ -37,7 +37,7 @@ const HelpScreen = () => {
       />
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>Contactgegevens Stichting Accessibility</Text>
+          <Text style={styles.h1}>{ ACC_STRS.helpStandardTitle }</Text>
           {/*Creating text elements based on data*/}
           <View>{createText()}</View>
         </View>
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
 
 const data = [
   {
-    text: 'Christiaan Krammlaan 2',
+    text: ACC_STRS.helpDataAddress,
     style: styles.contactText,
     label: ACC_STRS.contactAddress,
   },
   {
-    text: '3571 AX Utrecht',
+    text: ACC_STRS.helpDataPostalCode,
     style: styles.contactText,
     label: ACC_STRS.contactPostalCode,
   },
