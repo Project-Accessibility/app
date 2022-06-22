@@ -1,14 +1,6 @@
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  Platform,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { AppState, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -19,6 +11,8 @@ import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
 import accessibilityStrings from '../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../helpers/popupHelper';
+import Colors from '../assets/colors';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -26,12 +20,14 @@ const QuestionnaireScreen = () => {
   const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
   const [lastCountOfNearbySections, setLastCountOfNearbySections] = useState<number>(0);
+  global.isQuestionnaireScreen = true;
 
   const route = useRoute();
 
   useEffect(() => {
     Radar.on(configureNearBySections);
-    Radar.start().then(() => 'Radar started');
+    Radar.init().then(() => Radar.start().then(() => console.log('Radar started')));
+
     const currentParams = route.params as { questionnaire: Questionnaire };
     if (!currentParams) return;
     setQuestionnaire(currentParams.questionnaire);
@@ -43,29 +39,39 @@ const QuestionnaireScreen = () => {
       const nearbyGeofenceIds = nearbyGeofences.map((event: Event) => {
         return event.geofence.sectionId;
       });
-      let sections: Section[] = [];
-      if (questionnaire && questionnaire.sections) {
-        sections = questionnaire.sections;
-      }
-      setNearbySections(getSectionsThatAreNearby(sections, nearbyGeofenceIds, []));
-      checkIfShowToast();
+      setNearbySections(getSectionsThatAreNearby(nearbyGeofenceIds));
+      checkIfTriggerSnackbar();
     }
 
-    function checkIfShowToast() {
+    function checkIfTriggerSnackbar() {
       if (lastCountOfNearbySections < nearbySections.length) {
-        showToast('Er is een nieuwe onderdeel bij u in de buurt');
+        triggerSnackbarShort('Er is een nieuw onderdeel bij u in de buurt', Colors.darkBlue);
       }
       setLastCountOfNearbySections(nearbySections.length);
     }
 
-    function showToast(msg: string) {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(msg, ToastAndroid.LONG);
-      } else {
-        Alert.alert(msg);
+    AppState.addEventListener('change', async (state) => {
+      if (!global.isQuestionnaireScreen) {
+        return;
       }
-    }
-  }, [route.params, questionnaire, lastCountOfNearbySections, nearbySections.length]);
+      if (state === 'active') {
+        await Radar.start().then(() => console.log('Radar started'));
+      } else if (state === 'background') {
+        Radar.stopTracking();
+      }
+    });
+    return () => {
+      global.isQuestionnaireScreen = false;
+      Radar.stopTracking();
+    };
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      global.isQuestionnaireScreen = true;
+      Radar.runRadarOnce().then(() => console.log('Radar run once'));
+    }, [])
+  );
 
   return (
     <MasterContainer>
@@ -125,24 +131,19 @@ const QuestionnaireScreen = () => {
       )}
     </MasterContainer>
   );
-};
 
-function getSectionsThatAreNearby(
-  sections: Section[],
-  closeGeofenceIds: number[] = [],
-  closeTeachableMachineIds: string[] = []
-): Section[] {
-  let closeSections: Section[] = [];
-  sections?.forEach((section) => {
-    if (
-      closeGeofenceIds.includes(section.geofence?.id ?? -1) ||
-      closeTeachableMachineIds.includes(section.teachableMachineClass ?? '')
-    ) {
-      closeSections.push(section);
-    }
-  });
-  return closeSections;
-}
+  function getSectionsThatAreNearby(closeGeofenceIds: number[] = []): Section[] {
+    const currentParams = route.params as { questionnaire: Questionnaire };
+    if (!currentParams) return [];
+    let closeSections: Section[] = [];
+    currentParams.questionnaire?.sections?.forEach((section) => {
+      if (closeGeofenceIds.includes(section.geofence_id ?? -1)) {
+        closeSections.push(section);
+      }
+    });
+    return closeSections;
+  }
+};
 
 const styles = StyleSheet.create({
   sectionTitle: {

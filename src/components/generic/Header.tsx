@@ -5,6 +5,7 @@ import COLORS from '../../assets/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FONTS from '../../assets/fonts';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import Radar from '../../data/location/Radar';
 
 interface headerProps {
   title: string;
@@ -89,17 +90,21 @@ const Header = ({ title, hasHomeButton, hasBackButton, hasHelpButton }: headerPr
       </View>
     </SafeAreaView>
   );
-};
-const handleHomeButton = (navigation: NavigationProp<any, any>) => {
-  navigation.navigate('Home');
-};
 
-const handleBackButton = (navigation: NavigationProp<any, any>) => {
-  navigation.goBack();
-};
+  async function handleBackButton(navigationProp: NavigationProp<any, any>) {
+    if (title === ACCESSIBILITY_STRINGS.sectionTitle) {
+      await Radar.start().then(() => console.log('Radar started'));
+    }
+    navigationProp.goBack();
+  }
 
-const handleHelpButton = (navigation: NavigationProp<any, any>) => {
-  navigation.navigate('Help');
+  function handleHomeButton(navigationProp: NavigationProp<any, any>) {
+    navigationProp.navigate('Home');
+  }
+
+  function handleHelpButton(navigationProp: NavigationProp<any, any>) {
+    navigationProp.navigate('Help');
+  }
 };
 
 const styles = StyleSheet.create({

@@ -7,6 +7,7 @@ const COLORS = {
   teal: '#21CEA1',
   orange: '#FFC107',
   green: '#1FC396',
+  red: '#ff0000',
 };
 
 export default COLORS;

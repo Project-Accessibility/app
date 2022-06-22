@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ToastAndroid, Platform, Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { QuestionOption } from '../../../models/QuestionOption';
 import RangeSlider from 'rn-range-slider';
 import Thumb from './Thumb';
@@ -9,6 +9,9 @@ import Label from './Label';
 import Notch from './Notch';
 import COLORS from '../../../assets/colors';
 import FONTS from '../../../assets/fonts';
+import { triggerSnackbarShort } from '../../../helpers/popupHelper';
+import Colors from '../../../assets/colors';
+
 const sliderWidthBig = '80%';
 const sliderWidthSmall = '77.5%';
 const inputWidthSmall = '15%';
@@ -36,11 +39,11 @@ const Range = (props: {
         if (Number.isNaN(value)) {
           value = currentValue;
         } else if (value < parseInt(range.min)) {
-          showToast('Minimum waarde is ' + range.min);
+          triggerSnackbarShort('Minimum waarde is ' + range.min, Colors.darkBlue);
           value = parseInt(range.min);
           setTextValue(String(value));
         } else if (value > parseInt(range.max)) {
-          showToast('Maximum waarde is ' + range.max);
+          triggerSnackbarShort('Maximum waarde is ' + range.max, Colors.darkBlue);
           value = parseInt(range.max);
           setTextValue(String(value));
         }
@@ -53,14 +56,6 @@ const Range = (props: {
     },
     [currentValue, props, range.max, range.min]
   );
-
-  function showToast(msg: string) {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.LONG);
-    } else {
-      Alert.alert(msg);
-    }
-  }
 
   return (
     <View style={styles.root}>

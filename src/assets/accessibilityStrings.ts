@@ -54,6 +54,11 @@ const ACCESSIBILITY_STRINGS = {
   noQuestions: 'Geen vragen gevonden',
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
+
+  fileUploadSuccess: 'Bestand succesvol toegevoegd',
+
+  noInternetConnection: 'Internet verbinding verbroken',
+  internetConnectionBackOnline: 'Internet verbinding hersteld',
 };
 
 export default ACCESSIBILITY_STRINGS;
