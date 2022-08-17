@@ -1,7 +1,7 @@
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import ParticipantCode from '../../data/localStorage/ParticipantCode';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { triggerSnackbarShort } from '../../helpers/popupHelper';
+import { triggerSnackbarShort, removeSnackbar } from '../../helpers/popupHelper';
 import Colors from '../../assets/colors';
 
 let isFetching = false;
@@ -31,6 +31,9 @@ export async function fetchQuestionnaire(code: string, navigation: any) {
       }),
     ]);
     isFetching = false;
+
+    removeSnackbar();
+
     // @ts-ignore next-line
     navigation.navigate('Questionnaire', {
       title: response.data.title,

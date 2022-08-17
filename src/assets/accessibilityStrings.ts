@@ -32,7 +32,7 @@ const ACCESSIBILITY_STRINGS = {
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar',
 
-  saveButton: 'Antwoord opgeslagen',
+  saveButton: 'Antwoord opgeslagen. Je word teruggestuurd naar het vragenoverzicht',
 
   questionnaireTitle: 'Vragenlijst pagina',
 

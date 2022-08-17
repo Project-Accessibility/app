@@ -23,3 +23,8 @@ export function triggerSnackbarIndefinite(msg: string, color: string) {
     backgroundColor: color,
   });
 }
+
+export function removeSnackbar() {
+  console.log('removed')
+  Snackbar.dismiss()
+}

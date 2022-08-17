@@ -53,7 +53,8 @@ const QuestionScreen = () => {
                 <Text style={styles.questionText}>{question.question}</Text>
               </View>
               <Divider width="100%" height={3} margin={20} />
-              <QuestionTitle text={'Antwoordmogelijkheden'} fontSize={25}></QuestionTitle>
+              <Text accessibilityLabel={getAnswersTypesAccessibilityString(question)} style={styles.questionTitle}>Antwoordmogelijkheden</Text>
+              <Divider width="33%" height={2} margin={0} />
               {question.options &&
                 question.options.map((option, index) => {
                   return (
@@ -85,7 +86,7 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <>
-          <QuestionTitle text={'Open tekstveld'}></QuestionTitle>
+          <QuestionTitle text={getDutchTextForQuestionOptionType(QuestionOptionType.OPEN) ?? ''}></QuestionTitle>
           <OpenTextArea
             placeholder={questionOption.extra_data.placeholder}
             value={questionOption.answer?.values?.[0] ?? ''}
@@ -103,7 +104,7 @@ function getElement(questionOption: QuestionOption) {
         <>
           <QuestionTitle
             accLabel={accessibilityStrings.questionTitlePhoto}
-            text={'Foto'}
+            text={getDutchTextForQuestionOptionType(QuestionOptionType.IMAGE) ?? ''}
           ></QuestionTitle>
           <ImageSelector
             value={getMediaURI(questionOption)}
@@ -125,7 +126,7 @@ function getElement(questionOption: QuestionOption) {
         <>
           <QuestionTitle
             accLabel={accessibilityStrings.questionTitleVideo}
-            text={'Video'}
+            text={getDutchTextForQuestionOptionType(QuestionOptionType.VIDEO) ?? ''}
           ></QuestionTitle>
           <VideoSelector
             value={getMediaURI(questionOption)}
@@ -147,7 +148,7 @@ function getElement(questionOption: QuestionOption) {
         <>
           <QuestionTitle
             accLabel={accessibilityStrings.questionTitleAudio}
-            text={'Audio'}
+            text={getDutchTextForQuestionOptionType(QuestionOptionType.VOICE) ?? ''}
           ></QuestionTitle>
           <AudioRecorder
             value={getMediaURI(questionOption)}
@@ -169,13 +170,10 @@ function getElement(questionOption: QuestionOption) {
       const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
       const multiplePossibilities = questionOption.extra_data?.multiple ?? false;
 
-      const label = `${amountAnswerPossibilities} antwoord mogelijkheden en er ${
-        multiplePossibilities == true ? 'zijn' : 'is'
-      }
-      ${
-        multiplePossibilities == true ? 'Meerdere antwoorden mogelijk' : 'één antwoord mogelijk'
-      }  / `;
-
+      const label  = `Meerkeuze. Er zijn in totaal ${amountAnswerPossibilities} opties. ${multiplePossibilities
+          ? "Er zijn meerdere antwoorden mogelijk."
+          : "Er is één antwoord mogelijk."}`
+          
       return (
         <>
           <QuestionTitle accLabel={label} text={'Meerkeuze'}></QuestionTitle>
@@ -225,6 +223,51 @@ function getMediaURI(questionOption: QuestionOption): string {
   return questionOption.answer?.values?.[0] ?? '';
 }
 
+function getAnswersTypesAccessibilityString(question: Question): string {
+  if(question.options === undefined || question.options.length === 0) return "Er zijn geen antwoord mogelijkheden."
+  
+  let optionsLength = question.options?.length
+  let singleAnswerType = optionsLength === 1
+
+  let accessibilityString = singleAnswerType
+    ? `Antwoordmogelijkheden. Er is 1 antwoordmogelijkheid. Dit is`
+    : `Antwoordmogelijkheden. Er zijn ${optionsLength} antwoordmogelijkheden. Dit zijn`
+  
+  for(const [index, option] of question.options.entries()) {
+    let dutchText = getDutchTextForQuestionOptionType(option.type) ?? option.type;
+    
+    if(singleAnswerType) {
+      accessibilityString += `een ${dutchText}.`
+    }
+
+    index === (question.options?.length - 1)
+      ? accessibilityString += `en een ${dutchText}.`
+      : accessibilityString += `een ${dutchText},`
+  }
+
+  return accessibilityString
+}
+
+function getDutchTextForQuestionOptionType(type: QuestionOptionType): string|null {
+  switch (type) {
+    case QuestionOptionType.OPEN:
+      return "open antwoord"
+    case QuestionOptionType.IMAGE:
+      return "afbeelding"
+    case QuestionOptionType.VIDEO:
+      return "video opname"
+    case QuestionOptionType.RANGE:
+      return "slider"
+    case QuestionOptionType.VOICE:
+      return "audio opname"
+    case QuestionOptionType.MULTIPLE_CHOICE:
+      return "meerkeuze"
+    default:
+      console.error("Een antwoordmogelijkheid heeft geen vertaling")
+      return null
+  }
+}
+
 const styles = StyleSheet.create({
   questionTitle: {
     fontFamily: FONTS.extraBold,
@@ -245,5 +288,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
 
 export default QuestionScreen;

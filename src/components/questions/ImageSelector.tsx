@@ -102,7 +102,7 @@ const ImageSelector = (props: {
           <>
             <View
               style={styles.imageContainer}
-              accessible={true}
+              accessible={false}
               accessibilityLabel={'Gemaakte afbeelding'}
             >
               <ImageModal
@@ -111,6 +111,9 @@ const ImageSelector = (props: {
                 source={{
                   uri: fixMediaUri(image),
                 }}
+                accessibilityRole="imagebutton"
+                accessible={false}
+                focusable={false}
               />
             </View>
             <View style={styles.imageButtons}>
@@ -135,14 +138,14 @@ const ImageSelector = (props: {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => RequestCameraPermission()}
-            accessibilityLabel={'Open camera knop'}
+            accessibilityLabel={'Open camera om een afbeelding te maken. Knop.'}
           >
             <Icon name="camera" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => PickImageFromGallery()}
-            accessibilityLabel={'Open galerij knop'}
+            accessibilityLabel={'Open galerij om een afbeelding te selecteren. Knop.'}
           >
             <Icon name="image" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
