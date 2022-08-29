@@ -100,33 +100,33 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-              <View accessible={false} importantForAccessibility={'no'}>
-                <ImageModal
-                  accessibilityLabel={'Gemaakte afbeelding'}
-                  resizeMode="contain"
-                  style={styles.imgStyle}
-                  source={{
-                    uri: fixMediaUri(image),
-                  }}
-                >
-                  <View style={styles.imageButtons}>
-                    <View
-                        pointerEvents="none"
-                        accessible={true}
-                        accessibilityLabel="Afbeelding vergroten knop"
-                    >
-                      <Icon name="expand" color={COLORS.black} size={48} />
-                    </View>
-                    <TouchableOpacity
-                        onPress={() => RemoveImage()}
-                        accessible={true}
-                        accessibilityLabel="Verwijder afbeelding knop"
-                    >
-                      <Icon name="trash" color={COLORS.black} size={48} />
-                    </TouchableOpacity>
+            <View accessible={false} importantForAccessibility={'no'}>
+              <ImageModal
+                accessibilityLabel={'Gemaakte afbeelding'}
+                resizeMode="contain"
+                style={styles.imgStyle}
+                source={{
+                  uri: fixMediaUri(image),
+                }}
+              >
+                <View style={styles.imageButtons}>
+                  <View
+                    pointerEvents="none"
+                    accessible={true}
+                    accessibilityLabel="Afbeelding vergroten knop"
+                  >
+                    <Icon name="expand" color={COLORS.black} size={48} />
                   </View>
-                </ImageModal>
-              </View>
+                  <TouchableOpacity
+                    onPress={() => RemoveImage()}
+                    accessible={true}
+                    accessibilityLabel="Verwijder afbeelding knop"
+                  >
+                    <Icon name="trash" color={COLORS.black} size={48} />
+                  </TouchableOpacity>
+                </View>
+              </ImageModal>
+            </View>
           </>
         ) : null}
         <View style={styles.rowContainer}>
