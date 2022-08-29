@@ -21,16 +21,19 @@ import { FileSelectedData } from '../models/questionOptionExtraData/FileSelected
 import VideoSelector from '../components/questions/VideoSelector';
 import QuestionTitle from '../components/questions/QuestionTitle';
 import accessibilityStrings from '../assets/accessibilityStrings';
+import { Section } from '../models/Section';
 
 const QuestionScreen = () => {
   const route = useRoute();
   const queue = Queue.getInstance();
-  const [question, setquestion] = useState<Question>();
+  const [question, setQuestion] = useState<Question>();
+  const [section, setSection] = useState<Section>();
 
   useEffect(() => {
-    const currentParams = route.params as { question: Question };
+    const currentParams = route.params as { question: Question; section: Section };
     if (!currentParams) return;
-    setquestion(currentParams.question);
+    setQuestion(currentParams.question);
+    setSection(currentParams.section);
   }, [route.params]);
 
   useEffect(() => {
@@ -53,7 +56,12 @@ const QuestionScreen = () => {
                 <Text style={styles.questionText}>{question.question}</Text>
               </View>
               <Divider width="100%" height={3} margin={20} />
-              <Text accessibilityLabel={getAnswersTypesAccessibilityString(question)} style={styles.questionTitle}>Antwoordmogelijkheden</Text>
+              <Text
+                accessibilityLabel={getAnswersTypesAccessibilityString(question)}
+                style={styles.questionTitle}
+              >
+                Antwoordmogelijkheden
+              </Text>
               <Divider width="33%" height={2} margin={0} />
               {question.options &&
                 question.options.map((option, index) => {
@@ -65,7 +73,7 @@ const QuestionScreen = () => {
                 })}
             </>
           )}
-          <SaveButton question={question} />
+          <SaveButton section={section} question={question} />
         </ScrollView>
       </KeyboardAvoidingView>
     </MasterContainer>
@@ -86,7 +94,9 @@ function getElement(questionOption: QuestionOption) {
     case QuestionOptionType.OPEN:
       return (
         <>
-          <QuestionTitle text={getDutchTextForQuestionOptionType(QuestionOptionType.OPEN) ?? ''}></QuestionTitle>
+          <QuestionTitle
+            text={getDutchTextForQuestionOptionType(QuestionOptionType.OPEN) ?? ''}
+          ></QuestionTitle>
           <OpenTextArea
             placeholder={questionOption.extra_data.placeholder}
             value={questionOption.answer?.values?.[0] ?? ''}
@@ -170,10 +180,12 @@ function getElement(questionOption: QuestionOption) {
       const amountAnswerPossibilities = questionOption.extra_data?.values?.length ?? 0;
       const multiplePossibilities = questionOption.extra_data?.multiple ?? false;
 
-      const label  = `Meerkeuze. Er zijn in totaal ${amountAnswerPossibilities} opties. ${multiplePossibilities
-          ? "Er zijn meerdere antwoorden mogelijk."
-          : "Er is één antwoord mogelijk."}`
-          
+      const label = `Meerkeuze. Er zijn in totaal ${amountAnswerPossibilities} opties. ${
+        multiplePossibilities
+          ? 'Er zijn meerdere antwoorden mogelijk.'
+          : 'Er is één antwoord mogelijk.'
+      }`;
+
       return (
         <>
           <QuestionTitle accLabel={label} text={'Meerkeuze'}></QuestionTitle>
@@ -190,10 +202,6 @@ function getElement(questionOption: QuestionOption) {
         </>
       );
     case QuestionOptionType.RANGE:
-      // create label for range
-      console.log('Range');
-      console.log(JSON.stringify(questionOption, null, 2));
-
       return (
         <>
           <QuestionTitle text={'Schaal'}></QuestionTitle>
@@ -224,47 +232,48 @@ function getMediaURI(questionOption: QuestionOption): string {
 }
 
 function getAnswersTypesAccessibilityString(question: Question): string {
-  if(question.options === undefined || question.options.length === 0) return "Er zijn geen antwoord mogelijkheden."
-  
-  let optionsLength = question.options?.length
-  let singleAnswerType = optionsLength === 1
+  if (question.options === undefined || question.options.length === 0)
+    return 'Er zijn geen antwoord mogelijkheden.';
+
+  let optionsLength = question.options?.length;
+  let singleAnswerType = optionsLength === 1;
 
   let accessibilityString = singleAnswerType
     ? `Antwoordmogelijkheden. Er is 1 antwoordmogelijkheid. Dit is`
-    : `Antwoordmogelijkheden. Er zijn ${optionsLength} antwoordmogelijkheden. Dit zijn`
-  
-  for(const [index, option] of question.options.entries()) {
+    : `Antwoordmogelijkheden. Er zijn ${optionsLength} antwoordmogelijkheden. Dit zijn`;
+
+  for (const [index, option] of question.options.entries()) {
     let dutchText = getDutchTextForQuestionOptionType(option.type) ?? option.type;
-    
-    if(singleAnswerType) {
-      accessibilityString += `een ${dutchText}.`
+
+    if (singleAnswerType) {
+      accessibilityString += `een ${dutchText}.`;
     }
 
-    index === (question.options?.length - 1)
-      ? accessibilityString += `en een ${dutchText}.`
-      : accessibilityString += `een ${dutchText},`
+    index === question.options?.length - 1
+      ? (accessibilityString += `en een ${dutchText}.`)
+      : (accessibilityString += `een ${dutchText},`);
   }
 
-  return accessibilityString
+  return accessibilityString;
 }
 
-function getDutchTextForQuestionOptionType(type: QuestionOptionType): string|null {
+function getDutchTextForQuestionOptionType(type: QuestionOptionType): string | null {
   switch (type) {
     case QuestionOptionType.OPEN:
-      return "open antwoord"
+      return 'open antwoord';
     case QuestionOptionType.IMAGE:
-      return "afbeelding"
+      return 'afbeelding';
     case QuestionOptionType.VIDEO:
-      return "video opname"
+      return 'video opname';
     case QuestionOptionType.RANGE:
-      return "slider"
+      return 'slider';
     case QuestionOptionType.VOICE:
-      return "audio opname"
+      return 'audio opname';
     case QuestionOptionType.MULTIPLE_CHOICE:
-      return "meerkeuze"
+      return 'meerkeuze';
     default:
-      console.error("Een antwoordmogelijkheid heeft geen vertaling")
-      return null
+      console.error('Een antwoordmogelijkheid heeft geen vertaling');
+      return null;
   }
 }
 
@@ -288,6 +297,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
 
 export default QuestionScreen;

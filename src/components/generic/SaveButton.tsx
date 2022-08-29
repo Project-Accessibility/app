@@ -6,15 +6,14 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Queue from '../../data/localStorage/Queue';
 import { Question } from '../../models/Question';
 import { QueueAction } from '../../enums/QueueAction';
-import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { triggerSnackbarLong, triggerSnackbarShort } from '../../helpers/popupHelper';
-import Colors from '../../assets/colors';
+import { Section } from '../../models/Section';
 
 interface SaveButtonProps {
-  question: Question | undefined
+  section: Section | undefined;
+  question: Question | undefined;
 }
 
-const SaveButton = ({ question }: SaveButtonProps) => {
+const SaveButton = ({ question, section }: SaveButtonProps) => {
   const queue = Queue.getInstance();
 
   const navigation = useNavigation();
@@ -23,7 +22,14 @@ const SaveButton = ({ question }: SaveButtonProps) => {
     if (!questionObject) return;
     SaveData(questionObject);
 
-    navigation.goBack();
+    if (section) {
+      // @ts-ignore
+      navigation.navigate('Section', {
+        title: section.title,
+        section: section,
+        saved: true,
+      });
+    }
   };
 
   const SaveData = async (questionObject: Question) => {
@@ -31,15 +37,23 @@ const SaveButton = ({ question }: SaveButtonProps) => {
     queue.executeQueue();
   };
 
+  const typeOfSaving = question
+    ? Question.isAnswered(question)
+      ? 'aanpassen'
+      : 'opslaan'
+    : 'opslaan';
+
   return (
     <TouchableOpacity
       style={styles.buttonView}
-      accessibilityLabel={'Vraag opslaan'}
-      accessibilityHint={'Opslaan is niet definitief. Je wordt teruggestuurd naar het vragen overzicht'}
+      accessibilityLabel={`Vraag ${typeOfSaving}, Knop.`}
+      accessibilityHint={`${typeOfSaving} is niet definitief. Je wordt teruggestuurd naar het vragen overzicht`}
       accessible={true}
       onPress={() => onSave(question)}
     >
-      <Text style={styles.buttonText}>Opslaan</Text>
+      <Text style={styles.buttonText}>
+        {typeOfSaving.charAt(0).toUpperCase() + typeOfSaving.slice(1)}
+      </Text>
     </TouchableOpacity>
   );
 };

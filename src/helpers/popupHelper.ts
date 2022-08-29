@@ -25,6 +25,5 @@ export function triggerSnackbarIndefinite(msg: string, color: string) {
 }
 
 export function removeSnackbar() {
-  console.log('removed')
-  Snackbar.dismiss()
+  Snackbar.dismiss();
 }

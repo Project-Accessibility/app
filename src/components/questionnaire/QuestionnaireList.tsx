@@ -17,7 +17,7 @@ const QuestionnaireList = ({ questionnaires, setRefresh }: QuestionnaireListProp
   const navigation = useNavigation();
 
   const handleQuestionnaireSelected = async (code: string) => {
-    triggerSnackbarShort(ACCESSIBILITY_STRINGS.codeCorrect, Colors.lightBlue);
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.codeCorrect, Colors.darkBlue);
     fetchQuestionnaire(code, navigation).then((deleted) => {
       setRefresh(true);
       if (deleted) {
@@ -33,6 +33,7 @@ const QuestionnaireList = ({ questionnaires, setRefresh }: QuestionnaireListProp
           <View key={index} style={styles.buttonView}>
             <Button
               accLabel={questionnaireItem.name}
+              accHint={`${index + 1} van de ${questionnaires.length}`}
               title={questionnaireItem.name}
               onButtonPress={() => handleQuestionnaireSelected(questionnaireItem.code)}
             />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import COLORS from '../../assets/colors';
+import Snackbar from './Snackbar';
 
 interface masterProps {
   children: Element | Element[];
@@ -8,11 +9,14 @@ interface masterProps {
 
 const MasterContainer = ({ children }: masterProps) => {
   return (
-    <SafeAreaView style={styles.masterContainer}>
-      <ScrollView>
-        <View style={styles.innerMasterContainer}>{children}</View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      {/*<Snackbar></Snackbar>*/}
+      <SafeAreaView style={styles.masterContainer}>
+        <ScrollView>
+          <View style={styles.innerMasterContainer}>{children}</View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 

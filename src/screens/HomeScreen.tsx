@@ -37,7 +37,19 @@ const HomeScreen = () => {
       <CodeInput setRefresh={setRefresh} />
       <MasterContainer>
         <View>
-          <Text style={styles.title}>Vragenlijsten</Text>
+          <Text
+            accessibilityLabel="Vragenlijsten"
+            accessibilityHint={
+              questionnaires.length > 0
+                ? questionnaires.length > 1
+                  ? `Er zijn ${questionnaires.length} vragenlijsten opgeslagen`
+                  : 'Er is 1 vragenlijst opgeslagen'
+                : 'Er zijn geen vragenlijsten opgeslagen'
+            }
+            style={styles.title}
+          >
+            Vragenlijsten
+          </Text>
           <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
       </MasterContainer>

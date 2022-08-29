@@ -21,8 +21,8 @@ const Range = (props: {
   const [currentValue, setCurrentValue] = useState(props.value ?? parseInt(range.min));
   const [textValue, setTextValue] = useState(String(currentValue ?? range.min));
 
-  console.log(`Huidige waarde: ${currentValue}`)
-  console.log(`Huidige type: ${typeof currentValue}`)
+  console.log(`Huidige waarde: ${currentValue}`);
+  console.log(`Huidige type: ${typeof currentValue}`);
 
   const renderThumb = useCallback(() => <Thumb />, []);
   const renderRail = useCallback(() => <Rail />, []);
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   slider: {
     marginRight: 10,
-    width: '100%'
+    width: '100%',
   },
   horizontalContainer: {
     flexDirection: 'row',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.semiBold,
     fontSize: 20,
     color: COLORS.black,
-  }
+  },
 });
 
 export default Range;

@@ -35,10 +35,7 @@ const MasterContainer = (props: {
   };
 
   return (
-    <View
-      style={styles.multipleChoice}
-      accessible={true}
-    >
+    <View style={styles.multipleChoice} accessible={true}>
       {multipleChoiceOptions.map((value, index) => {
         const isSelected = currentValues.includes(value);
         return (

@@ -133,12 +133,12 @@ const VideoSelector = (props: {
             />
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}>
-            <Icon 
-              name="film" 
-              style={styles.rowContainerChild} 
+            <Icon
+              name="film"
+              style={styles.rowContainerChild}
               size={48}
               accessibilityLabel="Open galerij om een video te selecteren. knop"
-              color={COLORS.black} 
+              color={COLORS.black}
             />
           </TouchableOpacity>
         </View>

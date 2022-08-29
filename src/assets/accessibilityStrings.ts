@@ -34,9 +34,9 @@ const ACCESSIBILITY_STRINGS = {
 
   saveButton: 'Antwoord opgeslagen. Je word teruggestuurd naar het vragenoverzicht',
 
-  questionnaireTitle: 'Vragenlijst pagina',
+  questionnaireTitle: 'Vragenlijst',
 
-  sectionTitle: 'Onderdeel pagina',
+  sectionTitle: 'Onderdeel',
 
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',
@@ -44,14 +44,14 @@ const ACCESSIBILITY_STRINGS = {
   city: 'Plaats',
   phone: 'Telefoon',
   email: 'E-mail',
-  questionTitle: 'Vraag pagina',
+  questionTitle: 'Vraag',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
   failedToFetchDeletedQuestionaire:
     'Vragenlijst bestaat niet meer of er is een verkeerde code meegegeven',
 
   codeNotCorrect: 'Voer een code in van vijf karakters',
-  codeCorrect: 'Verbinden en ophalen...',
+  codeCorrect: 'Verbinden en ophalen',
   isFetchingQuestionnaire:
     'Er wordt op dit moment al een vragenlijst opgehaald. Een ogenblik geduld.',
 
