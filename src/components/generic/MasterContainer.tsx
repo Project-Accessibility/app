@@ -1,7 +1,6 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import COLORS from '../../assets/colors';
-import Snackbar from './Snackbar';
 
 interface masterProps {
   children: Element | Element[];

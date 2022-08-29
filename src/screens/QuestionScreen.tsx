@@ -235,7 +235,7 @@ function getAnswersTypesAccessibilityString(question: Question): string {
   if (question.options === undefined || question.options.length === 0)
     return 'Er zijn geen antwoord mogelijkheden.';
 
-  let optionsLength = question.options?.length;
+  let optionsLength = question.options.length;
   let singleAnswerType = optionsLength === 1;
 
   let accessibilityString = singleAnswerType
@@ -249,7 +249,7 @@ function getAnswersTypesAccessibilityString(question: Question): string {
       accessibilityString += `een ${dutchText}.`;
     }
 
-    index === question.options?.length - 1
+    index === question.options.length - 1
       ? (accessibilityString += `en een ${dutchText}.`)
       : (accessibilityString += `een ${dutchText},`);
   }
