@@ -1,15 +1,6 @@
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  AppState,
-  Platform,
-  StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { AppState, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
@@ -20,6 +11,8 @@ import { Section } from '../models/Section';
 import SectionList from '../components/section/SectionList';
 import Radar, { Event, Result } from '../data/location/Radar';
 import accessibilityStrings from '../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../helpers/popupHelper';
+import Colors from '../assets/colors';
 
 const QuestionnaireScreen = () => {
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
@@ -27,6 +20,7 @@ const QuestionnaireScreen = () => {
   const [nearbySections, setNearbySections] = useState<Section[]>([]);
   const [sectionsVisible, setSectionsVisible] = useState<boolean>(true);
   const [lastCountOfNearbySections, setLastCountOfNearbySections] = useState<number>(0);
+  // @ts-ignore
   global.isQuestionnaireScreen = true;
 
   const route = useRoute();
@@ -47,25 +41,18 @@ const QuestionnaireScreen = () => {
         return event.geofence.sectionId;
       });
       setNearbySections(getSectionsThatAreNearby(nearbyGeofenceIds));
-      checkIfShowToast();
+      checkIfTriggerSnackbar();
     }
 
-    function checkIfShowToast() {
+    function checkIfTriggerSnackbar() {
       if (lastCountOfNearbySections < nearbySections.length) {
-        showToast('Er is een nieuwe onderdeel bij u in de buurt');
+        triggerSnackbarShort('Er is een nieuw onderdeel bij u in de buurt', Colors.darkBlue);
       }
       setLastCountOfNearbySections(nearbySections.length);
     }
 
-    function showToast(msg: string) {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(msg, ToastAndroid.LONG);
-      } else {
-        Alert.alert(msg);
-      }
-    }
-
     AppState.addEventListener('change', async (state) => {
+      // @ts-ignore
       if (!global.isQuestionnaireScreen) {
         return;
       }
@@ -76,6 +63,7 @@ const QuestionnaireScreen = () => {
       }
     });
     return () => {
+      // @ts-ignore
       global.isQuestionnaireScreen = false;
       Radar.stopTracking();
     };
@@ -83,6 +71,7 @@ const QuestionnaireScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // @ts-ignore
       global.isQuestionnaireScreen = true;
       Radar.runRadarOnce().then(() => console.log('Radar run once'));
     }, [])
@@ -152,7 +141,7 @@ const QuestionnaireScreen = () => {
     if (!currentParams) return [];
     let closeSections: Section[] = [];
     currentParams.questionnaire?.sections?.forEach((section) => {
-      if (closeGeofenceIds.includes(section.id ?? -1)) {
+      if (closeGeofenceIds.includes(section.geofence_id ?? -1)) {
         closeSections.push(section);
       }
     });

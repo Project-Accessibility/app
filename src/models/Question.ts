@@ -26,4 +26,12 @@ export class Question {
     this.question = question;
     this.options = options;
   }
+
+  static isAnswered(question: Question): boolean {
+    return question.options !== null && question.options?.length
+      ? question.options.filter((option: QuestionOption) => {
+          return QuestionOption.isAnswered(option);
+        }).length > 0
+      : false;
+  }
 }

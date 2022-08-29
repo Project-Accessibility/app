@@ -15,6 +15,8 @@ import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -64,6 +66,7 @@ const ImageSelector = (props: {
             }
           }
         }, 1000);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
@@ -97,34 +100,32 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-            <View
-              style={styles.imageContainer}
-              accessible={true}
-              accessibilityLabel={'Gemaakte afbeelding'}
-            >
+            <View accessible={false} importantForAccessibility={'no'}>
               <ImageModal
+                accessibilityLabel={'Gemaakte afbeelding'}
                 resizeMode="contain"
                 style={styles.imgStyle}
                 source={{
                   uri: fixMediaUri(image),
                 }}
-              />
-            </View>
-            <View style={styles.imageButtons}>
-              <View
-                pointerEvents="none"
-                accessible={true}
-                accessibilityLabel="Afbeelding vergroten knop"
               >
-                <Icon name="expand" color={COLORS.black} size={48} />
-              </View>
-              <TouchableOpacity
-                onPress={() => RemoveImage()}
-                accessible={true}
-                accessibilityLabel="Verwijder afbeelding knop"
-              >
-                <Icon name="trash" color={COLORS.black} size={48} />
-              </TouchableOpacity>
+                <View style={styles.imageButtons}>
+                  <View
+                    pointerEvents="none"
+                    accessible={true}
+                    accessibilityLabel="Afbeelding vergroten knop"
+                  >
+                    <Icon name="expand" color={COLORS.black} size={48} />
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => RemoveImage()}
+                    accessible={true}
+                    accessibilityLabel="Verwijder afbeelding knop"
+                  >
+                    <Icon name="trash" color={COLORS.black} size={48} />
+                  </TouchableOpacity>
+                </View>
+              </ImageModal>
             </View>
           </>
         ) : null}
@@ -132,14 +133,14 @@ const ImageSelector = (props: {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => RequestCameraPermission()}
-            accessibilityLabel={'Open camera knop'}
+            accessibilityLabel={'Open camera om een afbeelding te maken. Knop.'}
           >
             <Icon name="camera" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => PickImageFromGallery()}
-            accessibilityLabel={'Open galerij knop'}
+            accessibilityLabel={'Open galerij om een afbeelding te selecteren. Knop.'}
           >
             <Icon name="image" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
@@ -153,14 +154,12 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
   },
-  imageContainer: {
-    borderWidth: 2,
-    borderColor: COLORS.black,
-    borderRadius: 10,
-  },
   imgStyle: {
     width: '100%',
     aspectRatio: 2,
+    borderWidth: 2,
+    borderColor: COLORS.black,
+    borderRadius: 10,
   },
   imageButtons: {
     display: 'flex',

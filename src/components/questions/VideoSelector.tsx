@@ -9,6 +9,8 @@ import permissionCheck from '../utility/PermissionCheck';
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import { useNavigation } from '@react-navigation/native';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -51,6 +53,7 @@ const VideoSelector = (props: {
         } as FileSelectedData;
         props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
@@ -125,11 +128,18 @@ const VideoSelector = (props: {
               name="video-camera"
               style={styles.rowContainerChild}
               size={48}
+              accessibilityLabel="Open camera om opname te maken. Knop."
               color={COLORS.black}
             />
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}>
-            <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
+            <Icon
+              name="film"
+              style={styles.rowContainerChild}
+              size={48}
+              accessibilityLabel="Open galerij om een video te selecteren. knop"
+              color={COLORS.black}
+            />
           </TouchableOpacity>
         </View>
       </View>
