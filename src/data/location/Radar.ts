@@ -97,6 +97,7 @@ class RadarLocation {
   }
 
   public stopTracking() {
+    console.log('Radar stop tracking');
     Radar.stopTracking();
   }
 
@@ -164,7 +165,7 @@ class RadarLocation {
       radius: 20,
     });
     if (this.callback) {
-      this.callback(this.getResult(false, result));
+      this.callback(RadarConverter.convertResult(false, result));
     }
   }
 
@@ -186,18 +187,20 @@ class RadarLocation {
    */
   private trigger(isEvent: boolean, result: any): void {
     if (this.callback) {
-      this.callback(this.getResult(isEvent, result));
+      this.callback(RadarConverter.convertResult(isEvent, result));
     }
   }
+}
 
+class RadarConverter {
   /**
-   * Get filtered result
+   * Get converted result
    *
    * @param isEvent
    * @param data
    * @private
    */
-  private getResult(isEvent: boolean, data: any): Result {
+  static convertResult(isEvent: boolean, data: any): Result {
     const result = new Result(
       new User(
         isEvent ? data.user.stopped : data.location.speed === 0,
@@ -210,24 +213,24 @@ class RadarLocation {
     );
     if (isEvent) {
       data.events.forEach((event: any) => {
-        result.addEvent(this.getEvent(isEvent, event));
+        result.addEvent(this.convertEvent(isEvent, event));
       });
     } else {
       data.geofences.forEach((geofence: any) => {
-        result.addEvent(this.getEvent(isEvent, geofence));
+        result.addEvent(this.convertEvent(isEvent, geofence));
       });
     }
     return result;
   }
 
   /**
-   * Get filtered event
+   * Get converted event
    *
    * @param isEvent
    * @param data
    * @protected
    */
-  protected getEvent(isEvent: boolean, data: any): Event {
+  private static convertEvent(isEvent: boolean, data: any): Event {
     const geofence = new Geofence(
       isEvent ? Number(data.geofence.externalId) : Number(data.externalId),
       isEvent ? data.geofence.tag : data.tag,

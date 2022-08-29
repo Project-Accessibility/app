@@ -33,6 +33,11 @@ const mockedVideo = Video as jest.Mocked<typeof Video>;
 jest.mock('react-native-video', () => {
   return mockedVideo;
 });
+import Snackbar from 'react-native-snackbar';
+const mockedSnackbar = Snackbar as jest.Mocked<typeof Snackbar>;
+jest.mock('react-native-snackbar', () => {
+  return mockedSnackbar;
+});
 jest.mock('react-native-bootsplash', () => {
   return {
     show: jest.fn().mockResolvedValueOnce(),

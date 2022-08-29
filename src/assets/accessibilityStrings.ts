@@ -15,7 +15,6 @@ const ACCESSIBILITY_STRINGS = {
   helpDataAddress: 'Christiaan Krammlaan 2',
   helpDataPostalCode: '3571 AX Utrecht',
 
-
   contactSubtitle: 'Bezoek- en postadres',
   contactExtraInfo:
     'Stichting Accessibility is gevestigd in het bedrijfsverzamelgebouw de Krammstate op een paar minuten lopen van Station Utrecht Overvecht.',
@@ -32,14 +31,14 @@ const ACCESSIBILITY_STRINGS = {
   backButton: 'Terug knop',
   backButtonHint: 'Terug naar',
 
-  saveButton: 'Antwoord opgeslagen',
+  saveButton: 'Antwoord opgeslagen. Je word teruggestuurd naar het vragenoverzicht',
 
-  questionnaireTitle: 'Vragenlijst pagina',
+  questionnaireTitle: 'Vragenlijst',
 
-  sectionTitle: 'Onderdeel pagina',
+  sectionTitle: 'Onderdeel',
 
   photoCameraIcon: 'Maak een foto en gebruik als antwoord',
-  photoGaleryIcon: 'Kies foto uit galerij en gebruik als foto',
+  photoGalleryIcon: 'Kies foto uit galerij en gebruik als antwoord',
   photoAddedImage: 'Aan antwoord toegevoegde foto',
   photoRemoveImage: 'Verwijder toegevoegde foto',
   photoDisplay: 'Weergave toegevoegde foto',
@@ -58,23 +57,36 @@ const ACCESSIBILITY_STRINGS = {
   videoRecordVideoLabel: 'Neem video op en plaats als antwoord',
   videoChooseVideoLabel: 'Kies video uit galerij en plaats als antwoord',
 
-
   questionOpenPlaceHolder: 'Vul hier uw antwoord in',
   street: 'Straat',
   postalCode: 'Postcode',
   city: 'Plaats',
   phone: 'Telefoon',
   email: 'E-mail',
-  questionTitle: 'Vraag pagina',
+  questionTitle: 'Vraag',
 
   failedToFetchQuestionnaire: 'Kon vragenlijst niet ophalen',
+  failedToFetchDeletedQuestionaire:
+    'Vragenlijst bestaat niet meer of er is een verkeerde code meegegeven',
+
   codeNotCorrect: 'Voer een code in van vijf karakters',
+  codeCorrect: 'Verbinden en ophalen',
   isFetchingQuestionnaire:
     'Er wordt op dit moment al een vragenlijst opgehaald. Een ogenblik geduld.',
 
   noQuestions: 'Geen vragen gevonden',
   noSectionsNearby: 'Geen onderdelen in de buurt',
   noSections: 'Geen onderdelen gevonden',
+
+  fileUploadSuccess: 'Bestand succesvol toegevoegd',
+
+  noInternetConnection: 'Internet verbinding verbroken',
+  internetConnectionBackOnline: 'Internet verbinding hersteld',
+
+  questionListDeleted: 'Vragenlijst is verwijderd',
+  questionTitlePhoto: 'Foto maken of selecteren uit galerij',
+  questionTitleVideo: 'Video maken of selecteren uit galerij',
+  questionTitleAudio: 'Audio opname maken',
 };
 
 export default ACCESSIBILITY_STRINGS;

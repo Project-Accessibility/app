@@ -8,10 +8,9 @@ import permissionCheck from '../utility/PermissionCheck';
 //@ts-ignore next-line
 import Video from 'react-native-video';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
-import getLastItemFromSplit from '../../helpers/splitHelper';
 import { useNavigation } from '@react-navigation/native';
-import ACC_STRS from '../../assets/accessibilityStrings';
-
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const VideoSelector = (props: {
   value: string | undefined;
@@ -26,8 +25,8 @@ const VideoSelector = (props: {
     if (video) {
       props.onVideoSelected({
         uri: video,
-        type: `video/${getLastItemFromSplit(video, '.')}`,
-        name: getLastItemFromSplit(video, '/'),
+        type: 'video/mp4',
+        name: 'video-recording.mp4',
       });
     }
   } catch (_) {}
@@ -54,6 +53,7 @@ const VideoSelector = (props: {
         } as FileSelectedData;
         props.onVideoSelected(formDataVideo);
         setVideo(source.uri);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
@@ -100,7 +100,7 @@ const VideoSelector = (props: {
               paused={paused}
               onLoad={() => setPaused(true)}
               accessible={true}
-              accessibilityLabel={ ACC_STRS.videoVideoLabel}
+              accessibilityLabel={ACCESSIBILITY_STRINGS.videoVideoLabel}
             />
             <View style={styles.videoButtons}>
               <Icon
@@ -109,7 +109,7 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel={ ACC_STRS.videoEnlargeLabel}
+                accessibilityLabel={ACCESSIBILITY_STRINGS.videoEnlargeLabel}
               />
               <Icon
                 onPress={() => removeVideo()}
@@ -117,7 +117,7 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel={ ACC_STRS.videoDeleteLabel }
+                accessibilityLabel={ACCESSIBILITY_STRINGS.videoDeleteLabel}
               />
             </View>
           </>
@@ -127,12 +127,13 @@ const VideoSelector = (props: {
             activeOpacity={0.5}
             onPress={() => requestCameraPermission()}
             accessible={true}
-            accessibilityLabel={ ACC_STRS.videoRecordVideoLabel }
+            accessibilityLabel={ACCESSIBILITY_STRINGS.videoRecordVideoLabel}
           >
             <Icon
               name="video-camera"
               style={styles.rowContainerChild}
               size={48}
+              accessibilityLabel="Open camera om opname te maken. Knop."
               color={COLORS.black}
             />
           </TouchableOpacity>
@@ -140,7 +141,7 @@ const VideoSelector = (props: {
             activeOpacity={0.5}
             onPress={() => pickVideoFromGallery()}
             accessible={true}
-            accessibilityLabel={ACC_STRS.videoChooseVideoLabel}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.videoChooseVideoLabel}
           >
             <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
