@@ -37,7 +37,7 @@ const HelpScreen = () => {
       />
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>{ ACC_STRS.helpStandardTitle }</Text>
+          <Text style={styles.h1}>{ACC_STRS.helpStandardTitle}</Text>
           {/*Creating text elements based on data*/}
           <View>{createText()}</View>
         </View>
