@@ -1,36 +1,57 @@
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import ParticipantCode from '../../data/localStorage/ParticipantCode';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
-import { triggerSnackbarShort } from '../../helpers/popupHelper';
 import Colors from '../../assets/colors';
+import { removeSnackbar, triggerSnackbarShort } from '../../helpers/popupHelper';
 
 let isFetching = false;
 
+/*
+ * Fetch questionnaire data by code
+ * @param code: 5 letter string code of participant
+ * @param navigation: Navigation
+ * @returns Promise<boolean> - true if questionnaire was deleted
+ */
 export async function fetchQuestionnaire(code: string, navigation: any) {
   if (isFetching) {
     triggerSnackbarShort(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire, Colors.darkBlue);
     return;
   }
+
   isFetching = true;
 
-  let questionnaire = await getAllQuestionnaireDataByCode(code);
+  let response = await getAllQuestionnaireDataByCode(code);
 
-  if (questionnaire) {
+  if (response && !response.error) {
     await Promise.all([
       ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code),
       ParticipantCode.addQuestionnaireInLocalStorage({
         code: code,
-        name: questionnaire.title,
+        name: response.data.title,
       }),
     ]);
+    isFetching = false;
+
+    removeSnackbar();
+
     // @ts-ignore next-line
     navigation.navigate('Questionnaire', {
-      title: questionnaire.title,
-      questionnaire: questionnaire,
+      title: response.data.title,
+      questionnaire: response.data,
     });
-  } else {
-    triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
-  }
 
-  isFetching = false;
+    return false;
+  } else {
+    let result = false;
+    if (response && response.error) {
+      if (response.status === 404 || response.status === 422) {
+        await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
+          result = res;
+        });
+      }
+    }
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
+    isFetching = false;
+    return result;
+  }
 }

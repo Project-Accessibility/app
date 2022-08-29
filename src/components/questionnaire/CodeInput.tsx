@@ -9,17 +9,27 @@ import { fetchQuestionnaire } from '../utility/FetchQuestionnaire';
 import { triggerSnackbarShort } from '../../helpers/popupHelper';
 import Colors from '../../assets/colors';
 
-const CodeInput = () => {
+interface codeInputProps {
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CodeInput = ({ setRefresh }: codeInputProps) => {
   const [code, setCode] = useState<string>('');
 
   const navigation = useNavigation();
 
-  const handleCodeEntered = () => {
+  const handleCodeEntered = async () => {
     if (!code || code.length !== 5) {
       triggerSnackbarShort(ACCESSIBILITY_STRINGS.codeNotCorrect, Colors.red);
       return;
     }
-    fetchQuestionnaire(code, navigation);
+
+    fetchQuestionnaire(code, navigation).then((deleted) => {
+      setRefresh(true);
+      if (deleted) {
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.questionListDeleted, Colors.darkBlue);
+      }
+    });
   };
 
   return (
