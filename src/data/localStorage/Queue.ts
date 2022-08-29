@@ -6,23 +6,36 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { saveQuestionByIdAndCode, saveQuestionnaireByCode } from '../api/Questionnaire';
 import ParticipantCode from './ParticipantCode';
 
+interface QueueOptions {
+  executeTimeout: number; // Execute queue every executeTimeout:number seconds
+  errorThreshold: number; // When errorThreshold:number requests fail, trip the circuit resetTimeout:number
+  resetTimeout: number; // After resetTimeout:number seconds, try again.
+}
+
 class TempStorage {
   private static instance: TempStorage;
   private objectQueue: QueueObjectType[] = [];
-  private isConnected = false;
+  private isConnected: boolean = false;
+  private options: QueueOptions;
+  private requestsFailed = 0;
 
-  private constructor() {
+  private constructor(options: QueueOptions) {
+    this.options = options;
     this.loadQueueFromLocalStorage();
     NetInfo.fetch().then((state) => {
       console.log('Is connected?', state.isConnected);
       this.isConnected = state.isConnected ?? false;
     });
-    setInterval(() => this.executeQueue(), 1000 * 15);
+    setInterval(() => this.executeQueue(), this.options.executeTimeout);
   }
 
   public static getInstance(): TempStorage {
     if (!TempStorage.instance) {
-      TempStorage.instance = new TempStorage();
+      TempStorage.instance = new TempStorage({
+        executeTimeout: 15000,
+        errorThreshold: 4,
+        resetTimeout: 3000,
+      });
     }
     return TempStorage.instance;
   }
@@ -84,23 +97,35 @@ class TempStorage {
   }
 
   public executeQueue() {
-    if (!this.isConnected) return;
+    if (!this.isConnected || this.requestsFailed >= this.options.errorThreshold) return;
     for (let i = this.objectQueue.length - 1; i >= 0; i--) {
       const queueObject = this.objectQueue[i];
 
       switch (queueObject.action) {
         case QueueAction.SaveQuestion:
-          saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question).then(
-            () => this.removeObjectFromQueue(queueObject)
-          );
+          saveQuestionByIdAndCode(queueObject.participantCode, queueObject.object as Question)
+            .then(() => this.removeObjectFromQueue(queueObject))
+            .catch(() => this.countError);
           break;
         case QueueAction.SaveQuestionnaire:
-          saveQuestionnaireByCode(
-            queueObject.participantCode,
-            queueObject.object as Questionnaire
-          ).then(() => this.removeObjectFromQueue(queueObject));
+          saveQuestionnaireByCode(queueObject.participantCode, queueObject.object as Questionnaire)
+            .then(() => this.removeObjectFromQueue(queueObject))
+            .catch(() => this.countError);
           break;
       }
+    }
+  }
+
+  private resetErrorCount() {
+    if (this.requestsFailed > 0) {
+      this.requestsFailed = 0;
+    }
+  }
+
+  private countError() {
+    this.requestsFailed++;
+    if (this.requestsFailed >= this.options.errorThreshold) {
+      setTimeout(this.resetErrorCount, this.options.resetTimeout);
     }
   }
 
