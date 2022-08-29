@@ -35,16 +35,7 @@ const MasterContainer = (props: {
   };
 
   return (
-    <View
-      style={styles.multipleChoice}
-      accessibilityLabel={'Meerkeuze'}
-      accessibilityHint={
-        multipleChoiceOptions.length +
-        ' opties, ' +
-        (multipleAnswersPossible ? 'meerdere antwoorden mogelijk' : 'een antwoord mogelijk')
-      }
-      accessible={true}
-    >
+    <View style={styles.multipleChoice} accessible={true}>
       {multipleChoiceOptions.map((value, index) => {
         const isSelected = currentValues.includes(value);
         return (

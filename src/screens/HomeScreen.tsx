@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { LogBox, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
@@ -37,8 +37,20 @@ const HomeScreen = () => {
       <CodeInput setRefresh={setRefresh} />
       <MasterContainer>
         <View>
-          <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={questionnaires.reverse()} />
+          <Text
+            accessibilityLabel="Vragenlijsten"
+            accessibilityHint={
+              questionnaires.length > 0
+                ? questionnaires.length > 1
+                  ? `Er zijn ${questionnaires.length} vragenlijsten opgeslagen`
+                  : 'Er is 1 vragenlijst opgeslagen'
+                : 'Er zijn geen vragenlijsten opgeslagen'
+            }
+            style={styles.title}
+          >
+            Vragenlijsten
+          </Text>
+          <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
       </MasterContainer>
     </>

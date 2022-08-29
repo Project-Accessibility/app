@@ -13,4 +13,8 @@ export class QuestionOption {
     this.extra_data = extra_data;
     this.answer = answer;
   }
+
+  static isAnswered(option: QuestionOption): boolean {
+    return (option.answer && Answer.hasValue(option.answer)) ?? false;
+  }
 }

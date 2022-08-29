@@ -11,6 +11,7 @@ interface buttonProps {
   answered?: number;
   finished?: boolean;
   accLabel: string;
+  accHint?: string;
 }
 
 const MasterContainer = ({
@@ -20,6 +21,7 @@ const MasterContainer = ({
   answered,
   finished,
   accLabel,
+  accHint,
 }: buttonProps) => {
   const getCurrentColor = () => {
     if (finished) return COLORS.white;
@@ -51,6 +53,7 @@ const MasterContainer = ({
       )}
       <Text
         accessibilityLabel={accLabel}
+        accessibilityHint={accHint}
         numberOfLines={1}
         style={[styles.buttonText, getButtonTextWidth()]}
       >

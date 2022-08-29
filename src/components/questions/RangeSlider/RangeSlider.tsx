@@ -12,11 +12,6 @@ import FONTS from '../../../assets/fonts';
 import { triggerSnackbarShort } from '../../../helpers/popupHelper';
 import Colors from '../../../assets/colors';
 
-const sliderWidthBig = '80%';
-const sliderWidthSmall = '77.5%';
-const inputWidthSmall = '15%';
-const inputWidthBig = '17.5%';
-
 const Range = (props: {
   questionOption: QuestionOption;
   value: number;
@@ -25,6 +20,9 @@ const Range = (props: {
   const range = props.questionOption.extra_data as any;
   const [currentValue, setCurrentValue] = useState(props.value ?? parseInt(range.min));
   const [textValue, setTextValue] = useState(String(currentValue ?? range.min));
+
+  console.log(`Huidige waarde: ${currentValue}`);
+  console.log(`Huidige type: ${typeof currentValue}`);
 
   const renderThumb = useCallback(() => <Thumb />, []);
   const renderRail = useCallback(() => <Rail />, []);
@@ -61,14 +59,14 @@ const Range = (props: {
     <View style={styles.root}>
       <View style={styles.row}>
         <View
-          style={[styles.slider, textValue.length === 1 ? styles.sliderBig : styles.sliderSmall]}
+          style={styles.slider}
           accessibilityLabel={'Slider'}
-          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het tekstvak hiernaast kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
+          accessibilityHint={`Tussen ${range.min} en ${range.max}. In het volgende tekstveld kan je direct de waarde invullen in plaats van de slider te gebruiken.`}
         >
           <RangeSlider
             min={parseInt(range.min)}
             max={parseInt(range.max)}
-            low={currentValue}
+            low={typeof currentValue === 'string' ? parseInt(currentValue) : currentValue}
             disableRange={true}
             step={parseInt(range.step)}
             floatingLabel={true}
@@ -85,15 +83,13 @@ const Range = (props: {
           </View>
         </View>
         <TextInput
-          style={[
-            styles.input,
-            textValue.length === 1 ? styles.rangeInputSmall : styles.rangeInputBig,
-          ]}
+          style={styles.input}
           placeholderTextColor={COLORS.black}
           keyboardType="numeric"
           onChangeText={handleValueChange}
           value={String(textValue)}
           accessible={true}
+          textAlign={'center'}
         />
       </View>
     </View>
@@ -102,24 +98,17 @@ const Range = (props: {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems: 'stretch',
     paddingLeft: 12,
     paddingRight: 12,
   },
   row: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     justifyContent: 'center', //Centered horizontally
     alignItems: 'center', //Centered vertically
   },
   slider: {
     marginRight: 10,
-  },
-  sliderBig: {
-    width: sliderWidthBig,
-  },
-  sliderSmall: {
-    width: sliderWidthSmall,
+    width: '100%',
   },
   horizontalContainer: {
     flexDirection: 'row',
@@ -142,12 +131,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.semiBold,
     fontSize: 20,
     color: COLORS.black,
-  },
-  rangeInputBig: {
-    width: inputWidthBig,
-  },
-  rangeInputSmall: {
-    width: inputWidthSmall,
   },
 });
 
