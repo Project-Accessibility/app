@@ -100,7 +100,7 @@ const VideoSelector = (props: {
               paused={paused}
               onLoad={() => setPaused(true)}
               accessible={true}
-              accessibilityLabel="Video"
+              accessibilityLabel={ACCESSIBILITY_STRINGS.videoVideoLabel}
             />
             <View style={styles.videoButtons}>
               <Icon
@@ -109,7 +109,7 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel="Video vergroten knop"
+                accessibilityLabel={ACCESSIBILITY_STRINGS.videoEnlargeLabel}
               />
               <Icon
                 onPress={() => removeVideo()}
@@ -117,13 +117,18 @@ const VideoSelector = (props: {
                 color={COLORS.black}
                 size={48}
                 accessible={true}
-                accessibilityLabel="Verwijder video knop"
+                accessibilityLabel={ACCESSIBILITY_STRINGS.videoDeleteLabel}
               />
             </View>
           </>
         ) : null}
         <View style={styles.rowContainer}>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => requestCameraPermission()}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => requestCameraPermission()}
+            accessible={true}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.videoRecordVideoLabel}
+          >
             <Icon
               name="video-camera"
               style={styles.rowContainerChild}
@@ -132,14 +137,13 @@ const VideoSelector = (props: {
               color={COLORS.black}
             />
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.5} onPress={() => pickVideoFromGallery()}>
-            <Icon
-              name="film"
-              style={styles.rowContainerChild}
-              size={48}
-              accessibilityLabel="Open galerij om een video te selecteren. knop"
-              color={COLORS.black}
-            />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => pickVideoFromGallery()}
+            accessible={true}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.videoChooseVideoLabel}
+          >
+            <Icon name="film" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
       </View>

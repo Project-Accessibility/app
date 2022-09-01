@@ -15,7 +15,7 @@ const QuestionTitle = (props: { text: string; accLabel?: string; fontSize?: numb
       >
         {props.text}
       </Text>
-      <Divider width={300} height={2} margin={0} />
+      <Divider width="100%" height={2} margin={0} />
     </View>
   );
 };
@@ -24,8 +24,7 @@ const createStyleSheet = (fontSize: number = 20) => {
   return StyleSheet.create({
     openTextArea: {
       width: '100%',
-      paddingTop: 0,
-      paddingLeft: 5,
+      padding: 0,
       fontFamily: FONTS.semiBold,
       fontSize: fontSize,
       color: COLORS.black,
