@@ -8,7 +8,7 @@ import ACC_STRS from '../assets/accessibilityStrings';
 const createText = () => {
   return data.map((element, index) => {
     return (
-      <Text key={index} accessible={true} style={element.style}>
+      <Text key={index} accessible={true} accessibilityLabel={element.label} style={element.style}>
         {element.text}
       </Text>
     );
@@ -17,7 +17,7 @@ const createText = () => {
 
 // TODO fill phoneNumber based on data of specific cliënt
 const phoneCall = () => {
-  let phoneNumber = ACC_STRS.contactPhone;
+  let phoneNumber = '+31 30 239 82 70';
 
   if (Platform.OS === 'android') {
     phoneNumber = `tel:${phoneNumber}`;
@@ -37,29 +37,25 @@ const HelpScreen = () => {
       />
       <View style={styles.contactInfo}>
         <View>
-          <Text style={styles.h1}>{ACC_STRS.contactTitle}</Text>
+          <Text style={styles.h1}>{ACC_STRS.helpStandardTitle}</Text>
           {/*Creating text elements based on data*/}
-          <View accessible={true}>{createText()}</View>
+          <View>{createText()}</View>
         </View>
         <TouchableOpacity
           style={styles.emailBtn}
+          accessible={true}
+          accessibilityLabel={ACC_STRS.contactSendEmailHint}
           onPress={() => {
-            Linking.openURL(`mailto: ${ACC_STRS.contactEmail}`);
+            Linking.openURL('mailto: info@accessibility.nl');
           }}
         >
-          <Text
-            accessible={true}
-            accessibilityHint={ACC_STRS.contactSendEmailHint}
-            style={styles.emailBtnText}
-          >
-            {ACC_STRS.contactSendEmail}
-          </Text>
+          <Text style={styles.emailBtnText}>{ACC_STRS.contactSendEmail}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.emailBtn} onPress={phoneCall}>
           <Text
             accessible={true}
-            accessibilityHint={ACC_STRS.contactCallPhoneHint}
+            accessibilityLabel={ACC_STRS.contactCallPhoneLabel}
             style={styles.emailBtnText}
           >
             {ACC_STRS.contactCallPhone}
@@ -143,34 +139,16 @@ const styles = StyleSheet.create({
 });
 
 const data = [
-  // {
-  //   text: ACC_STRS.contactSubtitle,
-  //   style: styles.contactTitle,
-  // },
   {
-    text: ACC_STRS.contactStreet,
+    text: ACC_STRS.helpDataAddress,
     style: styles.contactText,
+    label: ACC_STRS.contactAddress,
   },
   {
-    text: `${ACC_STRS.contactPostalCode} ${ACC_STRS.contactCity}`,
+    text: ACC_STRS.helpDataPostalCode,
     style: styles.contactText,
+    label: ACC_STRS.contactPostalCode,
   },
-  // {
-  //   text: ACC_STRS.phone,
-  //   style: styles.contactTitle,
-  // },
-  // {
-  //   text: ACC_STRS.contactPhone,
-  //   style: styles.contactText,
-  // },
-  // {
-  //   text: ACC_STRS.email,
-  //   style: styles.contactTitle,
-  // },
-  // {
-  //   text: ACC_STRS.contactEmail,
-  //   style: styles.contactText,
-  // },
 ];
 
 export default HelpScreen;
