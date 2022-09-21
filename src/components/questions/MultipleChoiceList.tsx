@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { QuestionOption } from '../../models/QuestionOption';
 import FONTS from '../../assets/fonts';
