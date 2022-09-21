@@ -100,7 +100,7 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-            <View accessible={false} importantForAccessibility={'no'}>
+            <View accessible={false} importantForAccessibility={'no'} style={styles.imgContainer}>
               <ImageModal
                 accessibilityLabel={'Gemaakte afbeelding'}
                 resizeMode="contain"
@@ -108,24 +108,23 @@ const ImageSelector = (props: {
                 source={{
                   uri: fixMediaUri(image),
                 }}
-              >
-                <View style={styles.imageButtons}>
-                  <View
-                    pointerEvents="none"
-                    accessible={true}
-                    accessibilityLabel="Afbeelding vergroten knop"
-                  >
-                    <Icon name="expand" color={COLORS.black} size={48} />
-                  </View>
-                  <TouchableOpacity
-                    onPress={() => RemoveImage()}
-                    accessible={true}
-                    accessibilityLabel="Verwijder afbeelding knop"
-                  >
-                    <Icon name="trash" color={COLORS.black} size={48} />
-                  </TouchableOpacity>
+              />
+              <View style={styles.imageButtons}>
+                <View
+                  pointerEvents="none"
+                  accessible={true}
+                  accessibilityLabel="Afbeelding vergroten knop"
+                >
+                  <Icon name="expand" color={COLORS.black} size={48} />
                 </View>
-              </ImageModal>
+                <TouchableOpacity
+                  onPress={() => RemoveImage()}
+                  accessible={true}
+                  accessibilityLabel="Verwijder afbeelding knop"
+                >
+                  <Icon name="trash" color={COLORS.black} size={48} />
+                </TouchableOpacity>
+              </View>
             </View>
           </>
         ) : null}
@@ -133,14 +132,14 @@ const ImageSelector = (props: {
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => RequestCameraPermission()}
-            accessibilityLabel={'Open camera om een afbeelding te maken. Knop.'}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.photoCameraIcon}
           >
             <Icon name="camera" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => PickImageFromGallery()}
-            accessibilityLabel={'Open galerij om een afbeelding te selecteren. Knop.'}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.photoGalleryIcon}
           >
             <Icon name="image" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
@@ -154,12 +153,14 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
   },
-  imgStyle: {
-    width: '100%',
-    aspectRatio: 2,
+  imgContainer: {
     borderWidth: 2,
     borderColor: COLORS.black,
     borderRadius: 10,
+  },
+  imgStyle: {
+    width: '100%',
+    aspectRatio: 2,
   },
   imageButtons: {
     display: 'flex',

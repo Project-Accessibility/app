@@ -36,7 +36,6 @@ const SectionScreen = () => {
           <>
             <View>
               <Text style={styles.questionTitle}>Beschrijving</Text>
-              <Divider width="33%" height={2} margin={0} />
               <Text style={styles.questionText}>{section?.description}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />
@@ -46,7 +45,6 @@ const SectionScreen = () => {
           <>
             <View>
               <Text style={styles.questionTitle}>Locatie beschrijving</Text>
-              <Divider width="33%" height={2} margin={0} />
               <Text style={styles.questionText}>{section?.location_description}</Text>
             </View>
             <Divider width="100%" height={3} margin={20} />

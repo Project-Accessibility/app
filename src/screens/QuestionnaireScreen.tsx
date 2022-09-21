@@ -84,7 +84,6 @@ const QuestionnaireScreen = () => {
         <>
           <View>
             <Text style={styles.sectionTitle}>Instructies</Text>
-            <Divider width="33%" height={2} margin={0} />
             <Text style={styles.sectionText}>{questionnaire?.instructions}</Text>
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -94,7 +93,6 @@ const QuestionnaireScreen = () => {
         <>
           <View>
             <Text style={styles.sectionTitle}>Beschrijving</Text>
-            <Divider width="33%" height={2} margin={0} />
             <Text style={styles.sectionText}>{questionnaire?.description}</Text>
           </View>
           <Divider width="100%" height={3} margin={20} />
@@ -104,7 +102,6 @@ const QuestionnaireScreen = () => {
         <>
           <View>
             <Text style={styles.sectionTitle}>Dichtsbijzijnde onderdelen</Text>
-            <Divider width="33%" height={2} margin={0} />
             {nearbySections.length === 0 && (
               <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
             )}
@@ -124,13 +121,11 @@ const QuestionnaireScreen = () => {
                 Alle onderdelen <Icon name={sectionsIcon} size={30} />
               </Text>
             </TouchableOpacity>
-            <Divider width="33%" height={2} margin={0} />
             {questionnaire.sections?.length === 0 && (
               <Text style={styles.text}>{accessibilityStrings.noSectionsNearby}</Text>
             )}
             {sectionsVisible && <SectionList sections={questionnaire.sections} />}
           </View>
-          <Divider width="100%" height={3} margin={20} />
         </>
       )}
     </MasterContainer>
