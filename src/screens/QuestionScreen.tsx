@@ -52,7 +52,6 @@ const QuestionScreen = () => {
             <>
               <View>
                 <Text style={styles.questionTitle}>Vraag</Text>
-                <Divider width="33%" height={2} margin={0} />
                 <Text style={styles.questionText}>{question.question}</Text>
               </View>
               <Divider width="100%" height={3} margin={20} />
@@ -62,7 +61,6 @@ const QuestionScreen = () => {
               >
                 Antwoordmogelijkheden
               </Text>
-              <Divider width="33%" height={2} margin={0} />
               {question.options &&
                 question.options.map((option, index) => {
                   return (
