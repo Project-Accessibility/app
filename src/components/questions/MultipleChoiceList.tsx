@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { QuestionOption } from '../../models/QuestionOption';
 import FONTS from '../../assets/fonts';
 import COLORS from '../../assets/colors';
@@ -18,16 +18,19 @@ const MasterContainer = (props: {
     props.questionOption.extra_data as MultipleChoiceExtraData
   ).multiple;
   const [currentValues, setCurrentValues] = useState(props.values ?? []);
-  let fadeAnim = new Animated.Value(0);
 
-  const selectOption = (value: any, index: number) => {
-    fadeAnim.setValue(index);
+  const selectOption = (value: any) => {
     if (currentValues.includes(value)) {
       value = currentValues.filter((currentValue) => {
         return currentValue !== value;
       });
       setCurrentValues(value);
-    } else if (multipleAnswersPossible || currentValues.length === 0) {
+      // @ts-ignore
+    } else if (multipleAnswersPossible === '0') {
+      value = [value];
+      setCurrentValues(value);
+      // @ts-ignore
+    } else if (multipleAnswersPossible === '1') {
       value = [...currentValues, value];
       setCurrentValues(value);
     }
@@ -49,7 +52,7 @@ const MasterContainer = (props: {
               },
             ]}
             activeOpacity={0.9}
-            onPress={() => selectOption(value, index)}
+            onPress={() => selectOption(value)}
             accessibilityLabel={
               value +
               ', ' +
@@ -61,19 +64,26 @@ const MasterContainer = (props: {
             accessible={true}
           >
             <View style={styles.leftOptionBox}>
-              <View
-                style={[
-                  styles.icon,
-                  {
-                    borderColor: isSelected ? 'transparent' : COLORS.darkBlue,
-                    width: 18 + 8,
-                    height: 18 + 8,
-                  },
-                ]}
-              >
-                <View style={{ opacity: isSelected ? 1 : 0 }}>
-                  <Icon name="check-circle" size={25} color={COLORS.green} />
-                </View>
+              <View>
+                {isSelected ? (
+                  <View>
+                    {/* @ts-ignore */}
+                    {multipleAnswersPossible === '1' ? (
+                      <Icon name="check-square" size={25} color={COLORS.green} solid />
+                    ) : (
+                      <Icon name="check-circle" size={25} color={COLORS.green} solid />
+                    )}
+                  </View>
+                ) : (
+                  <View>
+                    {/* @ts-ignore */}
+                    {multipleAnswersPossible === '1' ? (
+                      <Icon name="square" size={25} color={COLORS.darkBlue} />
+                    ) : (
+                      <Icon name="circle" size={25} color={COLORS.darkBlue} />
+                    )}
+                  </View>
+                )}
               </View>
             </View>
 
