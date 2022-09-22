@@ -11,6 +11,7 @@ import Queue from '../data/localStorage/Queue';
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(true);
 
   useEffect(() => {
     Queue.getInstance();
@@ -18,8 +19,11 @@ const HomeScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      initQuestionnaires();
-    }, [])
+      if (refresh) {
+        initQuestionnaires();
+        setRefresh(false);
+      }
+    }, [refresh])
   );
 
   const initQuestionnaires = async () => {
@@ -30,11 +34,23 @@ const HomeScreen = () => {
 
   return (
     <>
-      <CodeInput />
+      <CodeInput setRefresh={setRefresh} />
       <MasterContainer>
         <View>
-          <Text style={styles.title}>Vragenlijsten</Text>
-          <QuestionnaireList questionnaires={questionnaires} />
+          <Text
+            accessibilityLabel="Vragenlijsten"
+            accessibilityHint={
+              questionnaires.length > 0
+                ? questionnaires.length > 1
+                  ? `Er zijn ${questionnaires.length} vragenlijsten opgeslagen`
+                  : 'Er is 1 vragenlijst opgeslagen'
+                : 'Er zijn geen vragenlijsten opgeslagen'
+            }
+            style={styles.title}
+          >
+            Vragenlijsten
+          </Text>
+          <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
       </MasterContainer>
     </>

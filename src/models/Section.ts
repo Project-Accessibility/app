@@ -1,28 +1,27 @@
-import { Geofence } from './Geofence';
 import { Question } from './Question';
 export class Section {
   id: number;
   title: string;
-  geofence?: Geofence;
+  geofence_id?: number;
   description?: string;
-  locationDescription?: string;
+  location_description?: string;
   teachableMachineClass?: string;
   questions?: [Question];
 
   constructor(
     id: number,
     title: string,
-    geofence?: Geofence,
+    geofence_id?: number,
     description?: string,
-    locationDescription?: string,
+    location_description?: string,
     teachableMachineClass?: string,
     questions?: [Question]
   ) {
     this.id = id;
     this.title = title;
-    this.geofence = geofence;
+    this.geofence_id = geofence_id;
     this.description = description;
-    this.locationDescription = locationDescription;
+    this.location_description = location_description;
     this.teachableMachineClass = teachableMachineClass;
     this.questions = questions;
   }

@@ -8,11 +8,14 @@ interface masterProps {
 
 const MasterContainer = ({ children }: masterProps) => {
   return (
-    <SafeAreaView style={styles.masterContainer}>
-      <ScrollView>
-        <View style={styles.innerMasterContainer}>{children}</View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      {/*<Snackbar></Snackbar>*/}
+      <SafeAreaView style={styles.masterContainer}>
+        <ScrollView>
+          <View style={styles.innerMasterContainer}>{children}</View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 

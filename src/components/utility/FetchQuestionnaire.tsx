@@ -1,42 +1,57 @@
-import { Alert, Platform, ToastAndroid } from 'react-native';
 import { getAllQuestionnaireDataByCode } from '../../data/api/Questionnaire';
 import ParticipantCode from '../../data/localStorage/ParticipantCode';
 import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import Colors from '../../assets/colors';
+import { removeSnackbar, triggerSnackbarShort } from '../../helpers/popupHelper';
+
 let isFetching = false;
 
+/*
+ * Fetch questionnaire data by code
+ * @param code: 5 letter string code of participant
+ * @param navigation: Navigation
+ * @returns Promise<boolean> - true if questionnaire was deleted
+ */
 export async function fetchQuestionnaire(code: string, navigation: any) {
-  if (!isFetching) {
-    isFetching = true;
+  if (isFetching) {
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire, Colors.darkBlue);
+    return;
+  }
 
-    let questionnaire = await getAllQuestionnaireDataByCode(code);
+  isFetching = true;
 
-    if (questionnaire) {
-      await Promise.all([
-        ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code),
-        ParticipantCode.addQuestionnaireInLocalStorage({
-          code: code,
-          name: questionnaire.title,
-        }),
-      ]);
-      // @ts-ignore next-line
-      navigation.navigate('Questionnaire', {
-        title: questionnaire.title,
-        questionnaire: questionnaire,
-      });
-    } else {
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, ToastAndroid.LONG);
-      } else {
-        Alert.alert(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire);
+  let response = await getAllQuestionnaireDataByCode(code);
+
+  if (response && !response.error) {
+    await Promise.all([
+      ParticipantCode.saveCurrentParticipantCodeToLocalStorage(code),
+      ParticipantCode.addQuestionnaireInLocalStorage({
+        code: code,
+        name: response.data.title,
+      }),
+    ]);
+    isFetching = false;
+
+    removeSnackbar();
+
+    // @ts-ignore next-line
+    navigation.navigate('Questionnaire', {
+      title: response.data.title,
+      questionnaire: response.data,
+    });
+
+    return false;
+  } else {
+    let result = false;
+    if (response && response.error) {
+      if (response.status === 404 || response.status === 422) {
+        await ParticipantCode.removeQuestionaireFromLocalStorage(code).then((res) => {
+          result = res;
+        });
       }
     }
-
+    triggerSnackbarShort(ACCESSIBILITY_STRINGS.failedToFetchQuestionnaire, Colors.red);
     isFetching = false;
-  } else {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire, ToastAndroid.LONG);
-    } else {
-      Alert.alert(ACCESSIBILITY_STRINGS.isFetchingQuestionnaire);
-    }
+    return result;
   }
 }

@@ -3,15 +3,26 @@ import { Questionnaire } from '../../models/Questionnaire';
 import { apiEndpoints } from '../routes.json';
 import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
+import { IApiResponse } from './IApiResponse';
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<Questionnaire | null> {
-  let response = await ApiRequest.getRequest(
+async function getAllQuestionnaireDataByCode(code: string): Promise<IApiResponse> {
+  return ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,
     { code: code }
-  );
-
-  return response ? (response.data as Questionnaire) : null;
+  )
+    .then((response) => {
+      return { status: response.status, error: false, data: response.data } as IApiResponse;
+    })
+    .catch((error) => {
+      let r = JSON.parse(error);
+      return {
+        status: r.status,
+        error: true,
+        message: r.message,
+        data: { url: r.config.url },
+      } as IApiResponse;
+    });
 }
 
 async function saveQuestionnaireByCode(code: string, questionnaire: Questionnaire) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   AccessibilityInfo,
@@ -16,6 +15,8 @@ import ImageModal from 'react-native-image-modal';
 import { FileSelectedData } from '../../models/questionOptionExtraData/FileSelectedData';
 import getLastItemFromSplit from '../../helpers/splitHelper';
 import fixMediaUri from '../../helpers/mediaUriHelper';
+import ACCESSIBILITY_STRINGS from '../../assets/accessibilityStrings';
+import { triggerSnackbarShort } from '../../helpers/popupHelper';
 
 const ImageSelector = (props: {
   value: string | undefined;
@@ -65,6 +66,7 @@ const ImageSelector = (props: {
             }
           }
         }, 1000);
+        triggerSnackbarShort(ACCESSIBILITY_STRINGS.fileUploadSuccess, COLORS.darkBlue);
       }
     }
   };
@@ -98,46 +100,48 @@ const ImageSelector = (props: {
       <View style={styles.container}>
         {image ? (
           <>
-            <View
-              style={styles.imgStyle}
-              ref={imageModal}
-              accessible={true}
-              accessibilityLabel={'Gemaakte afbeelding'}
-            >
+            <View accessible={false} importantForAccessibility={'no'} style={styles.imgContainer}>
               <ImageModal
-                modalImageResizeMode="contain"
+                accessibilityLabel={'Gemaakte afbeelding'}
+                resizeMode="contain"
                 style={styles.imgStyle}
                 source={{
                   uri: fixMediaUri(image),
                 }}
               />
+              <View style={styles.imageButtons}>
+                <View
+                  pointerEvents="none"
+                  accessible={true}
+                  accessibilityLabel="Afbeelding vergroten knop"
+                >
+                  <Icon name="expand" color={COLORS.black} size={48} />
+                </View>
+                <TouchableOpacity
+                  onPress={() => RemoveImage()}
+                  accessible={true}
+                  accessibilityLabel="Verwijder afbeelding knop"
+                >
+                  <Icon name="trash" color={COLORS.black} size={48} />
+                </TouchableOpacity>
+              </View>
             </View>
-            <TouchableOpacity
-              style={styles.icon}
-              onPress={() => RemoveImage()}
-              accessible={true}
-              accessibilityLabel="Verwijder afbeelding knop"
-            >
-              <Icon name="remove" color={COLORS.black} size={48} />
-            </TouchableOpacity>
           </>
-        ) : (
-          <Text />
-        )}
+        ) : null}
         <View style={styles.rowContainer}>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => RequestCameraPermission()}
-            accessibilityLabel={'Open camera knop'}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.photoCameraIcon}
           >
-            <Icon name="camera" style={styles.imagePadding} size={48} color={COLORS.black} />
+            <Icon name="camera" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => PickImageFromGallery()}
-            accessibilityLabel={'Open galerij knop'}
+            accessibilityLabel={ACCESSIBILITY_STRINGS.photoGalleryIcon}
           >
-            <Icon name="image" size={48} color={COLORS.black} />
+            <Icon name="image" style={styles.rowContainerChild} size={48} color={COLORS.black} />
           </TouchableOpacity>
         </View>
       </View>
@@ -147,27 +151,35 @@ const ImageSelector = (props: {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    alignItems: 'flex-end',
+    position: 'relative',
   },
-  rowContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  imagePadding: {
-    paddingEnd: 15,
-  },
-  icon: {
-    position: 'absolute',
-    end: 0,
-    top: 0,
-    color: COLORS.black,
+  imgContainer: {
+    borderWidth: 2,
+    borderColor: COLORS.black,
+    borderRadius: 10,
   },
   imgStyle: {
-    width: 150,
-    height: 150,
-    resizeMode: 'center',
-    alignSelf: 'center',
+    width: '100%',
+    aspectRatio: 2,
+  },
+  imageButtons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+
+    position: 'absolute',
+    width: '100%',
+    padding: 20,
+  },
+  rowContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    width: '100%',
+    padding: 5,
+  },
+  rowContainerChild: {
+    padding: 5,
   },
 });
 

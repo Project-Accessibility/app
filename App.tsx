@@ -11,9 +11,37 @@ import { navigationRef } from './src/helpers/rootNavigation';
 import SectionScreen from './src/screens/SectionScreen';
 import QuestionScreen from './src/screens/QuestionScreen';
 import { LogBox } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
+import VideoScreen from './src/screens/VideoScreen';
+import Snackbar from 'react-native-snackbar';
+import COLORS from './src/assets/colors';
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 const Stack = createNativeStackNavigator();
+let isConnected = true;
+
+NetInfo?.addEventListener((state) => {
+  //Ignore if isInternetReachable == null, because in that case the package is still checking the connection, no need to show an offline message in that case
+  const internetAvailable =
+    state.isConnected && (state.isInternetReachable || state.isInternetReachable == null);
+
+  if (!internetAvailable) {
+    Snackbar.show({
+      text: ACCESSIBILITY_STRINGS.noInternetConnection,
+      duration: Snackbar.LENGTH_INDEFINITE,
+      backgroundColor: COLORS.red,
+    });
+  }
+  //Only show connected notification when state is connected true and variable is false, because the variable is being set to true at app launch, no need so show a notification then.
+  else if (internetAvailable && !isConnected) {
+    Snackbar.show({
+      text: ACCESSIBILITY_STRINGS.internetConnectionBackOnline,
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor: COLORS.green,
+    });
+  }
+  isConnected = internetAvailable ?? false;
+});
 
 const App = () => {
   return (
@@ -79,6 +107,7 @@ const App = () => {
             ),
           }}
         />
+        <Stack.Screen name="Video" component={VideoScreen} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

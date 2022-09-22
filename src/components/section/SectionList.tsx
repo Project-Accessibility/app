@@ -3,6 +3,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Section } from '../../models/Section';
 import Button from '../generic/Button';
+import Radar from '../../data/location/Radar';
+import { Question } from '../../models/Question';
 
 const SectionList = (props: { sections: Section[] }) => {
   const sections: Section[] = props.sections;
@@ -16,13 +18,16 @@ const SectionList = (props: { sections: Section[] }) => {
             <Button
               accLabel={`Onderdeel ${section.title}`}
               title={section.title}
-              onButtonPress={() =>
+              onButtonPress={() => {
+                // @ts-ignore
+                global.isQuestionnaireScreen = false;
+                Radar.stopTracking();
                 // @ts-ignore next-line
                 navigation.navigate('Section', {
                   title: section.title,
                   section: section,
-                })
-              }
+                });
+              }}
               maxAnswers={getTotalQuestions(section)}
               answered={getAnsweredQuestions(section)}
             />
@@ -35,15 +40,11 @@ const SectionList = (props: { sections: Section[] }) => {
 
 function getAnsweredQuestions(section: Section): number {
   let answeredQuestions = 0;
-  section.questions?.forEach((question) => {
-    let isAnswered = false;
-    question.options?.forEach((option) => {
-      if (option.answer) {
-        isAnswered = true;
-      }
-    });
-    if (isAnswered) answeredQuestions++;
+
+  section.questions?.every((question: Question) => {
+    if (Question.isAnswered(question)) answeredQuestions++;
   });
+
   return answeredQuestions;
 }
 
