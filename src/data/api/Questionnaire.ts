@@ -5,7 +5,7 @@ import * as ApiRequest from './ApiRequest';
 import { generateFormDataByQuestion } from '../../helpers/formDataHelper';
 import { IApiResponse } from './IApiResponse';
 
-async function getAllQuestionnaireDataByCode(code: string): Promise<IApiResponse> {
+function getAllQuestionnaireDataByCode(code: string): Promise<IApiResponse> {
   return ApiRequest.getRequest(
     apiEndpoints.questionnaire.base_endpoint,
     apiEndpoints.questionnaire.getAllQuestionnaireDataByCode,

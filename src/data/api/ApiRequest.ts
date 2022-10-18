@@ -22,7 +22,6 @@ async function getRequest(
       data: body,
     })
     .then((response) => {
-      console.log(`getRequest: ${response}`);
       return response;
     })
     .catch((error) => {
