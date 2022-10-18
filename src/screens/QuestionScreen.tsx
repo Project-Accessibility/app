@@ -1,6 +1,6 @@
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import Divider from '../components/generic/Divider';
@@ -29,6 +29,8 @@ const QuestionScreen = () => {
   const [question, setQuestion] = useState<Question>();
   const [section, setSection] = useState<Section>();
 
+  const questionOpacity = useState(new Animated.Value(0))[0];
+
   useEffect(() => {
     const currentParams = route.params as { question: Question; section: Section };
     if (!currentParams) return;
@@ -37,6 +39,14 @@ const QuestionScreen = () => {
   }, [route.params]);
 
   useEffect(() => {
+    if (question?.question) {
+      Animated.timing(questionOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+
     return function cleanup() {
       if (!question) return;
       queue.addObjectToQueue(QueueAction.SaveQuestion, question as Object);
@@ -47,31 +57,32 @@ const QuestionScreen = () => {
     <MasterContainer>
       <KeyboardAvoidingView behavior="height">
         <ScrollView>
-          {!question && <Text>Geen vraag gevonden.</Text>}
-          {question?.question && (
-            <>
-              <View>
-                <Text style={styles.questionTitle}>Vraag</Text>
-                <Text style={styles.questionText}>{question.question}</Text>
-              </View>
-              <Divider width="100%" height={3} margin={20} />
-              <Text
-                accessibilityLabel={getAnswersTypesAccessibilityString(question)}
-                style={styles.questionTitle}
-              >
-                Antwoordmogelijkheden
-              </Text>
-              {question.options &&
-                question.options.map((option, index) => {
-                  return (
-                    <View key={index} style={styles.questionItem}>
-                      {getElement(option)}
-                    </View>
-                  );
-                })}
-            </>
-          )}
-          <SaveButton section={section} question={question} />
+          <Animated.View style={[{ opacity: questionOpacity }]}>
+            {question?.question && (
+              <>
+                <View>
+                  <Text style={styles.questionTitle}>Vraag</Text>
+                  <Text style={styles.questionText}>{question.question}</Text>
+                </View>
+                <Divider width="100%" height={3} margin={20} />
+                <Text
+                  accessibilityLabel={getAnswersTypesAccessibilityString(question)}
+                  style={styles.questionTitle}
+                >
+                  Antwoordmogelijkheden
+                </Text>
+                {question.options &&
+                  question.options.map((option, index) => {
+                    return (
+                      <View key={index} style={styles.questionItem}>
+                        {getElement(option)}
+                      </View>
+                    );
+                  })}
+                <SaveButton section={section} question={question} />
+              </>
+            )}
+          </Animated.View>
         </ScrollView>
       </KeyboardAvoidingView>
     </MasterContainer>

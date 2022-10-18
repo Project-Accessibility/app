@@ -48,6 +48,7 @@ const App = () => {
     <NavigationContainer ref={navigationRef} onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator>
         <Stack.Screen
+
           name="Home"
           component={HomeScreen}
           initialParams={{
@@ -98,6 +99,7 @@ const App = () => {
         <Stack.Screen
           name="Question"
           component={QuestionScreen}
+
           initialParams={{
             backRouteName: ACCESSIBILITY_STRINGS.sectionTitle,
           }}
