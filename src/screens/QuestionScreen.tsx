@@ -1,4 +1,4 @@
-import { useFocusEffect, useIsFocused, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Animated, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';

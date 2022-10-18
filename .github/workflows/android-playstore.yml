@@ -82,7 +82,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1.0.16
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.projectaccessibility
+          packageName: com.gebruikersinzicht
           releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
           track: alpha
           whatsNewDirectory: app-patchnotes/Android
@@ -95,7 +95,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1.0.16
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.projectaccessibility
+          packageName: com.gebruikersinzicht
           releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
           track: production
           whatsNewDirectory: app-patchnotes/Android
