@@ -141,12 +141,12 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.projectaccessibility"
+        applicationId "com.gebruikersinzicht"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName "1.0.0"
         versionCode versCode as Integer
-        resValue "string", "build_config_package", "com.projectaccessibility"
+        resValue "string", "build_config_package", "com.gebruikersinzicht"
         configurations.all {
           resolutionStrategy {
             force 'androidx.lifecycle:lifecycle process:2.3.1'
