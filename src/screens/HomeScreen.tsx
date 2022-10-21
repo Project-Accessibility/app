@@ -54,9 +54,9 @@ const HomeScreen = () => {
             Vragenlijsten
           </Text>
           <Text style={styles.title}>
-            {IsDev ? 'ja' : 'nee'}
+            {'is dev ' + (IsDev ? 'ja' : 'nee')}
             {'\n'}
-            {routes.hosts[Config.ENDPOINT_TO_ENFORCE]}
+            {'route ' + routes.hosts[Config.ENDPOINT_TO_ENFORCE]}
           </Text>
           <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
