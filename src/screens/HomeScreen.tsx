@@ -8,6 +8,9 @@ import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import ParticipantCode, { QuestionnaireDisplay } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
+import Config from 'react-native-config';
+import IsDev from '../data/IsDev';
+import routes from '../data/routes';
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
@@ -49,6 +52,11 @@ const HomeScreen = () => {
             style={styles.title}
           >
             Vragenlijsten
+          </Text>
+          <Text style={styles.title}>
+            {IsDev ? 'ja' : 'nee'}
+            {'\n'}
+            {routes.hosts[Config.ENDPOINT_TO_ENFORCE]}
           </Text>
           <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
         </View>
