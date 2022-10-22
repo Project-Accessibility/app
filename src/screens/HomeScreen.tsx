@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
@@ -8,9 +8,6 @@ import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import ParticipantCode, { QuestionnaireDisplay } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
-import Config from 'react-native-config';
-import IsDev from '../data/IsDev';
-import routes from '../data/routes';
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
@@ -53,12 +50,9 @@ const HomeScreen = () => {
           >
             Vragenlijsten
           </Text>
-          <Text style={styles.title}>
-            {'is dev ' + (IsDev ? 'ja' : 'nee')}
-            {'\n'}
-            {'route ' + routes.hosts[Config.ENDPOINT_TO_ENFORCE]}
-          </Text>
-          <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
+          <ScrollView>
+            <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
+          </ScrollView>
         </View>
       </MasterContainer>
     </>

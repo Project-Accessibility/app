@@ -11,7 +11,7 @@ function ActiveApiEndpoint(): String {
     return Routes.hosts.localApi;
   }
 
-  return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.accApi;
+  return getKeyValue(Routes.hosts, Config.ENDPOINT_TO_ENFORCE) ?? Routes.hosts.prodApi;
 }
 
 export default ActiveApiEndpoint;
