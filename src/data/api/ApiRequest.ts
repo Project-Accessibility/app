@@ -22,9 +22,11 @@ async function getRequest(
       data: body,
     })
     .then((response) => {
+      console.log(`test` + response)
       return response;
     })
     .catch((error) => {
+      console.log(error)
       throw JSON.stringify(error, null, 2);
     });
 }

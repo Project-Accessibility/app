@@ -13,7 +13,7 @@
     }
   },
   "hosts": {
-    "devApi": "https://questionnaire-dev.jaap.ru/api",
+    "devApi": "https://laravel-dev-accessibility-martijnambagtsheer.cloud.okteto.net/api",
     "accApi": "https://questionnaire-acc.jaap.ru/api",
     "prodApi": "http://85.10.144.12/api",
     "localApi": "http://10.0.2.2:8000/api",

@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -35,28 +35,26 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME) wilt graag je contacten openen.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>De microfoon wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je gallerij openen om een foto toe te voegen aan je antwoord voor de vragenlijst.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je contacten openen.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Muli-ExtraBold.ttf</string>
@@ -86,6 +84,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<false/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
