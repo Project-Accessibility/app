@@ -13,9 +13,9 @@
     }
   },
   "hosts": {
-    "devApi": "https://questionnaire-dev.jaap.ru/api",
-    "accApi": "https://questionnaire-acc.jaap.ru/api",
-    "prodApi": "http://85.10.144.12/api",
+    "devApi": "https://laravel-dev-accessibility-martijnambagtsheer.cloud.okteto.net/api",
+    "accApi": "https://laravel-dev-accessibility-martijnambagtsheer.cloud.okteto.net/api",
+    "prodApi": "https://laravel-dev-accessibility-martijnambagtsheer.cloud.okteto.net/api",
     "localApi": "http://10.0.2.2:8000/api",
     "localDockerApi": "http://10.0.2.2:80/api"
   }

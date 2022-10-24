@@ -8,22 +8,12 @@ import CodeInput from '../components/questionnaire/CodeInput';
 import QuestionnaireList from '../components/questionnaire/QuestionnaireList';
 import ParticipantCode, { QuestionnaireDisplay } from '../data/localStorage/ParticipantCode';
 import Queue from '../data/localStorage/Queue';
-import {IApiResponse} from "../data/api/IApiResponse";
-import {getAllQuestionnaireDataByCode} from "../data/api/Questionnaire";
 
 const HomeScreen = () => {
   const [questionnaires, setQuestionnaires] = useState<QuestionnaireDisplay[]>([]);
   const [refresh, setRefresh] = useState<boolean>(true);
-  const [responseData, setResponseData] = useState<IApiResponse>();
-
-  const getByCode = async () => {
-    let test = await getAllQuestionnaireDataByCode('XSBWD');
-
-    setResponseData(test);
-  }
 
   useEffect(() => {
-    getByCode();
     Queue.getInstance();
   }, []);
 
@@ -59,9 +49,6 @@ const HomeScreen = () => {
             style={styles.title}
           >
             Vragenlijsten
-          </Text>
-          <Text style={styles.title}>
-            {responseData ? `${responseData.error} ${responseData.status} ${responseData.message}`: 'test'}
           </Text>
           <ScrollView>
             <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
