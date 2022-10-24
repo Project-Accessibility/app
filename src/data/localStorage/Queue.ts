@@ -107,7 +107,7 @@ class TempStorage {
             .then(() => this.removeObjectFromQueue(queueObject))
             .catch(() => this.countError);
           break;
-          
+
         case QueueAction.SaveQuestionnaire:
           saveQuestionnaireByCode(queueObject.participantCode, queueObject.object as Questionnaire)
             .then(() => this.removeObjectFromQueue(queueObject))
