@@ -117,7 +117,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
-      customArchiveName = "MysteryQuest"
+      customArchiveName = "GebruikersInZicht"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

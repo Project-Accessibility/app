@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import COLORS from '../assets/colors';
 import FONTS from '../assets/fonts';
 import MasterContainer from '../components/generic/MasterContainer';
@@ -50,7 +50,9 @@ const HomeScreen = () => {
           >
             Vragenlijsten
           </Text>
-          <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
+          <ScrollView>
+            <QuestionnaireList setRefresh={setRefresh} questionnaires={questionnaires.reverse()} />
+          </ScrollView>
         </View>
       </MasterContainer>
     </>
