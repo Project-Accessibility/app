@@ -97,7 +97,6 @@ const AudioRecorder = (props: {
       return;
     }
 
-    
     setIsRecording(true);
     setIsDisabled(true);
 
