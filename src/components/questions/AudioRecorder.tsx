@@ -28,7 +28,7 @@ import accessibilityStrings from '../../assets/accessibilityStrings';
 const nullTime = '00:00';
 const DEFAULT_RECORDED_FILE_NAME_IOS = 'sound.m4a';
 const DEFAULT_RECORDED_FILE_NAME_ANDROID = 'sound.mp4';
-let audioRecorderPlayer = new AudioRecorderPlayer();
+const audioRecorderPlayer = new AudioRecorderPlayer();
 audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 const AudioRecorder = (props: {
@@ -47,6 +47,7 @@ const AudioRecorder = (props: {
 
   useEffect(() => {
     const uri = props.value;
+
     if (uri) {
       setIsDisabled(false);
       setRecordUri(uri);
@@ -88,7 +89,14 @@ const AudioRecorder = (props: {
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
 
-    setRecordUri(await audioRecorderPlayer.startRecorder(undefined, audioSet));
+    try {
+      let recordUri = await audioRecorderPlayer.startRecorder(undefined, audioSet);
+      setRecordUri(recordUri);
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+
     setIsRecording(true);
     setIsDisabled(true);
 
