@@ -25,6 +25,7 @@ async function getRequest(
       return response;
     })
     .catch((error) => {
+      console.log(error);
       throw JSON.stringify(error, null, 2);
     });
 }
