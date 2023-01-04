@@ -35,12 +35,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je Apple Music openen.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>De camera wordt gebruikt om een volledig antwoord op de vraag te kunnen geven.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je contacten openen.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>De locatie wordt gebruikt om zo de dichtsbijzijnde onderdelen te kunnen tonen in de vragenlijst.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -53,8 +49,6 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) wilt graag je gallerij openen om een foto toe te voegen aan je antwoord voor de vragenlijst.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>$(PRODUCT_NAME) wilt graag je spraak herkenning gebruiken.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Muli-ExtraBold.ttf</string>
