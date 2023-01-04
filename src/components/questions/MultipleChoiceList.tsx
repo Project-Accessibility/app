@@ -38,7 +38,7 @@ const MasterContainer = (props: {
   };
 
   return (
-    <View style={styles.multipleChoice} accessible={true}>
+    <View style={styles.multipleChoice}>
       {multipleChoiceOptions.map((value, index) => {
         const isSelected = currentValues.includes(value);
         return (
@@ -61,7 +61,6 @@ const MasterContainer = (props: {
               multipleChoiceOptions.length +
               (isSelected ? ', geselecteerd' : '')
             }
-            accessible={true}
           >
             <View style={styles.leftOptionBox}>
               <View>
